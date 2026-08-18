@@ -1,0 +1,180 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"error-container":"#ffdad6","surface-container-high":"#e8e8ea","surface-bright":"#f9f9fb","on-tertiary":"#ffffff","on-background":"#1a1c1d","on-tertiary-fixed-variant":"#004f4f","secondary-container":"#e5e2e1","surface-dim":"#d9dadc","on-secondary-container":"#656464","tertiary":"#006262","inverse-on-surface":"#f0f0f2","inverse-surface":"#2f3132","on-secondary-fixed-variant":"#474646","on-error":"#ffffff","secondary-fixed-dim":"#c8c6c5","primary":"#b1002c","surface":"#f9f9fb","secondary-fixed":"#e5e2e1","secondary":"#5f5e5e","on-error-container":"#93000a","outline-variant":"#e6bdbc","primary-fixed-dim":"#ffb3b3","surface-container":"#eeeef0","on-primary-container":"#fff1f0","on-primary":"#ffffff","on-surface":"#1a1c1d","on-surface-variant":"#5c3f3f","on-primary-fixed":"#40000a","surface-tint":"#bf0030","tertiary-container":"#007d7d","tertiary-fixed":"#95f2f1","surface-container-highest":"#e2e2e4","on-tertiary-fixed":"#002020","on-tertiary-container":"#c9fffe","error":"#ba1a1a","outline":"#916f6e","inverse-primary":"#ffb3b3","primary-container":"#dc143c","primary-fixed":"#ffdad9","surface-container-lowest":"#ffffff","surface-variant":"#e2e2e4","on-primary-fixed-variant":"#920022","on-secondary":"#ffffff","background":"#f9f9fb","surface-container-low":"#f3f3f5","on-secondary-fixed":"#1c1b1b","tertiary-fixed-dim":"#78d6d5"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-x":"40px","section-gap":"120px","container-max-width":"1280px","card-padding":"48px","gutter":"32px"},"fontFamily":{"headline-lg":["Montserrat"],"label-md":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Montserrat"],"label-sm":["Inter"],"body-md":["Inter"],"headline-md":["Montserrat"],"display-lg":["Montserrat"]},"fontSize":{"headline-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-md":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"headline-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.03em","fontWeight":"500"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"32px","fontWeight":"600"}],"display-lg":["64px",{"lineHeight":"72px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><main class="min-h-screen flex items-center justify-center py-section-gap"><div class="flex flex-col w-full h-full items-center justify-center relative overflow-hidden bg-background">
+<!-- Ambient Background Elements -->
+<div class="absolute top-0 left-0 w-[800px] h-[800px] bg-primary-fixed/20 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+<div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-tertiary-fixed/20 rounded-full blur-[120px] translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+<div class="w-full max-w-[520px] px-gutter relative z-10">
+<!-- Main Verification Card -->
+<div class="bg-surface rounded-[24px] p-card-padding shadow-[0_32px_64px_-12px_rgba(95,94,94,0.08)] flex flex-col items-center text-center transition-all duration-500 ease-out transform" id="verification-card">
+<!-- Icon Header -->
+<div class="w-[88px] h-[88px] bg-primary-container rounded-full flex items-center justify-center mb-8 relative">
+<span class="material-symbols-outlined text-[40px] text-on-primary-container">mail</span>
+<!-- Pulse Effect -->
+<div class="absolute inset-0 rounded-full border-2 border-primary-container animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-50"></div>
+</div>
+<!-- Typography -->
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-4">Check your email</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
+                We've sent a 6-digit verification code to <br/>
+<span class="font-label-md text-label-md text-on-surface block mt-2">hello@example.com</span>
+</p>
+<!-- OTP Input Form -->
+<form class="w-full flex flex-col items-center" id="otp-form">
+<div class="flex gap-4 mb-12 justify-center w-full" id="otp-inputs">
+<input class="w-[56px] h-[64px] bg-surface-container-highest rounded-lg text-center font-headline-md text-headline-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text"/>
+<input class="w-[56px] h-[64px] bg-surface-container-highest rounded-lg text-center font-headline-md text-headline-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text"/>
+<input class="w-[56px] h-[64px] bg-surface-container-highest rounded-lg text-center font-headline-md text-headline-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text"/>
+<div class="w-2 h-[64px] flex items-center justify-center">
+<div class="w-2 h-0.5 bg-outline-variant rounded-full"></div>
+</div>
+<input class="w-[56px] h-[64px] bg-surface-container-highest rounded-lg text-center font-headline-md text-headline-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text"/>
+<input class="w-[56px] h-[64px] bg-surface-container-highest rounded-lg text-center font-headline-md text-headline-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text"/>
+<input class="w-[56px] h-[64px] bg-surface-container-highest rounded-lg text-center font-headline-md text-headline-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text"/>
+</div>
+<button class="w-full h-[56px] bg-primary rounded-full font-label-md text-label-md text-on-primary flex items-center justify-center gap-2 hover:scale-[1.02] hover:shadow-lg transition-all disabled:opacity-50 disabled:pointer-events-none group" id="verify-btn" type="button">
+<span>Verify Account</span>
+<span class="material-symbols-outlined text-[20px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</form>
+<!-- Resend Logic -->
+<div class="mt-8 flex items-center justify-center gap-2">
+<span class="font-body-md text-body-md text-on-surface-variant">Didn't receive the code?</span>
+<button class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors disabled:text-outline disabled:cursor-not-allowed" id="resend-btn">
+                    Resend <span class="hidden text-outline-variant font-normal" id="timer-text">(0:59)</span>
+</button>
+</div>
+</div>
+<!-- Success State (Initially Hidden) -->
+<div class="absolute inset-0 flex flex-col items-center justify-center bg-surface rounded-[24px] p-card-padding shadow-[0_32px_64px_-12px_rgba(95,94,94,0.08)] opacity-0 pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] scale-95" id="success-state">
+<div class="w-[120px] h-[120px] mb-8 relative">
+<svg class="absolute inset-0 w-full h-full text-tertiary-container animate-[spin_4s_linear_infinite]" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="48" stroke="currentColor" stroke-dasharray="150 150" stroke-linecap="round" stroke-width="2"></circle>
+</svg>
+<div class="absolute inset-0 bg-tertiary-container rounded-full flex items-center justify-center scale-0 animate-[scaleIn_0.5s_cubic-bezier(0.34,1.56,0.64,1)_0.2s_forwards]">
+<span class="material-symbols-outlined text-[64px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4 opacity-0 animate-[fadeInUp_0.5s_ease_0.4s_forwards]">Verified!</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant text-center opacity-0 animate-[fadeInUp_0.5s_ease_0.5s_forwards]">
+                Your email has been successfully confirmed. Redirecting you to the dashboard...
+            </p>
+</div>
+</div>
+</div>
+<style>
+    @keyframes scaleIn {
+        from { transform: scale(0); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputs = document.querySelectorAll('#otp-inputs input');
+        const verifyBtn = document.getElementById('verify-btn');
+        const verificationCard = document.getElementById('verification-card');
+        const successState = document.getElementById('success-state');
+        const resendBtn = document.getElementById('resend-btn');
+        const timerText = document.getElementById('timer-text');
+
+        // Initial focus
+        inputs[0].focus();
+
+        // OTP Input Logic
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length > 1) {
+                    e.target.value = e.target.value.slice(0, 1);
+                }
+                if (e.target.value.length === 1) {
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                }
+                checkAllFilled();
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+            
+            // Paste logic
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').slice(0, inputs.length).replace(/[^0-9]/g, '');
+                pastedData.split('').forEach((char, i) => {
+                    if (inputs[i]) {
+                        inputs[i].value = char;
+                        if (i < inputs.length - 1) inputs[i + 1].focus();
+                    }
+                });
+                checkAllFilled();
+            });
+        });
+
+        function checkAllFilled() {
+            const allFilled = Array.from(inputs).every(input => input.value.length === 1);
+            if (allFilled) {
+                // Auto-verify demonstration
+                setTimeout(triggerSuccess, 300);
+            }
+        }
+
+        // Manual Verify Button click
+        verifyBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            triggerSuccess();
+        });
+
+        function triggerSuccess() {
+            verifyBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+            
+            setTimeout(() => {
+                verificationCard.style.opacity = '0';
+                verificationCard.style.transform = 'scale(0.95)';
+                verificationCard.style.pointerEvents = 'none';
+                
+                successState.style.opacity = '1';
+                successState.style.transform = 'scale(1)';
+                successState.style.pointerEvents = 'auto';
+            }, 800);
+        }
+
+        // Resend Timer Logic
+        let timeLeft = 59;
+        let timerInterval;
+
+        function startTimer() {
+            resendBtn.disabled = true;
+            timerText.classList.remove('hidden');
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerText.textContent = `(0:${timeLeft.toString().padStart(2, '0')})`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    resendBtn.disabled = false;
+                    timerText.classList.add('hidden');
+                    timeLeft = 59;
+                }
+            }, 1000);
+        }
+
+        resendBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!resendBtn.disabled) {
+                // Simulate send
+                inputs.forEach(input => input.value = '');
+                inputs[0].focus();
+                startTimer();
+            }
+        });
+    });
+</script></main></body></html>

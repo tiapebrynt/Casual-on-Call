@@ -1,0 +1,197 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"error-container":"#ffdad6","surface-container-high":"#e8e8ea","surface-bright":"#f9f9fb","on-tertiary":"#ffffff","on-background":"#1a1c1d","on-tertiary-fixed-variant":"#004f4f","secondary-container":"#e5e2e1","surface-dim":"#d9dadc","on-secondary-container":"#656464","tertiary":"#006262","inverse-on-surface":"#f0f0f2","inverse-surface":"#2f3132","on-secondary-fixed-variant":"#474646","on-error":"#ffffff","secondary-fixed-dim":"#c8c6c5","primary":"#b1002c","surface":"#f9f9fb","secondary-fixed":"#e5e2e1","secondary":"#5f5e5e","on-error-container":"#93000a","outline-variant":"#e6bdbc","primary-fixed-dim":"#ffb3b3","surface-container":"#eeeef0","on-primary-container":"#fff1f0","on-primary":"#ffffff","on-surface":"#1a1c1d","on-surface-variant":"#5c3f3f","on-primary-fixed":"#40000a","surface-tint":"#bf0030","tertiary-container":"#007d7d","tertiary-fixed":"#95f2f1","surface-container-highest":"#e2e2e4","on-tertiary-fixed":"#002020","on-tertiary-container":"#c9fffe","error":"#ba1a1a","outline":"#916f6e","inverse-primary":"#ffb3b3","primary-container":"#dc143c","primary-fixed":"#ffdad9","surface-container-lowest":"#ffffff","surface-variant":"#e2e2e4","on-primary-fixed-variant":"#920022","on-secondary":"#ffffff","background":"#f9f9fb","surface-container-low":"#f3f3f5","on-secondary-fixed":"#1c1b1b","tertiary-fixed-dim":"#78d6d5"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-x":"40px","section-gap":"120px","container-max-width":"1280px","card-padding":"48px","gutter":"32px"},"fontFamily":{"headline-lg":["Montserrat"],"label-md":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Montserrat"],"label-sm":["Inter"],"body-md":["Inter"],"headline-md":["Montserrat"],"display-lg":["Montserrat"]},"fontSize":{"headline-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-md":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"headline-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.03em","fontWeight":"500"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"32px","fontWeight":"600"}],"display-lg":["64px",{"lineHeight":"72px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[1440px] mx-auto px-margin-x flex items-center justify-between gap-6"><div class="flex items-center gap-10"><div class="flex items-center gap-3 shrink-0"><img alt="Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuq7KmmEgujNDU-ILb_F5pnNLgZv3nRjyRxQqlYIUFvT4Ipcisic0ktk7VAyuskvvdtb3tJ5z7vmK6WdJfoWPjuJMfD_uSk3MTg5wkpYaD3KohxKe6FUCQiEMtjyAzvNFf7mgre-b0AdX11MLNy6_lWKyIlc83R2kCt0W_nGQcry2_i8D3Fwz2uqidNBSy8imCFIeLkOYwwm3wLkYP8bUguqLBnntIqYqN3V7xiTOzLExsz8ZER8CFsHDY"/><span class="font-headline-md text-headline-md text-on-surface tracking-tight">CasualHub</span></div><nav class="hidden xl:flex items-center gap-8" data-active-classes="text-primary font-semibold"><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="job-board" href="#">Find Jobs</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="company-directory" href="#">Companies</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="categories" href="#">Categories</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="how-it-works" href="#">How It Works</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">About</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="pricing" href="#">Pricing</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="contact" href="#">Contact</a></nav></div><div class="flex-1 max-w-md hidden lg:block"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant">search</span><input class="w-full bg-surface-container-low h-10 pl-10 pr-4 rounded-full text-label-sm border-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search jobs..." type="text"/></div></div><div class="flex items-center gap-4"><div class="flex items-center gap-2 mr-2"><button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors relative"><span class="material-symbols-outlined">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span></button><img alt="Profile" class="w-8 h-8 rounded-full border border-outline-variant hover:ring-2 hover:ring-primary/10 cursor-pointer transition-all" src="https://lh3.googleusercontent.com/aida/AP1WRLslwiQKBaeGLqJLuMZxyZDfW3f7NxwNgryCq29Ymul6Hnw3Iq8knVGJcrIiu2i8wUoFG3wgZ3pOqiijEDSAZ6ybLz5KxqTlgNfiCXwGnS19oyTFgc8oBzAnVcYR2mvXGv-jQDDAXnKN7V7i-QoJghnTWXBbvmlq5JH7IcE31oL648M-qXHZC5VyCxz11wSFvRrW3i08gGjo8nRaKDBUGA_7HLZxykg2DBJoEAQiR0BIA_2rN_bqRiUMw8k"/></div><div class="hidden md:flex items-center gap-3"><a class="px-6 h-10 flex items-center text-label-md text-on-surface-variant hover:text-on-surface" data-path="login" href="#">Login</a><a class="px-6 h-10 flex items-center bg-primary text-on-primary rounded-full text-label-md font-semibold hover:opacity-90 transition-all" data-path="registration" href="#">Register</a></div></div></div></header><main class="w-full pt-20"><div class="flex flex-col w-full">
+<div class="max-w-container-max-width mx-auto px-margin-x w-full py-12 flex flex-col gap-section-gap">
+<!-- Header & Summary Section -->
+<div class="flex flex-col lg:flex-row justify-between items-start gap-gutter">
+<!-- Text & CTA -->
+<div class="flex-1 flex flex-col gap-6 max-w-2xl relative z-10">
+<h1 class="font-display-lg text-display-lg text-on-surface">Community Trust &amp; Feedback</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+          Transparent, verified reviews from both casual talent and leading companies. We believe in building a platform on mutual respect and shared success.
+        </p>
+<div class="mt-4 flex gap-4">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-8 py-4 rounded-full hover:scale-[1.02] transition-transform shadow-lg shadow-primary/20">Write a Review</button>
+<button class="bg-surface-container-low text-on-surface font-label-md text-label-md px-8 py-4 rounded-full hover:bg-surface-container-high transition-colors">How it works</button>
+</div>
+</div>
+<!-- Rating Breakdown Card -->
+<div class="w-full lg:w-[480px] bg-surface-container-lowest rounded-[24px] p-card-padding shadow-2xl shadow-secondary/5 shrink-0 hover:scale-[1.01] transition-transform">
+<div class="flex items-center gap-6 mb-8">
+<div class="text-[72px] font-headline-lg text-on-surface leading-none tracking-tighter">4.8</div>
+<div class="flex flex-col">
+<div class="flex gap-1 text-primary mb-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Based on 12,450 reviews</span>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<!-- 5 Star -->
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant w-4">5</span>
+<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[85%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant w-8 text-right">85%</span>
+</div>
+<!-- 4 Star -->
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant w-4">4</span>
+<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary/70 rounded-full w-[10%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant w-8 text-right">10%</span>
+</div>
+<!-- 3 Star -->
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant w-4">3</span>
+<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary/40 rounded-full w-[3%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant w-8 text-right">3%</span>
+</div>
+<!-- 2 Star -->
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant w-4">2</span>
+<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary/20 rounded-full w-[1%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant w-8 text-right">1%</span>
+</div>
+<!-- 1 Star -->
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant w-4">1</span>
+<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary/10 rounded-full w-[1%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant w-8 text-right">1%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Filters & List Section -->
+<div class="flex flex-col gap-12">
+<!-- Tabs & Filters -->
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 pb-6 border-b border-surface-container-high">
+<div class="flex gap-8">
+<button class="font-headline-md text-headline-md text-on-surface border-b-2 border-primary pb-2">All Reviews</button>
+<button class="font-headline-md text-headline-md text-on-surface-variant hover:text-on-surface transition-colors pb-2">Companies</button>
+<button class="font-headline-md text-headline-md text-on-surface-variant hover:text-on-surface transition-colors pb-2">Workers</button>
+</div>
+<div class="flex gap-4">
+<select class="bg-surface-container-low text-on-surface font-label-md text-label-md px-6 py-3 rounded-full border-none focus:ring-2 focus:ring-primary/20 outline-none appearance-none pr-10 relative">
+<option>Most Recent</option>
+<option>Highest Rated</option>
+<option>Lowest Rated</option>
+</select>
+<div class="pointer-events-none absolute right-[100px] mt-3">
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Review Card 1 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-8 shadow-xl shadow-secondary/5 hover:scale-[1.02] transition-transform flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Portrait of a young professional smiling in a modern office space, warm lighting, shallow depth of field, minimalist corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvoStrk3azxE2YT9i8L-HtAmC9Ix9S96D8VD5bQSZb-XV6lUHo0_HZQg2HS0xMl_SNE0c2p8B0CqYojVGgFXGu9BsZg80RLwpAaglm0ejK_MDkVde2WE98dhHgj00JLhAqNEH9ojg0IoWy-vrQQGDIi6k-3AQzM05TRta5klk4S15wav09zU2u0GkAhD7ig-ih6_QYggOfQDaON6EXd7z9eowEKOKGoBbQAuKnj_U2T9PNPtXUWBAXtQ"/>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Sarah Jenkins</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Reviewed TechCorp Inc.</p>
+</div>
+</div>
+<div class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-3 py-1 rounded-full">Company</div>
+</div>
+<div class="flex gap-1 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1">Fantastic environment</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            The onboarding process was seamless, and the team was incredibly welcoming. I felt valued from day one, and the flexible hours perfectly fit my schedule. Highly recommend for any freelancer looking for a solid gig.
+          </p>
+<div class="mt-auto pt-4 border-t border-surface-container-high flex justify-between items-center text-on-surface-variant">
+<span class="font-label-sm text-label-sm">2 days ago</span>
+<div class="flex items-center gap-1 cursor-pointer hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm">12</span>
+</div>
+</div>
+</div>
+<!-- Review Card 2 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-8 shadow-xl shadow-secondary/5 hover:scale-[1.02] transition-transform flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md">M</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Momentum Design</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Reviewed David Chen</p>
+</div>
+</div>
+<div class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full">Worker</div>
+</div>
+<div class="flex gap-1 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]">star</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1">Exceeded expectations</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            David was brought in for a last-minute sprint and he delivered exceptional results. Communication was clear, and he integrated with our internal team flawlessly. We will definitely be reaching out again.
+          </p>
+<div class="mt-auto pt-4 border-t border-surface-container-high flex justify-between items-center text-on-surface-variant">
+<span class="font-label-sm text-label-sm">1 week ago</span>
+<div class="flex items-center gap-1 cursor-pointer hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm">8</span>
+</div>
+</div>
+</div>
+<!-- Review Card 3 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-8 shadow-xl shadow-secondary/5 hover:scale-[1.02] transition-transform flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Candid shot of a creative professional in a bustling cafe workspace, soft natural lighting from a window, muted aesthetic tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4VzZYi56NaWHQvbpGujLQwvnAcPL6DEPrNklAtsI7zF8gpk73erGXscem6oSIOwmCHW54rNYdg0FIUSzAOQt6zAfponfFipidYVDgm53Lt5JtsoTWP8IRqvVBWjIFDxvmQcYAKmXrjAX0EAPu1cqzljdhsRItqIWq_cSslOC_hpGH0_QzusJNcTtVZDaLTsrOzZQMJdu1MrlXrgYXqeoxDU5GN8AdST2NL9pXStJ97mNrrxDIzQg28A"/>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Elena Rodriguez</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Reviewed Studio XYZ</p>
+</div>
+</div>
+<div class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-3 py-1 rounded-full">Company</div>
+</div>
+<div class="flex gap-1 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1">Great projects, slow comms</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            The actual work was very engaging and the pay was prompt. However, getting feedback on milestones took longer than expected which caused some delays in my personal schedule. Overall, still a good experience.
+          </p>
+<div class="mt-auto pt-4 border-t border-surface-container-high flex justify-between items-center text-on-surface-variant">
+<span class="font-label-sm text-label-sm">2 weeks ago</span>
+<div class="flex items-center gap-1 cursor-pointer hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm">24</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center pt-8">
+<button class="bg-transparent border border-outline-variant text-on-surface font-label-md text-label-md px-8 py-4 rounded-full hover:bg-surface-container-high transition-colors">Load More Reviews</button>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest border-t border-outline-variant py-section-gap"><div class="max-w-[1440px] mx-auto px-margin-x"><div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter mb-16"><div class="col-span-2"><div class="flex items-center gap-3 mb-6"><img alt="Logo" class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLuq7KmmEgujNDU-ILb_F5pnNLgZv3nRjyRxQqlYIUFvT4Ipcisic0ktk7VAyuskvvdtb3tJ5z7vmK6WdJfoWPjuJMfD_uSk3MTg5wkpYaD3KohxKe6FUCQiEMtjyAzvNFf7mgre-b0AdX11MLNy6_lWKyIlc83R2kCt0W_nGQcry2_i8D3Fwz2uqidNBSy8imCFIeLkOYwwm3wLkYP8bUguqLBnntIqYqN3V7xiTOzLExsz8ZER8CFsHDY"/><span class="font-headline-md text-headline-md text-on-surface">CasualHub</span></div><p class="text-body-md text-on-surface-variant mb-6 max-w-xs">Connecting top-tier casual talent with the world's most innovative companies.</p><div class="flex gap-4"><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">public</span><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">language</span><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">share</span></div></div><div><h4 class="text-label-md text-on-surface font-bold mb-6">Company</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">About Us</li><li class="hover:text-primary cursor-pointer">Careers</li><li class="hover:text-primary cursor-pointer">Press</li><li class="hover:text-primary cursor-pointer">News</li></ul></div><div><h4 class="text-label-md text-on-surface font-bold mb-6">Product</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">Find Jobs</li><li class="hover:text-primary cursor-pointer">Post Job</li><li class="hover:text-primary cursor-pointer">Features</li><li class="hover:text-primary cursor-pointer">Pricing</li></ul></div><div><h4 class="text-label-md text-on-surface font-bold mb-6">Support</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">Help Center</li><li class="hover:text-primary cursor-pointer">Contact</li><li class="hover:text-primary cursor-pointer">Safety</li></ul></div><div class="col-span-2 lg:col-span-1"><h4 class="text-label-md text-on-surface font-bold mb-6">Legal</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">Privacy</li><li class="hover:text-primary cursor-pointer">Terms</li><li class="hover:text-primary cursor-pointer">Cookie Policy</li></ul></div></div><div class="pt-12 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-6"><p class="text-label-sm text-on-surface-variant">© 2024 CasualHub. All rights reserved.</p><div class="flex items-center gap-4"><input class="bg-surface-container-low px-4 h-10 rounded-full text-label-sm border-none focus:ring-1 focus:ring-primary w-64" placeholder="Join our newsletter" type="email"/><button class="h-10 px-6 bg-secondary text-on-secondary rounded-full text-label-sm font-semibold">Subscribe</button></div></div></div></footer></body></html>

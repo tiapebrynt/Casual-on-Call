@@ -1,0 +1,69 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"error-container":"#ffdad6","surface-container-high":"#e8e8ea","surface-bright":"#f9f9fb","on-tertiary":"#ffffff","on-background":"#1a1c1d","on-tertiary-fixed-variant":"#004f4f","secondary-container":"#e5e2e1","surface-dim":"#d9dadc","on-secondary-container":"#656464","tertiary":"#006262","inverse-on-surface":"#f0f0f2","inverse-surface":"#2f3132","on-secondary-fixed-variant":"#474646","on-error":"#ffffff","secondary-fixed-dim":"#c8c6c5","primary":"#b1002c","surface":"#f9f9fb","secondary-fixed":"#e5e2e1","secondary":"#5f5e5e","on-error-container":"#93000a","outline-variant":"#e6bdbc","primary-fixed-dim":"#ffb3b3","surface-container":"#eeeef0","on-primary-container":"#fff1f0","on-primary":"#ffffff","on-surface":"#1a1c1d","on-surface-variant":"#5c3f3f","on-primary-fixed":"#40000a","surface-tint":"#bf0030","tertiary-container":"#007d7d","tertiary-fixed":"#95f2f1","surface-container-highest":"#e2e2e4","on-tertiary-fixed":"#002020","on-tertiary-container":"#c9fffe","error":"#ba1a1a","outline":"#916f6e","inverse-primary":"#ffb3b3","primary-container":"#dc143c","primary-fixed":"#ffdad9","surface-container-lowest":"#ffffff","surface-variant":"#e2e2e4","on-primary-fixed-variant":"#920022","on-secondary":"#ffffff","background":"#f9f9fb","surface-container-low":"#f3f3f5","on-secondary-fixed":"#1c1b1b","tertiary-fixed-dim":"#78d6d5"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-x":"40px","section-gap":"120px","container-max-width":"1280px","card-padding":"48px","gutter":"32px"},"fontFamily":{"headline-lg":["Montserrat"],"label-md":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Montserrat"],"label-sm":["Inter"],"body-md":["Inter"],"headline-md":["Montserrat"],"display-lg":["Montserrat"]},"fontSize":{"headline-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-md":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"headline-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.03em","fontWeight":"500"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"32px","fontWeight":"600"}],"display-lg":["64px",{"lineHeight":"72px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><main class="min-h-screen flex items-center justify-center py-section-gap"><div class="flex flex-col w-full h-full items-center justify-center bg-surface-container-low min-h-[calc(100vh-160px)]">
+<div class="relative w-full max-w-[480px] p-card-padding bg-surface-container-lowest rounded-xl shadow-xl z-10 flex flex-col gap-6">
+<div class="absolute -top-12 -left-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl -z-10"></div>
+<div class="absolute -bottom-16 -right-16 w-48 h-48 bg-tertiary/10 rounded-full blur-3xl -z-10"></div>
+<div class="text-center flex flex-col gap-2 mb-4">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Welcome back</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Please enter your details to sign in.</p>
+</div>
+<form class="flex flex-col gap-6 w-full">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email</label>
+<input class="w-full h-14 px-4 bg-surface-container rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" id="email" placeholder="Enter your email" type="email"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<div class="relative">
+<input class="w-full h-14 px-4 bg-surface-container rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all pr-12" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined text-[20px]" id="visibility-icon">visibility_off</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between w-full">
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="relative flex items-center justify-center w-5 h-5">
+<input class="peer appearance-none w-5 h-5 rounded-DEFAULT bg-surface-container checked:bg-primary transition-colors cursor-pointer" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-on-primary text-[14px] opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Remember me</span>
+</label>
+<a class="font-label-sm text-label-sm text-primary hover:text-surface-tint transition-colors" href="#">Forgot password?</a>
+</div>
+<button class="w-full h-[56px] rounded-full bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center hover:scale-[1.02] transition-transform shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30" type="submit">
+                Sign In
+            </button>
+</form>
+<div class="relative flex items-center justify-center w-full py-2">
+<div class="absolute inset-x-0 h-px bg-surface-container-highest"></div>
+<span class="relative bg-surface-container-lowest px-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Or continue with</span>
+</div>
+<button class="w-full h-[56px] rounded-full bg-surface-container-lowest text-on-surface font-label-md text-label-md flex items-center justify-center gap-3 shadow-sm hover:bg-surface-container-low transition-colors group" type="button">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="group-hover:opacity-80 transition-opacity">Google</span>
+</button>
+<p class="text-center font-body-md text-body-md text-on-surface-variant mt-2">
+            Don't have an account? <a class="font-label-md text-label-md text-primary hover:text-surface-tint transition-colors ml-1" href="#">Register here</a>
+</p>
+</div>
+</div>
+<script>
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('visibility-icon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.textContent = 'visibility';
+        } else {
+            input.type = 'password';
+            icon.textContent = 'visibility_off';
+        }
+    }
+</script></main></body></html>

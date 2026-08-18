@@ -1,0 +1,68 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --color-primary: #DC143C;
+    --color-primary-dark: #B5002D;
+    --color-primary-soft: #FFF1F3;
+    --color-secondary: #121212;
+    --color-tertiary: #F8F9FA;
+    --color-neutral: #4A4A4A;
+    --color-surface: #F9F9FB;
+    --color-surface-low: #F3F3F5;
+    --color-surface-container: #EEEEF0;
+    --color-on-surface-variant: #5C3F3F;
+    --color-blue-50: #FFF1F3;
+    --color-blue-100: #FFD9E0;
+    --color-blue-200: #FFB3C0;
+    --color-blue-300: #FF8297;
+    --color-blue-400: #F64A68;
+    --color-blue-500: #DC143C;
+    --color-blue-600: #C10035;
+    --color-blue-700: #9D002B;
+    --color-blue-800: #7D0828;
+    --color-blue-900: #680C25;
+}
+
+@layer base { html,body { max-width:100%; overflow-x:hidden; } body { font-family:'Inter',sans-serif; background:#F8F9FA; color:#121212; } button,a { transition:all .2s ease; } img,svg { max-width:100%; } input,select,textarea { min-width:0; } }
+@layer components {
+ .font-display { font-family:'Montserrat',sans-serif; }
+ .nav-link { @apply relative text-sm font-semibold text-neutral hover:text-primary; }
+ .nav-link.active { @apply text-primary; }
+ .btn-primary { @apply inline-flex min-h-14 items-center justify-center rounded-full bg-primary px-8 py-3 text-sm font-bold text-white shadow-[0_12px_28px_-10px_rgba(220,20,60,.65)] hover:-translate-y-0.5 hover:bg-primary-dark; }
+ .btn-primary.compact { @apply min-h-11 px-6 py-2; }
+ .btn-secondary { @apply inline-flex min-h-10 items-center justify-center rounded-full bg-secondary px-5 py-2 text-sm font-bold text-white hover:bg-neutral; }
+ .btn-ghost { @apply inline-flex min-h-10 items-center justify-center rounded-full px-5 py-2 text-sm font-bold text-neutral hover:bg-primary-soft hover:text-primary; }
+ .card { @apply rounded-3xl border border-black/5 bg-white p-8 shadow-[0_28px_60px_-32px_rgba(18,18,18,.25)]; }
+ .input { @apply min-h-12 w-full rounded-xl border-0 bg-surface-low px-4 py-3 text-sm outline-none ring-1 ring-transparent focus:ring-2 focus:ring-primary/20; }
+ .file-input { @apply block max-w-full text-sm text-neutral file:mr-4 file:rounded-full file:border-0 file:bg-primary file:px-5 file:py-3 file:font-bold file:text-white hover:file:bg-primary-dark; }
+ .label { @apply mb-2 block text-sm font-bold text-secondary; }
+ .optional { @apply ml-1 rounded-full bg-black/5 px-2 py-1 text-[10px] font-semibold text-neutral; }
+ .eyebrow { @apply inline-flex rounded-full bg-primary-soft px-4 py-2 text-xs font-extrabold tracking-[.16em] text-primary; }
+ .badge { @apply inline-flex rounded-full bg-primary-soft px-3 py-1.5 text-xs font-bold text-primary; }
+ .choice { @apply flex cursor-pointer items-center gap-3 rounded-2xl border border-black/15 p-4 font-bold has-[:checked]:border-primary has-[:checked]:bg-primary-soft has-[:checked]:text-primary; }
+ .hero-orb { @apply pointer-events-none absolute size-80 rounded-full opacity-30 blur-3xl; }
+ .icon-button { @apply inline-grid size-11 shrink-0 place-items-center rounded-full bg-surface-low align-middle text-secondary hover:bg-primary-soft hover:text-primary; }
+ .svg-icon { width:1.25rem; height:1.25rem; flex:none; }
+ .brand-mark { @apply relative grid size-8 grid-cols-3 items-center gap-0.5 overflow-hidden rounded-sm bg-[#fff1f0] p-1.5; }
+ .brand-mark i { @apply block h-0.5 rounded-full bg-primary; }
+ .brand-mark i:nth-child(2) { @apply bg-[#ff8297]; }
+ .brand-mark.small { @apply size-7; }
+ .alert-success { @apply flex items-center gap-3 rounded-2xl bg-[#e3f5f3] p-4 font-semibold text-[#006262]; }
+ .alert-error { @apply flex items-center gap-3 rounded-2xl bg-[#ffdad6] p-4 font-semibold text-[#93000a]; }
+ footer a { @apply mt-3 block text-sm text-on-surface-variant hover:text-primary; }
+ footer .footer-title { @apply mb-5 text-sm font-bold text-secondary; font-family:'Montserrat',sans-serif; }
+}
+
+@media (max-width: 639px) {
+ .btn-primary { min-height:3rem; padding-left:1.25rem; padding-right:1.25rem; }
+ .card { padding:1.25rem; border-radius:1.25rem; }
+ header nav { padding-left:1rem; padding-right:1rem; }
+ header .brand-mark + span { font-size:1.05rem; }
+ main form, main label, main article, main section > div { min-width:0; }
+}

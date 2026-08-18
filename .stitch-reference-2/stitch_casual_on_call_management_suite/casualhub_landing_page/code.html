@@ -1,0 +1,244 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"error-container":"#ffdad6","surface-container-high":"#e8e8ea","surface-bright":"#f9f9fb","on-tertiary":"#ffffff","on-background":"#1a1c1d","on-tertiary-fixed-variant":"#004f4f","secondary-container":"#e5e2e1","surface-dim":"#d9dadc","on-secondary-container":"#656464","tertiary":"#006262","inverse-on-surface":"#f0f0f2","inverse-surface":"#2f3132","on-secondary-fixed-variant":"#474646","on-error":"#ffffff","secondary-fixed-dim":"#c8c6c5","primary":"#b1002c","surface":"#f9f9fb","secondary-fixed":"#e5e2e1","secondary":"#5f5e5e","on-error-container":"#93000a","outline-variant":"#e6bdbc","primary-fixed-dim":"#ffb3b3","surface-container":"#eeeef0","on-primary-container":"#fff1f0","on-primary":"#ffffff","on-surface":"#1a1c1d","on-surface-variant":"#5c3f3f","on-primary-fixed":"#40000a","surface-tint":"#bf0030","tertiary-container":"#007d7d","tertiary-fixed":"#95f2f1","surface-container-highest":"#e2e2e4","on-tertiary-fixed":"#002020","on-tertiary-container":"#c9fffe","error":"#ba1a1a","outline":"#916f6e","inverse-primary":"#ffb3b3","primary-container":"#dc143c","primary-fixed":"#ffdad9","surface-container-lowest":"#ffffff","surface-variant":"#e2e2e4","on-primary-fixed-variant":"#920022","on-secondary":"#ffffff","background":"#f9f9fb","surface-container-low":"#f3f3f5","on-secondary-fixed":"#1c1b1b","tertiary-fixed-dim":"#78d6d5"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-x":"40px","section-gap":"120px","container-max-width":"1280px","card-padding":"48px","gutter":"32px"},"fontFamily":{"headline-lg":["Montserrat"],"label-md":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Montserrat"],"label-sm":["Inter"],"body-md":["Inter"],"headline-md":["Montserrat"],"display-lg":["Montserrat"]},"fontSize":{"headline-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-md":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"headline-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.03em","fontWeight":"500"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"32px","fontWeight":"600"}],"display-lg":["64px",{"lineHeight":"72px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[1440px] mx-auto px-margin-x flex items-center justify-between gap-6"><div class="flex items-center gap-10"><div class="flex items-center gap-3 shrink-0"><img alt="Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuq7KmmEgujNDU-ILb_F5pnNLgZv3nRjyRxQqlYIUFvT4Ipcisic0ktk7VAyuskvvdtb3tJ5z7vmK6WdJfoWPjuJMfD_uSk3MTg5wkpYaD3KohxKe6FUCQiEMtjyAzvNFf7mgre-b0AdX11MLNy6_lWKyIlc83R2kCt0W_nGQcry2_i8D3Fwz2uqidNBSy8imCFIeLkOYwwm3wLkYP8bUguqLBnntIqYqN3V7xiTOzLExsz8ZER8CFsHDY"/><span class="font-headline-md text-headline-md text-on-surface tracking-tight">CasualHub</span></div><nav class="hidden xl:flex items-center gap-8" data-active-classes="text-primary font-semibold"><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="job-board" href="#">Find Jobs</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="company-directory" href="#">Companies</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="categories" href="#">Categories</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="how-it-works" href="#">How It Works</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">About</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="pricing" href="#">Pricing</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="contact" href="#">Contact</a></nav></div><div class="flex-1 max-w-md hidden lg:block"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant">search</span><input class="w-full bg-surface-container-low h-10 pl-10 pr-4 rounded-full text-label-sm border-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search jobs..." type="text"/></div></div><div class="flex items-center gap-4"><div class="flex items-center gap-2 mr-2"><button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors relative"><span class="material-symbols-outlined">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span></button><img alt="Profile" class="w-8 h-8 rounded-full border border-outline-variant hover:ring-2 hover:ring-primary/10 cursor-pointer transition-all" src="https://lh3.googleusercontent.com/aida/AP1WRLslwiQKBaeGLqJLuMZxyZDfW3f7NxwNgryCq29Ymul6Hnw3Iq8knVGJcrIiu2i8wUoFG3wgZ3pOqiijEDSAZ6ybLz5KxqTlgNfiCXwGnS19oyTFgc8oBzAnVcYR2mvXGv-jQDDAXnKN7V7i-QoJghnTWXBbvmlq5JH7IcE31oL648M-qXHZC5VyCxz11wSFvRrW3i08gGjo8nRaKDBUGA_7HLZxykg2DBJoEAQiR0BIA_2rN_bqRiUMw8k"/></div><div class="hidden md:flex items-center gap-3"><a class="px-6 h-10 flex items-center text-label-md text-on-surface-variant hover:text-on-surface" data-path="login" href="#">Login</a><a class="px-6 h-10 flex items-center bg-primary text-on-primary rounded-full text-label-md font-semibold hover:opacity-90 transition-all" data-path="registration" href="#">Register</a></div></div></div></header><main class="w-full pt-20"><div class="flex flex-col w-full">
+<!-- Hero Section -->
+<section class="relative w-full min-h-[600px] lg:min-h-[800px] flex items-center justify-center pt-24 pb-section-gap px-margin-x overflow-hidden">
+<!-- Decorative Ambient Blur -->
+<div class="absolute top-[-10%] right-[-5%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-[-20%] left-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-tertiary-fixed-dim/10 rounded-full blur-[80px] pointer-events-none"></div>
+<div class="max-w-container-max-width mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter relative z-10 items-center">
+<div class="lg:col-span-7 flex flex-col gap-8">
+<div class="flex flex-col gap-4">
+<span class="inline-flex items-center gap-2 text-label-sm font-label-sm text-primary tracking-widest uppercase">
+<span class="w-8 h-[2px] bg-primary"></span> Next-Gen Talent Platform
+          </span>
+<h1 class="font-display-lg text-display-lg text-on-surface text-balance">
+            The Future of <br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-surface-tint">Casual Work.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+            Connect with top-tier casual talent or find flexible opportunities that fit your lifestyle. Elite companies. Exceptional people.
+          </p>
+</div>
+<!-- Search Bar -->
+<div class="bg-surface-container-lowest p-2 rounded-full shadow-xl shadow-surface-tint/5 flex flex-col md:flex-row gap-2 max-w-3xl">
+<div class="flex-1 flex items-center bg-surface-container-low rounded-full h-14 px-6 gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<input class="bg-transparent border-none outline-none w-full font-body-md text-on-surface placeholder:text-on-surface-variant/50" placeholder="Job title, keyword, or company" type="text"/>
+</div>
+<div class="flex-1 flex items-center bg-surface-container-low rounded-full h-14 px-6 gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">location_on</span>
+<input class="bg-transparent border-none outline-none w-full font-body-md text-on-surface placeholder:text-on-surface-variant/50" placeholder="City or remote" type="text"/>
+</div>
+<button class="h-14 px-8 bg-primary hover:bg-surface-tint text-on-primary rounded-full font-label-md text-label-md transition-colors shadow-lg shadow-primary/20 shrink-0">
+            Find Jobs
+          </button>
+</div>
+<!-- Chips -->
+<div class="flex flex-col gap-3 pt-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Popular right now</span>
+<div class="flex flex-wrap gap-2">
+<button class="h-8 px-4 rounded-full bg-surface-container-highest hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-colors">Event Staff</button>
+<button class="h-8 px-4 rounded-full bg-surface-container-highest hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-colors">Retail Assistant</button>
+<button class="h-8 px-4 rounded-full bg-surface-container-highest hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-colors">Brand Ambassador</button>
+<button class="h-8 px-4 rounded-full bg-surface-container-highest hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-colors">Barista</button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 hidden lg:block relative h-full min-h-[500px]">
+<div class="absolute inset-0 bg-surface-container-highest rounded-3xl overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-500 shadow-2xl shadow-primary/10">
+<img class="w-full h-full object-cover mix-blend-multiply opacity-90" data-alt="A modern, bright photo of a confident young professional woman holding a tablet in a chic cafe setting, wearing stylish casual business attire. Soft natural lighting, shallow depth of field focusing on her face, warm and inviting atmosphere indicating a successful flexible worker." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXKtRt0NwyYMNdWkj0j8hOvvNgZ0Fxkmq0byc7603KgM_xAsy-q0hbmLBD08yTt32YHOc-91-e5G4b0PFdzFJNycSe6hOrLQdw52mM1GJ12TgnespZISHTTGmurkIEdCNesLfiP8-R9FmavFJK8oHm5n48MaFFEVANYAv_sRXxFrnNCNevE3grL71gZsh3jFhhadTwzhxUleNX1Ap1y0jYra09_uNoT3QTQH4vpsMihPmci62H1G18Yg"/>
+</div>
+<!-- Floating Stat Card -->
+<div class="absolute -bottom-8 -left-8 bg-surface-container-lowest p-6 rounded-2xl shadow-xl shadow-surface-tint/10 flex items-center gap-4 animate-[bounce_4s_infinite]">
+<div class="w-12 h-12 bg-tertiary-container text-on-tertiary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface">24h</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Average hire time</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works -->
+<section class="py-section-gap px-margin-x bg-surface-container">
+<div class="max-w-container-max-width mx-auto flex flex-col gap-16">
+<div class="text-center flex flex-col gap-4">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Streamlined hiring process.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Get matched with the perfect role or candidate in three simple steps.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+<!-- Connecting Line (Desktop) -->
+<div class="hidden md:block absolute top-12 left-[16%] right-[16%] h-[2px] bg-outline-variant z-0"></div>
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center gap-6 relative z-10 group">
+<div class="w-24 h-24 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-lg shadow-surface-variant/50 group-hover:scale-110 transition-transform duration-300">
+<span class="font-headline-lg text-headline-lg text-primary">1</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Create Profile</h3>
+<p class="font-body-md text-body-md text-on-surface-variant px-4">Set up your account detailing your skills, experience, and availability.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center gap-6 relative z-10 group">
+<div class="w-24 h-24 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-lg shadow-surface-variant/50 group-hover:scale-110 transition-transform duration-300">
+<span class="font-headline-lg text-headline-lg text-primary">2</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Get Matched</h3>
+<p class="font-body-md text-body-md text-on-surface-variant px-4">Our algorithm connects you with roles that fit your criteria perfectly.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center text-center gap-6 relative z-10 group">
+<div class="w-24 h-24 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-lg shadow-surface-variant/50 group-hover:scale-110 transition-transform duration-300">
+<span class="font-headline-lg text-headline-lg text-primary">3</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Start Working</h3>
+<p class="font-body-md text-body-md text-on-surface-variant px-4">Accept offers, manage your schedule, and get paid securely.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Jobs (Bento Grid) -->
+<section class="py-section-gap px-margin-x">
+<div class="max-w-container-max-width mx-auto flex flex-col gap-12">
+<div class="flex flex-col md:flex-row justify-between items-end gap-6">
+<div class="flex flex-col gap-4">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Featured Opportunities</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Premium roles available right now.</p>
+</div>
+<button class="flex items-center gap-2 text-primary font-label-md text-label-md hover:opacity-80 transition-opacity">
+          View all jobs <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Large Card -->
+<div class="md:col-span-8 bg-surface-container-lowest rounded-[24px] p-card-padding shadow-xl shadow-surface-variant/30 flex flex-col justify-between group hover:-translate-y-1 transition-transform duration-300 min-h-[400px]">
+<div class="flex justify-between items-start">
+<div class="flex gap-4 items-center">
+<div class="w-16 h-16 bg-surface-container-highest rounded-xl flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist logo of a modern tech company, maybe a stylized letter or geometric shape, on a light grey background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwi2oVzgkPIQQd5H2jSP5e8lHc4sDMCJTuRF1TFKT9qGi478wzFt0jwJLrPCv7WmxYE1TU4YgavKj82932Bo9B9BG9Ri4APuUq7lNe5oFlieKX9Q9N8WK8ZCXrcpa8AjC-LGOFrqqauQp3Rp_-yhJeRkjrmBl60tkTIC61R_FxlXYuPJJFvy5HpzYsF5-KIndW3j5qirsK6TFG8X6MkpCWWwJgUS-i0Fk3hLIciydA12_3PieYzfjTVQ"/>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Senior Brand Ambassador</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Acme Corp</p>
+</div>
+</div>
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-sm text-label-sm">Urgent</span>
+</div>
+<div class="flex flex-col gap-6 mt-8">
+<p class="font-body-lg text-body-lg text-on-surface-variant line-clamp-2">Looking for an energetic, experienced brand ambassador to lead our upcoming experiential marketing campaign in downtown metro areas.</p>
+<div class="flex flex-wrap gap-4">
+<div class="flex items-center gap-2 font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">location_on</span> New York, NY
+              </div>
+<div class="flex items-center gap-2 font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">payments</span> $35/hr
+              </div>
+<div class="flex items-center gap-2 font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">schedule</span> Weekend Shifts
+              </div>
+</div>
+<button class="mt-4 h-12 w-full md:w-auto px-8 bg-surface-container-high hover:bg-surface-variant text-on-surface rounded-full font-label-md text-label-md transition-colors self-start">
+              Apply Now
+            </button>
+</div>
+</div>
+<!-- Stacked Small Cards -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest rounded-[24px] p-8 shadow-md shadow-surface-variant/20 flex flex-col justify-between h-full group hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface font-bold">Pop-up Store Manager</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Lumina Retail</p>
+</div>
+<div class="w-10 h-10 bg-surface-container-highest rounded-lg"></div>
+</div>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-on-surface-variant">London, UK</span>
+<span class="font-label-md text-label-md text-primary">$28/hr</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-[24px] p-8 shadow-md shadow-surface-variant/20 flex flex-col justify-between h-full group hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface font-bold">Event Bartender</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Elite Hospitality</p>
+</div>
+<div class="w-10 h-10 bg-surface-container-highest rounded-lg"></div>
+</div>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Los Angeles, CA</span>
+<span class="font-label-md text-label-md text-primary">$30/hr + Tips</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Categories Grid -->
+<section class="py-section-gap px-margin-x bg-surface-container-highest">
+<div class="max-w-container-max-width mx-auto flex flex-col gap-12">
+<h2 class="font-headline-lg text-headline-lg text-on-surface text-center">Explore by Category</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+<!-- Category Item -->
+<div class="relative group cursor-pointer rounded-2xl overflow-hidden aspect-square">
+<div class="absolute inset-0 bg-surface-variant/50 transition-colors group-hover:bg-primary/20 z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100" data-alt="Close up of a barista pouring latte art in a bustling, modern coffee shop. Warm lighting, focus on the hands and coffee cup." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjGAkIdVjPnLHvRwSKbqNR4hummQyefMdKVLPRqA5zMs0ZShtzlmwG7aBOdVuOdG9QW-CqCrI9JpXbaPgrsv5C40dkLQbLcpNqVCq89NhTrvTWehol8oUBAkFXURNQ85VDyJs5dByYfQkis9NEdafjGpOkoUUbjBhygWObpTdJESzbJppFFZBXWrUPacbyDzkbsfN1FRGUYcIyuoaUxrPu5rxv9cDoP-g5kx-TECdFQe3cOUYr1f1-Fg"/>
+<div class="absolute bottom-0 left-0 p-6 z-20 w-full bg-gradient-to-t from-surface/90 to-transparent">
+<h3 class="font-headline-md text-headline-md text-on-surface">Hospitality</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">1,200+ open roles</p>
+</div>
+</div>
+<div class="relative group cursor-pointer rounded-2xl overflow-hidden aspect-square">
+<div class="absolute inset-0 bg-surface-variant/50 transition-colors group-hover:bg-primary/20 z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100" data-alt="A sleek retail clothing store interior. Racks of modern clothes, minimalist design, a retail worker folding clothes in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK8Or1ztIwPwa2jwBECr7EMVqPuBSKub3wnWIBtcn4bhfCM2n84tK0FoKopQYn0XFC4zfa1jIBHRBaN-3ykygKbo1WHT4WaTyagZ0CsPungbBQM7AMwc0QzA4XbfQMPKkHnBlSyJBlICbaKtbs2wJ0wRZV2GIbT0cUWmhg4hiSVlaySRO7vmstxD3eMb5RuoCe2qI3RXj45YOYT2yUSK7Ib3shc9g9kEdOGOsIxNPjvbnDiHKY9-gSAg"/>
+<div class="absolute bottom-0 left-0 p-6 z-20 w-full bg-gradient-to-t from-surface/90 to-transparent">
+<h3 class="font-headline-md text-headline-md text-on-surface">Retail</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">850+ open roles</p>
+</div>
+</div>
+<div class="relative group cursor-pointer rounded-2xl overflow-hidden aspect-square">
+<div class="absolute inset-0 bg-surface-variant/50 transition-colors group-hover:bg-primary/20 z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100" data-alt="A large corporate event space with a stage and seating. Event staff managing the registration desk in the foreground, wearing lanyards." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsUHDu55Pnszl6w-k0TeZGSnouBv1CRfxaFUTkbNq2Cwn0giyLN5wQFbHSLJ4vn9rXw3Z-JTM3DxkSUWxyUvvip2KVxpElW_7pE6rXYiels3FxUBiqLA7E5bO9rMJXV3dQx_hqXy9MqwdwxyT7zXoyowryQK0nVvNVudE1fDft5Z0ncPVInamqtlUi_P_xIIMd8Er2TexxKlISCyYzSFZjltLryygizxshkzVgE9P4WivYdmyq0TucnQ"/>
+<div class="absolute bottom-0 left-0 p-6 z-20 w-full bg-gradient-to-t from-surface/90 to-transparent">
+<h3 class="font-headline-md text-headline-md text-on-surface">Events</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">430+ open roles</p>
+</div>
+</div>
+<div class="relative group cursor-pointer rounded-2xl overflow-hidden aspect-square">
+<div class="absolute inset-0 bg-surface-variant/50 transition-colors group-hover:bg-primary/20 z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100" data-alt="A busy modern warehouse environment with a forklift and workers in high-vis vests organizing boxes on large shelving units." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtnDXmlBCv4dPEuoveggyjCL9svMZTCF2ycTpCW1S0iGtNVDT8JiKMTtOuKNIWLJVR4fH56EODGgN5DXWhkvtOwbcpzz8XmEgmTdT4Y_2Bv2R9h5rohHdZdSM8hdyRsRSCsn8lVQdDyMONW4dOyTwtqn3HvqH629hoCXW8_7u4Fb1tdXTKgfZcOvYxi4QijXCZmuHflmu6XO6h-7EYi1kMfwYf7HkfhVCxuOz20CO0pWuE8QIbmj9zNg"/>
+<div class="absolute bottom-0 left-0 p-6 z-20 w-full bg-gradient-to-t from-surface/90 to-transparent">
+<h3 class="font-headline-md text-headline-md text-on-surface">Logistics</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">600+ open roles</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-section-gap px-margin-x">
+<div class="max-w-container-max-width mx-auto bg-inverse-surface rounded-[40px] p-12 md:p-24 flex flex-col items-center text-center gap-8 relative overflow-hidden">
+<!-- Decorative circle -->
+<div class="absolute top-[-50%] right-[-10%] w-[600px] h-[600px] bg-primary/20 rounded-full blur-[80px] pointer-events-none"></div>
+<h2 class="font-display-lg text-display-lg text-inverse-on-surface relative z-10">Ready to hire?</h2>
+<p class="font-body-lg text-body-lg text-inverse-on-surface/80 max-w-2xl relative z-10">
+        Join thousands of companies scaling their flexible workforce with CasualHub. Post a job today and get matched with verified talent instantly.
+      </p>
+<div class="flex flex-col sm:flex-row gap-4 mt-4 relative z-10">
+<button class="h-14 px-8 bg-primary hover:bg-surface-tint text-on-primary rounded-full font-label-md text-label-md transition-colors shadow-lg shadow-primary/20">
+          Post a Job
+        </button>
+<button class="h-14 px-8 bg-transparent border border-outline-variant hover:bg-inverse-on-surface/10 text-inverse-on-surface rounded-full font-label-md text-label-md transition-colors">
+          Talk to Sales
+        </button>
+</div>
+</div>
+</section>
+</div></main><footer class="w-full bg-surface-container-lowest border-t border-outline-variant py-section-gap"><div class="max-w-[1440px] mx-auto px-margin-x"><div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter mb-16"><div class="col-span-2"><div class="flex items-center gap-3 mb-6"><img alt="Logo" class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLuq7KmmEgujNDU-ILb_F5pnNLgZv3nRjyRxQqlYIUFvT4Ipcisic0ktk7VAyuskvvdtb3tJ5z7vmK6WdJfoWPjuJMfD_uSk3MTg5wkpYaD3KohxKe6FUCQiEMtjyAzvNFf7mgre-b0AdX11MLNy6_lWKyIlc83R2kCt0W_nGQcry2_i8D3Fwz2uqidNBSy8imCFIeLkOYwwm3wLkYP8bUguqLBnntIqYqN3V7xiTOzLExsz8ZER8CFsHDY"/><span class="font-headline-md text-headline-md text-on-surface">CasualHub</span></div><p class="text-body-md text-on-surface-variant mb-6 max-w-xs">Connecting top-tier casual talent with the world's most innovative companies.</p><div class="flex gap-4"><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">public</span><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">language</span><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">share</span></div></div><div><h4 class="text-label-md text-on-surface font-bold mb-6">Company</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">About Us</li><li class="hover:text-primary cursor-pointer">Careers</li><li class="hover:text-primary cursor-pointer">Press</li><li class="hover:text-primary cursor-pointer">News</li></ul></div><div><h4 class="text-label-md text-on-surface font-bold mb-6">Product</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">Find Jobs</li><li class="hover:text-primary cursor-pointer">Post Job</li><li class="hover:text-primary cursor-pointer">Features</li><li class="hover:text-primary cursor-pointer">Pricing</li></ul></div><div><h4 class="text-label-md text-on-surface font-bold mb-6">Support</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">Help Center</li><li class="hover:text-primary cursor-pointer">Contact</li><li class="hover:text-primary cursor-pointer">Safety</li></ul></div><div class="col-span-2 lg:col-span-1"><h4 class="text-label-md text-on-surface font-bold mb-6">Legal</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">Privacy</li><li class="hover:text-primary cursor-pointer">Terms</li><li class="hover:text-primary cursor-pointer">Cookie Policy</li></ul></div></div><div class="pt-12 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-6"><p class="text-label-sm text-on-surface-variant">© 2024 CasualHub. All rights reserved.</p><div class="flex items-center gap-4"><input class="bg-surface-container-low px-4 h-10 rounded-full text-label-sm border-none focus:ring-1 focus:ring-primary w-64" placeholder="Join our newsletter" type="email"/><button class="h-10 px-6 bg-secondary text-on-secondary rounded-full text-label-sm font-semibold">Subscribe</button></div></div></div></footer></body></html>

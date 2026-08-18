@@ -1,0 +1,3 @@
+<?php
+namespace App\Models; use Illuminate\Database\Eloquent\Model; use Illuminate\Database\Eloquent\SoftDeletes; use Illuminate\Database\Eloquent\Relations\{BelongsTo,HasMany,HasOne};
+class Application extends Model { use SoftDeletes; protected $guarded=[]; protected function casts():array{return ['responded_at'=>'datetime'];} public function job():BelongsTo{return $this->belongsTo(Job::class);} public function worker():BelongsTo{return $this->belongsTo(Worker::class);} public function attendances():HasMany{return $this->hasMany(Attendance::class);} public function payment():HasOne{return $this->hasOne(Payment::class);} public function ratings():HasMany{return $this->hasMany(Rating::class);} }

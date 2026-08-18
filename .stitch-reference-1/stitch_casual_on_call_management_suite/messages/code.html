@@ -1,0 +1,234 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"error-container":"#ffdad6","surface-container-high":"#e8e8ea","surface-bright":"#f9f9fb","on-tertiary":"#ffffff","on-background":"#1a1c1d","on-tertiary-fixed-variant":"#004f4f","secondary-container":"#e5e2e1","surface-dim":"#d9dadc","on-secondary-container":"#656464","tertiary":"#006262","inverse-on-surface":"#f0f0f2","inverse-surface":"#2f3132","on-secondary-fixed-variant":"#474646","on-error":"#ffffff","secondary-fixed-dim":"#c8c6c5","primary":"#b1002c","surface":"#f9f9fb","secondary-fixed":"#e5e2e1","secondary":"#5f5e5e","on-error-container":"#93000a","outline-variant":"#e6bdbc","primary-fixed-dim":"#ffb3b3","surface-container":"#eeeef0","on-primary-container":"#fff1f0","on-primary":"#ffffff","on-surface":"#1a1c1d","on-surface-variant":"#5c3f3f","on-primary-fixed":"#40000a","surface-tint":"#bf0030","tertiary-container":"#007d7d","tertiary-fixed":"#95f2f1","surface-container-highest":"#e2e2e4","on-tertiary-fixed":"#002020","on-tertiary-container":"#c9fffe","error":"#ba1a1a","outline":"#916f6e","inverse-primary":"#ffb3b3","primary-container":"#dc143c","primary-fixed":"#ffdad9","surface-container-lowest":"#ffffff","surface-variant":"#e2e2e4","on-primary-fixed-variant":"#920022","on-secondary":"#ffffff","background":"#f9f9fb","surface-container-low":"#f3f3f5","on-secondary-fixed":"#1c1b1b","tertiary-fixed-dim":"#78d6d5"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-x":"40px","section-gap":"120px","container-max-width":"1280px","card-padding":"48px","gutter":"32px"},"fontFamily":{"headline-lg":["Montserrat"],"label-md":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Montserrat"],"label-sm":["Inter"],"body-md":["Inter"],"headline-md":["Montserrat"],"display-lg":["Montserrat"]},"fontSize":{"headline-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-md":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"headline-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.03em","fontWeight":"500"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"32px","fontWeight":"600"}],"display-lg":["64px",{"lineHeight":"72px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[1440px] mx-auto px-margin-x flex items-center justify-between gap-6"><div class="flex items-center gap-10"><div class="flex items-center gap-3 shrink-0"><img alt="Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuq7KmmEgujNDU-ILb_F5pnNLgZv3nRjyRxQqlYIUFvT4Ipcisic0ktk7VAyuskvvdtb3tJ5z7vmK6WdJfoWPjuJMfD_uSk3MTg5wkpYaD3KohxKe6FUCQiEMtjyAzvNFf7mgre-b0AdX11MLNy6_lWKyIlc83R2kCt0W_nGQcry2_i8D3Fwz2uqidNBSy8imCFIeLkOYwwm3wLkYP8bUguqLBnntIqYqN3V7xiTOzLExsz8ZER8CFsHDY"/><span class="font-headline-md text-headline-md text-on-surface tracking-tight">CasualHub</span></div><nav class="hidden xl:flex items-center gap-8" data-active-classes="text-primary font-semibold"><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="job-board" href="#">Find Jobs</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="company-directory" href="#">Companies</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="categories" href="#">Categories</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="how-it-works" href="#">How It Works</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">About</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="pricing" href="#">Pricing</a><a class="text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="contact" href="#">Contact</a></nav></div><div class="flex-1 max-w-md hidden lg:block"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant">search</span><input class="w-full bg-surface-container-low h-10 pl-10 pr-4 rounded-full text-label-sm border-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search jobs..." type="text"/></div></div><div class="flex items-center gap-4"><div class="flex items-center gap-2 mr-2"><button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors relative"><span class="material-symbols-outlined">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span></button><img alt="Profile" class="w-8 h-8 rounded-full border border-outline-variant hover:ring-2 hover:ring-primary/10 cursor-pointer transition-all" src="https://lh3.googleusercontent.com/aida/AP1WRLslwiQKBaeGLqJLuMZxyZDfW3f7NxwNgryCq29Ymul6Hnw3Iq8knVGJcrIiu2i8wUoFG3wgZ3pOqiijEDSAZ6ybLz5KxqTlgNfiCXwGnS19oyTFgc8oBzAnVcYR2mvXGv-jQDDAXnKN7V7i-QoJghnTWXBbvmlq5JH7IcE31oL648M-qXHZC5VyCxz11wSFvRrW3i08gGjo8nRaKDBUGA_7HLZxykg2DBJoEAQiR0BIA_2rN_bqRiUMw8k"/></div><div class="hidden md:flex items-center gap-3"><a class="px-6 h-10 flex items-center text-label-md text-on-surface-variant hover:text-on-surface" data-path="login" href="#">Login</a><a class="px-6 h-10 flex items-center bg-primary text-on-primary rounded-full text-label-md font-semibold hover:opacity-90 transition-all" data-path="registration" href="#">Register</a></div></div></div></header><main class="w-full pt-20"><div class="flex flex-col w-full h-[calc(100vh-80px)] overflow-hidden">
+<div class="flex flex-1 overflow-hidden bg-surface">
+<!-- Conversation List (Left Panel) -->
+<div class="w-full md:w-1/3 lg:w-[400px] flex flex-col border-r border-outline-variant bg-surface-container-lowest overflow-hidden">
+<!-- Search Header -->
+<div class="p-6 shrink-0 z-10 shadow-sm relative">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Messages</h2>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-on-surface-variant z-10 pointer-events-none">search</span>
+<input class="w-full bg-surface-container-low h-12 pl-12 pr-4 rounded-full font-label-md text-label-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow" placeholder="Search conversations..." type="text"/>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 mt-4 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm whitespace-nowrap">All</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap hover:bg-surface-container-highest transition-colors">Unread</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap hover:bg-surface-container-highest transition-colors">Important</button>
+</div>
+</div>
+<!-- List Body -->
+<div class="flex-1 overflow-y-auto px-2 py-4 space-y-2">
+<!-- Chat Item 1 (Active) -->
+<div class="flex items-start gap-4 p-4 rounded-xl bg-primary-fixed/20 cursor-pointer relative group transition-colors">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Close-up professional headshot of a confident young woman with warm lighting, wearing a stylish blazer, soft blurred background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU6e2_eId8azE-ITFJlATiDrax0PjxZVh4Z7esmDx6wSaNh41wxysuuBZzSyHll-LsieCHhj7nyynHK6bkk4aAHDw5C6TRdv7JKBYgc631qpiGJQ1nTBOgoQ054IPorJi2IyFiEbxCVdbYP9MVdHfRLmYWqN3Adn9UsEfxwavZCfxkNLAtJDz_RkkUCGrWWbi2rVotlGAKrEvHbmrL8UOVcx8WIIGEU7-7OmIB-I3TbijzTtN_qFjkmw"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-tertiary-fixed-dim border-2 border-surface-container-lowest rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md text-on-surface truncate pr-2">Elena Rostova</span>
+<span class="font-label-sm text-label-sm text-primary shrink-0">10:42 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant truncate text-sm">The new design assets look fantastic! Let's review them...</p>
+</div>
+<span class="absolute top-1/2 -translate-y-1/2 right-4 w-2 h-2 bg-primary rounded-full"></span>
+</div>
+<!-- Chat Item 2 -->
+<div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low cursor-pointer group transition-colors">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Candid portrait of a middle-aged man in a creative studio space, wearing a casual denim shirt, natural daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOEZcbD4oKInEMEE3v5VOJO4L6aDsMkrD0wUX5Pi_bukAQVvgmqCjTDAUppVRrdy-LlAx1Ip926uN9-eCnKZvwW2cu3WiTOdKYyL104jtYYvZHGWiscmPI8YuDv-OYDcqSahvveK0B8q8rgqICyRlTrNqiAef_s8sXVcklCIdVMvo62GPWaE7uGkQUVUp4eu90RauJh_oMiusuo0zgGhNVop0kWVO5qzug-GrR7SpLJqFN5fPqvU2cIg"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md text-on-surface truncate pr-2">Marcus Chen</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">Yesterday</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant truncate text-sm">Are we still on for the 3 PM sync regarding the Q3 targets?</p>
+</div>
+</div>
+<!-- Chat Item 3 -->
+<div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low cursor-pointer group transition-colors">
+<div class="relative shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container font-headline-md text-headline-md">
+                        SR
+                    </div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md text-on-surface truncate pr-2">Design Sync Group</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">Mon</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant truncate text-sm"><span class="font-semibold text-on-surface">Alex:</span> I've updated the Figma file.</p>
+</div>
+</div>
+<!-- Chat Item 4 -->
+<div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low cursor-pointer group transition-colors">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Profile photo of a woman in her late 20s, wearing round glasses and a yellow sweater, outdoors in a park." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1LnvWM6pI65x0gEX6Z4I5u165R8MuuY0i3HRUlWEgJtx4fiIo7WDlpcfAp_WWI3Bcy1RNH45Oz7wwaxuf4WeBE3-4d2MvJqkOigsWLmX8gdKcycyZTsS5AQvLm8fRU2BSmdpzXFQlnJcfQ4alBPPXbjXs-482ierBYYBY0MBAq8sfDozu8dY3ojswRonyS8eI6tjpx9V5t8Y0d0FD2eW7bdzc7IflWPkcbjyBnpxuKJOL-xBbq4OFkw"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-tertiary-fixed-dim border-2 border-surface-container-lowest rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md text-on-surface truncate pr-2">Sarah Jenkins</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">Oct 12</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant truncate text-sm">Thanks for the quick turnaround on those illustrations.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Window (Right Panel) -->
+<div class="hidden md:flex flex-1 flex-col bg-surface-bright relative">
+<!-- Chat Header -->
+<div class="h-24 px-8 flex items-center justify-between border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-xl z-20 shadow-[0_1px_8px_rgba(0,0,0,0.02)]">
+<div class="flex items-center gap-4">
+<img class="w-14 h-14 rounded-full object-cover shadow-sm" data-alt="Close-up professional headshot of a confident young woman with warm lighting, wearing a stylish blazer, soft blurred background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrJonMe6pC6cS8C-iIkN0P1EghjQeqdsxHl4zpoiPCTVYPPoZERsXn9n97adYg29GF_fRtZTLiTlpCmvTbtfZ_Cc2zCl_1i1t-nzxF95ndtX4p1dGwWPNKfAfeh0IEUR_-Qeqwacu5r_W-mIa5-CBkUwd-w3oqAhcGJVXc0kjQ_7K9IZRqg6sZtdWnPU1es64-V8SBZVhN91zZyYX4mW-tCybE2rHUcgUetCj_U_ekHlLG4zUjkTBAYA"/>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Elena Rostova</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span> Online
+                        </p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">call</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+</div>
+<!-- Messages Area -->
+<div class="flex-1 overflow-y-auto p-8 space-y-6 relative" id="message-container">
+<!-- Date Divider -->
+<div class="flex justify-center my-6">
+<span class="px-4 py-1 rounded-full bg-surface-container-high font-label-sm text-label-sm text-on-surface-variant shadow-sm">Today</span>
+</div>
+<!-- Received Message -->
+<div class="flex items-end gap-3 max-w-[80%]">
+<img class="w-8 h-8 rounded-full object-cover shrink-0" data-alt="Close-up professional headshot of a confident young woman with warm lighting, wearing a stylish blazer, soft blurred background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-P3RSBssWWT_H5MUG23M7tlXm7OXDmT3HxiOfsTjJOAwiedJPoDVMad69ByTljoyP9Muu23IPTH0ZmQJYtyqxFTC8CTrN3773uncruVFTLP284wy5ZYHMO3bigU-k8KYaZCu9AKPQ3mjZIEXNAhmoM2x4aQJ9GIiCD9RFWK9bhT1G0eSqnT3KD9qVFHl1KOz8ldNsYN76l7W9E5QYj-RXPx2yp9U-NPwseIz_T5z97ro0TBDciNMw8A"/>
+<div class="flex flex-col gap-1">
+<div class="px-5 py-3 rounded-2xl rounded-bl-none bg-surface-container text-on-surface font-body-md text-body-md shadow-sm">
+                            Hi there! I was looking at the latest prototypes you sent over.
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-2">10:35 AM</span>
+</div>
+</div>
+<!-- Received Message (Continuation) -->
+<div class="flex items-end gap-3 max-w-[80%]">
+<div class="w-8 shrink-0"></div> <!-- Spacer for avatar -->
+<div class="flex flex-col gap-1">
+<div class="px-5 py-3 rounded-2xl bg-surface-container text-on-surface font-body-md text-body-md shadow-sm">
+                            The new design assets look fantastic! Let's review them before the presentation tomorrow.
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-2">10:42 AM</span>
+</div>
+</div>
+<!-- Sent Message -->
+<div class="flex items-end justify-end gap-3 max-w-[80%] ml-auto mt-8">
+<div class="flex flex-col items-end gap-1">
+<div class="px-5 py-3 rounded-2xl rounded-br-none bg-primary text-on-primary font-body-md text-body-md shadow-md">
+                            Thanks Elena! Glad you like them. I've also attached the raw assets for the engineering team.
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-2 flex items-center gap-1">
+                            10:45 AM <span class="material-symbols-outlined text-[16px] text-primary">done_all</span>
+</span>
+</div>
+</div>
+<!-- Sent Message with Attachment -->
+<div class="flex items-end justify-end gap-3 max-w-[80%] ml-auto mt-2">
+<div class="flex flex-col items-end gap-1">
+<div class="p-4 rounded-2xl rounded-br-none bg-primary text-on-primary font-body-md text-body-md shadow-md flex items-center gap-4 group cursor-pointer hover:bg-surface-tint transition-colors">
+<div class="w-12 h-12 bg-on-primary/20 rounded-xl flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary">draft</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-primary">UI_Kit_Final_v2.zip</span>
+<span class="font-label-sm text-label-sm text-on-primary/80">45 MB • ZIP Archive</span>
+</div>
+<span class="material-symbols-outlined text-on-primary/50 group-hover:text-on-primary ml-2 transition-colors">download</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-2 flex items-center gap-1">
+                            10:46 AM <span class="material-symbols-outlined text-[16px] text-on-surface-variant">check</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-6 bg-surface-container-lowest border-t border-outline-variant z-20">
+<div class="flex items-end gap-4 max-w-4xl mx-auto bg-surface-container-low rounded-[32px] p-2 pr-4 shadow-inner relative group focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+<button class="w-12 h-12 flex items-center justify-center shrink-0 rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors relative overflow-hidden" title="Attach file">
+<span class="material-symbols-outlined">attach_file</span>
+<input class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+</button>
+<button class="w-12 h-12 flex items-center justify-center shrink-0 rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors" title="Insert emoji">
+<span class="material-symbols-outlined">mood</span>
+</button>
+<textarea class="flex-1 bg-transparent py-4 px-2 font-body-md text-body-md text-on-surface focus:outline-none resize-none max-h-32 min-h-[56px]" id="message-input" oninput="this.style.height = ''; this.style.height = Math.min(this.scrollHeight, 128) + 'px'" placeholder="Type your message..." rows="1"></textarea>
+<button class="w-12 h-12 mb-1 flex items-center justify-center shrink-0 rounded-full bg-primary text-on-primary shadow-md hover:scale-105 hover:bg-surface-tint active:scale-95 transition-all" onclick="sendMessage()">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+    // Simple script to handle auto-resizing textarea and dummy send action
+    const messageInput = document.getElementById('message-input');
+    const messageContainer = document.getElementById('message-container');
+
+    messageInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        const text = messageInput.value.trim();
+        if (!text) return;
+
+        const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        const messageHTML = `
+            <div class="flex items-end justify-end gap-3 max-w-[80%] ml-auto mt-4 animate-[slideIn_0.3s_ease-out]">
+                <div class="flex flex-col items-end gap-1">
+                    <div class="px-5 py-3 rounded-2xl rounded-br-none bg-primary text-on-primary font-body-md text-body-md shadow-md">
+                        ${text.replace(/\n/g, '<br>')}
+                    </div>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant mr-2 flex items-center gap-1">
+                        ${timeString} <span class="material-symbols-outlined text-[16px] text-on-surface-variant">check</span>
+                    </span>
+                </div>
+            </div>
+        `;
+
+        messageContainer.insertAdjacentHTML('beforeend', messageHTML);
+        messageInput.value = '';
+        messageInput.style.height = '56px'; // Reset height
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+
+    // Scroll to bottom initially
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+</script>
+<style>
+    /* Inline styles for specific micro-interactions not easily covered by tailwind utilities */
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Hide scrollbar for cleaner look in the conversation list */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style></main><footer class="w-full bg-surface-container-lowest border-t border-outline-variant py-section-gap"><div class="max-w-[1440px] mx-auto px-margin-x"><div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter mb-16"><div class="col-span-2"><div class="flex items-center gap-3 mb-6"><img alt="Logo" class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLuq7KmmEgujNDU-ILb_F5pnNLgZv3nRjyRxQqlYIUFvT4Ipcisic0ktk7VAyuskvvdtb3tJ5z7vmK6WdJfoWPjuJMfD_uSk3MTg5wkpYaD3KohxKe6FUCQiEMtjyAzvNFf7mgre-b0AdX11MLNy6_lWKyIlc83R2kCt0W_nGQcry2_i8D3Fwz2uqidNBSy8imCFIeLkOYwwm3wLkYP8bUguqLBnntIqYqN3V7xiTOzLExsz8ZER8CFsHDY"/><span class="font-headline-md text-headline-md text-on-surface">CasualHub</span></div><p class="text-body-md text-on-surface-variant mb-6 max-w-xs">Connecting top-tier casual talent with the world's most innovative companies.</p><div class="flex gap-4"><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">public</span><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">language</span><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">share</span></div></div><div><h4 class="text-label-md text-on-surface font-bold mb-6">Company</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">About Us</li><li class="hover:text-primary cursor-pointer">Careers</li><li class="hover:text-primary cursor-pointer">Press</li><li class="hover:text-primary cursor-pointer">News</li></ul></div><div><h4 class="text-label-md text-on-surface font-bold mb-6">Product</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">Find Jobs</li><li class="hover:text-primary cursor-pointer">Post Job</li><li class="hover:text-primary cursor-pointer">Features</li><li class="hover:text-primary cursor-pointer">Pricing</li></ul></div><div><h4 class="text-label-md text-on-surface font-bold mb-6">Support</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">Help Center</li><li class="hover:text-primary cursor-pointer">Contact</li><li class="hover:text-primary cursor-pointer">Safety</li></ul></div><div class="col-span-2 lg:col-span-1"><h4 class="text-label-md text-on-surface font-bold mb-6">Legal</h4><ul class="space-y-4 text-label-sm text-on-surface-variant"><li class="hover:text-primary cursor-pointer">Privacy</li><li class="hover:text-primary cursor-pointer">Terms</li><li class="hover:text-primary cursor-pointer">Cookie Policy</li></ul></div></div><div class="pt-12 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-6"><p class="text-label-sm text-on-surface-variant">© 2024 CasualHub. All rights reserved.</p><div class="flex items-center gap-4"><input class="bg-surface-container-low px-4 h-10 rounded-full text-label-sm border-none focus:ring-1 focus:ring-primary w-64" placeholder="Join our newsletter" type="email"/><button class="h-10 px-6 bg-secondary text-on-secondary rounded-full text-label-sm font-semibold">Subscribe</button></div></div></div></footer></body></html>

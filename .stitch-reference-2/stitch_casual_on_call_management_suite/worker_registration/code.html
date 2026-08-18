@@ -1,0 +1,248 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"error-container":"#ffdad6","surface-container-high":"#e8e8ea","surface-bright":"#f9f9fb","on-tertiary":"#ffffff","on-background":"#1a1c1d","on-tertiary-fixed-variant":"#004f4f","secondary-container":"#e5e2e1","surface-dim":"#d9dadc","on-secondary-container":"#656464","tertiary":"#006262","inverse-on-surface":"#f0f0f2","inverse-surface":"#2f3132","on-secondary-fixed-variant":"#474646","on-error":"#ffffff","secondary-fixed-dim":"#c8c6c5","primary":"#b1002c","surface":"#f9f9fb","secondary-fixed":"#e5e2e1","secondary":"#5f5e5e","on-error-container":"#93000a","outline-variant":"#e6bdbc","primary-fixed-dim":"#ffb3b3","surface-container":"#eeeef0","on-primary-container":"#fff1f0","on-primary":"#ffffff","on-surface":"#1a1c1d","on-surface-variant":"#5c3f3f","on-primary-fixed":"#40000a","surface-tint":"#bf0030","tertiary-container":"#007d7d","tertiary-fixed":"#95f2f1","surface-container-highest":"#e2e2e4","on-tertiary-fixed":"#002020","on-tertiary-container":"#c9fffe","error":"#ba1a1a","outline":"#916f6e","inverse-primary":"#ffb3b3","primary-container":"#dc143c","primary-fixed":"#ffdad9","surface-container-lowest":"#ffffff","surface-variant":"#e2e2e4","on-primary-fixed-variant":"#920022","on-secondary":"#ffffff","background":"#f9f9fb","surface-container-low":"#f3f3f5","on-secondary-fixed":"#1c1b1b","tertiary-fixed-dim":"#78d6d5"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-x":"40px","section-gap":"120px","container-max-width":"1280px","card-padding":"48px","gutter":"32px"},"fontFamily":{"headline-lg":["Montserrat"],"label-md":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Montserrat"],"label-sm":["Inter"],"body-md":["Inter"],"headline-md":["Montserrat"],"display-lg":["Montserrat"]},"fontSize":{"headline-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-md":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"headline-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.03em","fontWeight":"500"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"32px","fontWeight":"600"}],"display-lg":["64px",{"lineHeight":"72px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><main class="min-h-screen flex items-center justify-center py-section-gap"><div class="flex flex-col w-full max-w-container-max-width mx-auto px-margin-x">
+<div class="relative overflow-hidden bg-surface-container rounded-3xl shadow-xl p-card-padding">
+<div class="absolute top-0 left-0 w-full h-2 bg-secondary-container">
+<div class="h-full bg-primary w-1/3 transition-all duration-500 ease-in-out" id="progress-bar"></div>
+</div>
+<div class="flex items-center justify-between mb-16 relative">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-md font-headline-md shadow-md" id="step-indicator">1</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Worker Profile</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface" id="step-title">Personal Details</h1>
+</div>
+</div>
+<div class="hidden md:flex space-x-2" id="stepper-dots">
+<div class="w-3 h-3 rounded-full bg-primary transition-colors"></div>
+<div class="w-3 h-3 rounded-full bg-secondary-container transition-colors"></div>
+<div class="w-3 h-3 rounded-full bg-secondary-container transition-colors"></div>
+</div>
+</div>
+<!-- Step 1: Personal Details -->
+<div class="transition-all duration-500 transform opacity-100 translate-x-0 block" id="step-1">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Photo Upload -->
+<div class="md:col-span-4 flex flex-col items-center space-y-6">
+<div class="relative group cursor-pointer">
+<div class="w-48 h-48 rounded-full bg-surface-container-highest shadow-inner overflow-hidden flex items-center justify-center border-4 border-surface group-hover:border-primary-container transition-colors duration-300 relative">
+<img class="w-full h-full object-cover opacity-50 group-hover:opacity-75 transition-opacity duration-300" data-alt="A minimal, softly lit portrait placeholder silhouette on a subtle gradient background." id="photo-preview" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCormpx_Sf41LiMPAyjclsV6_ncoLGdwXe3YqqtpIty-M-8ogv_ibwgRXagr-mTKgejlwCG2Sw6pvIy55HkcWGlfb-etocMlRRhApt-xNrN41QP8D-fk0uz-ifCDaPECDJm-eX5qOgi2ElzQQIOPzOXIHYj98TVEtt51CDn-D7pNOGee_5gHdutXKWpM1LiO18jdbfMrnjrdcEwmaw1UkMwYL06VjfoVHm2tJa1tybgq4AHv7PeObaWHA"/>
+<div class="absolute inset-0 bg-on-surface/20 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-on-primary text-4xl mb-2">add_a_photo</span>
+<span class="font-label-sm text-label-sm text-on-primary">Upload</span>
+</div>
+</div>
+<input accept="image/*" class="hidden" id="photo-upload" type="file"/>
+</div>
+<div class="text-center">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Profile Photo</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Max size 5MB. Clear face visibility required.</p>
+</div>
+</div>
+<!-- Form Fields -->
+<div class="md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col space-y-2 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface">Full Name</label>
+<input class="w-full bg-surface-container-highest text-on-surface font-body-lg text-body-lg px-6 py-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all duration-300" placeholder="Jane Doe" type="text"/>
+</div>
+<div class="flex flex-col space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Email Address</label>
+<input class="w-full bg-surface-container-highest text-on-surface font-body-lg text-body-lg px-6 py-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all duration-300" placeholder="jane@example.com" type="email"/>
+</div>
+<div class="flex flex-col space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Phone Number</label>
+<input class="w-full bg-surface-container-highest text-on-surface font-body-lg text-body-lg px-6 py-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all duration-300" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+<div class="flex flex-col space-y-2 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface">Location</label>
+<input class="w-full bg-surface-container-highest text-on-surface font-body-lg text-body-lg px-6 py-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all duration-300" placeholder="City, Country" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2: Skills & Experience (Hidden initially) -->
+<div class="transition-all duration-500 transform opacity-0 translate-x-8 hidden" id="step-2">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-4 flex flex-col space-y-6">
+<div class="bg-surface p-6 rounded-2xl shadow-sm border border-secondary-container">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Why tags?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Adding accurate skills helps match you with the right opportunities faster. Select up to 10.</p>
+</div>
+<svg class="w-full max-w-[200px] mx-auto text-primary opacity-20" fill="currentColor" viewbox="0 0 100 100">
+<path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z"></path>
+<circle cx="50" cy="50" fill="none" r="15" stroke="currentColor" stroke-width="4"></circle>
+</svg>
+</div>
+<div class="md:col-span-8 flex flex-col space-y-8">
+<div class="flex flex-col space-y-4">
+<label class="font-label-md text-label-md text-on-surface">Primary Skills</label>
+<div class="flex flex-wrap gap-3" id="skill-tags">
+<span class="px-5 py-2.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm cursor-pointer shadow-sm hover:shadow-md transition-shadow">Frontend Development</span>
+<span class="px-5 py-2.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-dim transition-colors">Backend Development</span>
+<span class="px-5 py-2.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-dim transition-colors">UI/UX Design</span>
+<span class="px-5 py-2.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-dim transition-colors">Project Management</span>
+<span class="px-5 py-2.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-dim transition-colors">Data Analysis</span>
+<input class="px-5 py-2.5 rounded-full bg-transparent border border-dashed border-outline-variant text-on-surface font-label-sm text-label-sm focus:outline-none focus:border-primary w-40" placeholder="+ Add custom skill" type="text"/>
+</div>
+</div>
+<div class="flex flex-col space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Years of Experience</label>
+<select class="w-full bg-surface-container-highest text-on-surface font-body-lg text-body-lg px-6 py-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface transition-all duration-300 appearance-none">
+<option>0-2 years</option>
+<option>3-5 years</option>
+<option>6-10 years</option>
+<option>10+ years</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3: Documents (Hidden initially) -->
+<div class="transition-all duration-500 transform opacity-0 translate-x-8 hidden" id="step-3">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- CV Upload -->
+<div class="flex flex-col space-y-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Resume / CV</h3>
+<div class="w-full h-48 border-2 border-dashed border-outline-variant rounded-2xl bg-surface-container-highest flex flex-col items-center justify-center cursor-pointer hover:bg-surface hover:border-primary transition-all duration-300 group">
+<div class="w-16 h-16 rounded-full bg-surface-variant flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary-container group-hover:text-on-primary-container transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl">upload_file</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface mb-1">Drag & Drop or <span class="text-primary">Browse</span></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">PDF, DOCX (Max 10MB)</span>
+</div>
+</div>
+<!-- Portfolio Upload -->
+<div class="flex flex-col space-y-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Portfolio / Certificates</h3>
+<div class="w-full h-48 border-2 border-dashed border-outline-variant rounded-2xl bg-surface-container-highest flex flex-col items-center justify-center cursor-pointer hover:bg-surface hover:border-primary transition-all duration-300 group">
+<div class="w-16 h-16 rounded-full bg-surface-variant flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary-container group-hover:text-on-primary-container transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl">folder_zip</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface mb-1">Drag & Drop or <span class="text-primary">Browse</span></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ZIP, PDF (Max 50MB)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Buttons -->
+<div class="flex justify-between items-center mt-16 pt-8 border-t border-surface-container-highest">
+<button class="px-8 py-4 rounded-full bg-surface text-on-surface font-label-md text-label-md shadow-sm hover:shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center" disabled="" id="btn-prev">
+<span class="material-symbols-outlined mr-2">arrow_back</span> Back
+      </button>
+<button class="px-10 py-4 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center" id="btn-next">
+        Continue <span class="material-symbols-outlined ml-2">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let currentStep = 1;
+    const totalSteps = 3;
+    
+    const steps = [
+      document.getElementById('step-1'),
+      document.getElementById('step-2'),
+      document.getElementById('step-3')
+    ];
+    
+    const btnNext = document.getElementById('btn-next');
+    const btnPrev = document.getElementById('btn-prev');
+    const stepIndicator = document.getElementById('step-indicator');
+    const stepTitle = document.getElementById('step-title');
+    const progressBar = document.getElementById('progress-bar');
+    const stepperDots = document.getElementById('stepper-dots').children;
+    
+    const titles = ['Personal Details', 'Skills & Experience', 'Documents & Uploads'];
+    
+    function updateUI() {
+      // Update Buttons
+      if (currentStep === 1) {
+        btnPrev.disabled = true;
+      } else {
+        btnPrev.disabled = false;
+      }
+      
+      if (currentStep === totalSteps) {
+        btnNext.innerHTML = 'Submit Registration <span class="material-symbols-outlined ml-2">check_circle</span>';
+      } else {
+        btnNext.innerHTML = 'Continue <span class="material-symbols-outlined ml-2">arrow_forward</span>';
+      }
+      
+      // Update Header
+      stepIndicator.textContent = currentStep;
+      stepTitle.textContent = titles[currentStep - 1];
+      progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
+      
+      // Update Dots
+      Array.from(stepperDots).forEach((dot, index) => {
+        if (index < currentStep) {
+          dot.classList.replace('bg-secondary-container', 'bg-primary');
+        } else {
+          dot.classList.replace('bg-primary', 'bg-secondary-container');
+        }
+      });
+      
+      // Transition Steps
+      steps.forEach((step, index) => {
+        if (index === currentStep - 1) {
+          step.classList.remove('hidden');
+          // slight delay for animation
+          setTimeout(() => {
+            step.classList.remove('opacity-0', 'translate-x-8', '-translate-x-8');
+            step.classList.add('opacity-100', 'translate-x-0');
+          }, 50);
+        } else {
+          step.classList.remove('opacity-100', 'translate-x-0');
+          if (index < currentStep - 1) {
+             step.classList.add('opacity-0', '-translate-x-8');
+          } else {
+             step.classList.add('opacity-0', 'translate-x-8');
+          }
+          // wait for transition before hiding
+          setTimeout(() => {
+             step.classList.add('hidden');
+          }, 500);
+        }
+      });
+    }
+    
+    btnNext.addEventListener('click', () => {
+      if (currentStep < totalSteps) {
+        currentStep++;
+        updateUI();
+      } else {
+        // Handle Submit
+        btnNext.innerHTML = '<span class="material-symbols-outlined animate-spin mr-2">progress_activity</span> Processing...';
+        setTimeout(() => {
+            alert('Registration Submitted Successfully!');
+             btnNext.innerHTML = 'Done';
+        }, 1500);
+      }
+    });
+    
+    btnPrev.addEventListener('click', () => {
+      if (currentStep > 1) {
+        currentStep--;
+        updateUI();
+      }
+    });
+
+    // Photo Upload Preview Logic (Basic)
+    const photoUpload = document.getElementById('photo-upload');
+    const photoPreview = document.getElementById('photo-preview');
+    
+    document.querySelector('.group').addEventListener('click', () => {
+        if(currentStep === 1) photoUpload.click();
+    });
+
+    photoUpload.addEventListener('change', function(e) {
+      if(this.files && this.files[0]) {
+          // In a real app, read file and set preview
+          photoPreview.classList.remove('opacity-50');
+          photoPreview.classList.add('opacity-100');
+          console.log("File selected:", this.files[0].name);
+      }
+    });
+  });
+</script></main></body></html>
