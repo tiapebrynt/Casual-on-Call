@@ -133,4 +133,100 @@ class MarketplaceFeatureTest extends TestCase
             'body' => 'Kerja sama sangat baik dan tepat waktu.',
         ]);
     }
+
+    public function test_jobs_can_be_filtered_by_rate_range_dropdown(): void
+    {
+        $companyUser = User::factory()->create();
+        $companyUser->assignRole('company');
+        $companyUser->company()->create([
+            'name' => 'Nusa Hospitality',
+            'slug' => 'nusa-hospitality-2',
+            'city' => 'Jakarta',
+            'verification_status' => 'verified',
+        ]);
+
+        $category = JobCategory::create([
+            'name' => 'F&B',
+            'slug' => 'f-and-b',
+        ]);
+
+        $cheapJob = Job::create([
+            'company_id' => $companyUser->company->id,
+            'job_category_id' => $category->id,
+            'title' => 'Dishwasher Weekend',
+            'slug' => 'dishwasher-weekend',
+            'description' => 'Membantu kebersihan dapur.',
+            'location' => 'Jakarta',
+            'starts_at' => now()->addDay(),
+            'ends_at' => now()->addDays(2),
+            'daily_rate' => 150000,
+            'payment_type' => 'daily',
+            'vacancies' => 1,
+            'status' => 'published',
+            'application_deadline' => now()->addHours(12),
+        ]);
+
+        $response = $this->get(route('jobs.index', ['rate_range' => '100000-250000']));
+        $response->assertOk();
+        $response->assertSee('Dishwasher Weekend');
+    }
+
+    public function test_company_can_create_and_update_job_with_payment_type_and_expired_status(): void
+    {
+        $companyUser = User::factory()->create();
+        $companyUser->assignRole('company');
+        $company = $companyUser->company()->create([
+            'name' => 'Event Pro ID',
+            'slug' => 'event-pro-id',
+            'city' => 'Jakarta',
+            'verification_status' => 'verified',
+        ]);
+
+        $category = JobCategory::create([
+            'name' => 'Events',
+            'slug' => 'events',
+        ]);
+
+        $response = $this->actingAs($companyUser)->post(route('jobs.store'), [
+            'job_category_id' => $category->id,
+            'title' => 'SPG Booth Weekend',
+            'description' => 'Menjaga booth pameran.',
+            'location' => 'Jakarta',
+            'daily_rate' => 350000,
+            'payment_type' => 'project',
+            'vacancies' => 2,
+            'starts_at' => now()->addDay()->format('Y-m-d\TH:i'),
+            'ends_at' => now()->addDays(2)->format('Y-m-d\TH:i'),
+            'application_deadline' => now()->addHours(20)->format('Y-m-d\TH:i'),
+            'status' => 'published',
+            'requirements' => ['Minimal 18 tahun', 'Tinggi proporsional'],
+        ]);
+
+        $response->assertRedirect();
+        $job = Job::where('title', 'SPG Booth Weekend')->first();
+        $this->assertNotNull($job);
+        $this->assertEquals('project', $job->payment_type);
+        $this->assertEquals(2, $job->requirements()->count());
+
+        $updateResponse = $this->actingAs($companyUser)->put(route('jobs.update', $job), [
+            'job_category_id' => $category->id,
+            'title' => 'SPG Booth Weekend Updated',
+            'description' => 'Menjaga booth pameran terupdate.',
+            'location' => 'Jakarta',
+            'daily_rate' => 400000,
+            'payment_type' => 'daily',
+            'vacancies' => 3,
+            'starts_at' => now()->addDay()->format('Y-m-d\TH:i'),
+            'ends_at' => now()->addDays(2)->format('Y-m-d\TH:i'),
+            'application_deadline' => now()->addHours(20)->format('Y-m-d\TH:i'),
+            'status' => 'expired',
+            'requirements' => ['Minimal 18 tahun'],
+        ]);
+
+        $updateResponse->assertRedirect();
+        $job->refresh();
+        $this->assertEquals('expired', $job->status);
+        $this->assertEquals('daily', $job->payment_type);
+    }
 }
+

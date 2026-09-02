@@ -32,23 +32,27 @@
 @layer base { html,body { max-width:100%; overflow-x:hidden; } body { font-family:'Inter',sans-serif; background:#F8F9FA; color:#121212; } button,a { transition:all .2s ease; } img,svg { max-width:100%; } input,select,textarea { min-width:0; } }
 @layer components {
  .font-display { font-family:'Montserrat',sans-serif; }
- .nav-link { @apply relative text-sm font-semibold text-neutral hover:text-primary; }
- .nav-link.active { @apply text-primary; }
- .btn-primary { @apply inline-flex min-h-14 items-center justify-center rounded-full bg-primary px-8 py-3 text-sm font-bold text-white shadow-[0_12px_28px_-10px_rgba(220,20,60,.65)] hover:-translate-y-0.5 hover:bg-primary-dark; }
+ .nav-link { @apply relative text-sm font-semibold text-neutral hover:text-primary transition-colors; }
+ .nav-link.active { @apply text-primary font-bold; }
+ .btn-primary { @apply inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-bold text-white shadow-[0_12px_28px_-10px_rgba(220,20,60,.65)] hover:-translate-y-0.5 hover:bg-primary-dark transition-all disabled:opacity-50 disabled:pointer-events-none; }
  .btn-primary.compact { @apply min-h-11 px-6 py-2; }
- .btn-secondary { @apply inline-flex min-h-10 items-center justify-center rounded-full bg-secondary px-5 py-2 text-sm font-bold text-white hover:bg-neutral; }
- .btn-ghost { @apply inline-flex min-h-10 items-center justify-center rounded-full px-5 py-2 text-sm font-bold text-neutral hover:bg-primary-soft hover:text-primary; }
- .card { @apply rounded-3xl border border-black/5 bg-white p-8 shadow-[0_28px_60px_-32px_rgba(18,18,18,.25)]; }
- .input { @apply min-h-12 w-full rounded-xl border-0 bg-surface-low px-4 py-3 text-sm outline-none ring-1 ring-transparent focus:ring-2 focus:ring-primary/20; }
+ .btn-secondary { @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-secondary px-5 py-2 text-sm font-bold text-white hover:bg-neutral transition-all; }
+ .btn-ghost { @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-bold text-neutral hover:bg-primary-soft hover:text-primary transition-all; }
+ .card { @apply rounded-3xl border border-black/5 bg-white p-6 sm:p-8 shadow-[0_28px_60px_-32px_rgba(18,18,18,.25)]; }
+ .input { @apply min-h-12 w-full rounded-xl border-0 bg-surface-low px-4 py-3 text-sm outline-none ring-1 ring-transparent focus:ring-2 focus:ring-primary/20 transition-all; }
  .file-input { @apply block max-w-full text-sm text-neutral file:mr-4 file:rounded-full file:border-0 file:bg-primary file:px-5 file:py-3 file:font-bold file:text-white hover:file:bg-primary-dark; }
  .label { @apply mb-2 block text-sm font-bold text-secondary; }
  .optional { @apply ml-1 rounded-full bg-black/5 px-2 py-1 text-[10px] font-semibold text-neutral; }
  .eyebrow { @apply inline-flex rounded-full bg-primary-soft px-4 py-2 text-xs font-extrabold tracking-[.16em] text-primary; }
- .badge { @apply inline-flex rounded-full bg-primary-soft px-3 py-1.5 text-xs font-bold text-primary; }
- .choice { @apply flex cursor-pointer items-center gap-3 rounded-2xl border border-black/15 p-4 font-bold has-[:checked]:border-primary has-[:checked]:bg-primary-soft has-[:checked]:text-primary; }
+ .badge { @apply inline-flex items-center gap-1.5 rounded-full bg-primary-soft px-3 py-1.5 text-xs font-bold text-primary; }
+ .badge-success { @apply inline-flex items-center gap-1.5 rounded-full bg-[#e3f5f3] px-3 py-1.5 text-xs font-bold text-[#006262]; }
+ .badge-warning { @apply inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-700 border border-amber-200/60; }
+ .badge-neutral { @apply inline-flex items-center gap-1.5 rounded-full bg-surface-container px-3 py-1.5 text-xs font-semibold text-neutral; }
+ .badge-danger { @apply inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1.5 text-xs font-bold text-rose-700; }
+ .choice { @apply flex cursor-pointer items-center gap-3 rounded-2xl border border-black/15 p-4 font-bold has-[:checked]:border-primary has-[:checked]:bg-primary-soft has-[:checked]:text-primary transition-all; }
  .hero-orb { @apply pointer-events-none absolute size-80 rounded-full opacity-30 blur-3xl; }
- .icon-button { @apply inline-grid size-11 shrink-0 place-items-center rounded-full bg-surface-low align-middle text-secondary hover:bg-primary-soft hover:text-primary; }
- .svg-icon { width:1.25rem; height:1.25rem; flex:none; }
+ .icon-button { @apply inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-surface-low align-middle text-secondary hover:bg-primary-soft hover:text-primary transition-all; }
+ .svg-icon { display:inline-block; vertical-align:middle; width:1.25rem; height:1.25rem; flex-shrink:0; }
  .brand-mark { @apply relative grid size-8 grid-cols-3 items-center gap-0.5 overflow-hidden rounded-sm bg-[#fff1f0] p-1.5; }
  .brand-mark i { @apply block h-0.5 rounded-full bg-primary; }
  .brand-mark i:nth-child(2) { @apply bg-[#ff8297]; }

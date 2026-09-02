@@ -17,27 +17,43 @@ class ApplicationController extends Controller
 
     public function index(Request $request): View
     {
-        $query = Application::with(['job.company', 'worker.user', 'payment']);
-        if ($request->user()->hasRole('worker')) $query->where('worker_id', $request->user()->worker->id);
-        elseif ($request->user()->hasRole('company')) $query->whereHas('job', fn ($job) => $job->where('company_id', $request->user()->company->id));
+        $user = $request->user();
+        $query = Application::with(['job.company.user', 'worker.user', 'payment', 'ratings.review']);
+        
+        if ($user->hasRole('worker')) {
+            $workerId = $user->worker?->id;
+            $query->where('worker_id', $workerId);
+        } elseif ($user->hasRole('company')) {
+            $companyId = $user->company?->id;
+            $query->whereHas('job', fn ($job) => $job->where('company_id', $companyId));
+        }
+
         $query->when($request->filled('status'), fn ($applications) => $applications->where('status', $request->string('status')->toString()));
-        return view('applications.index', ['applications' => $query->latest()->paginate(10)]);
+        return view('applications.index', ['applications' => $query->latest()->paginate(10)->withQueryString()]);
     }
 
     public function myJobs(Request $request): View
     {
         $worker = $request->user()->worker;
+        if (!$worker) {
+            $worker = $request->user()->worker()->create([
+                'verification_status' => 'pending',
+                'is_available' => true,
+            ]);
+        }
+
         $jobs = Application::query()
-            ->with(['job.company', 'job.category', 'attendances'])
+            ->with(['job.company.user', 'job.category', 'attendances', 'payment', 'ratings.review'])
             ->where('worker_id', $worker->id)
             ->whereIn('status', ['accepted', 'completed'])
-            ->whereHas('job', fn ($query) => $query->whereIn('status', ['published', 'closed', 'completed']))
+            ->whereHas('job')
             ->orderByRaw("CASE WHEN status = 'accepted' THEN 0 ELSE 1 END")
             ->latest()
             ->paginate(8);
 
         $activeJob = (clone $jobs->getCollection())
             ->first(fn (Application $application) => $application->status === 'accepted');
+        $activeCount = Application::where('worker_id', $worker->id)->where('status', 'accepted')->count();
         $completedCount = Application::where('worker_id', $worker->id)->where('status', 'completed')->count();
         $totalEarnings = Application::where('worker_id', $worker->id)
             ->where('status', 'completed')
@@ -45,8 +61,8 @@ class ApplicationController extends Controller
             ->get()
             ->sum(fn (Application $application) => $application->payment?->status === 'paid' ? (float) $application->payment->total : 0);
 
-        $activeDays = $activeJob ? max(0, (int) now()->startOfDay()->diffInDays($activeJob->job->starts_at->startOfDay(), false)) : 0;
-        return view('jobs.my-jobs', compact('jobs', 'activeJob', 'completedCount', 'totalEarnings', 'activeDays'));
+        $activeDays = $activeJob ? max(0, (int) round(now()->startOfDay()->diffInDays($activeJob->job->starts_at->startOfDay(), false))) : 0;
+        return view('jobs.my-jobs', compact('jobs', 'activeJob', 'activeCount', 'completedCount', 'totalEarnings', 'activeDays'));
     }
 
     public function store(Request $request, Job $job): RedirectResponse

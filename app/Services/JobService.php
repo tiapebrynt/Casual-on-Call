@@ -1,4 +1,65 @@
 <?php
+
 namespace App\Services;
-use App\Models\{Company,Job}; use App\Repositories\Contracts\JobRepositoryInterface; use Illuminate\Support\Facades\DB; use Illuminate\Support\Str;
-class JobService { public function __construct(private JobRepositoryInterface $jobs){} public function create(Company $company,array $data):Job{return DB::transaction(function()use($company,$data){$requirements=$data['requirements']??[];unset($data['requirements']);$data['company_id']=$company->id;$data['slug']=Str::slug($data['title']).'-'.Str::lower(Str::random(6));$job=$this->jobs->create($data);$job->requirements()->createMany(array_map(fn($r)=>['requirement'=>$r,'is_mandatory'=>true],$requirements));return $job;});} public function update(Job $job,array $data):Job{return DB::transaction(function()use($job,$data){$requirements=$data['requirements']??null;unset($data['requirements']);$job=$this->jobs->update($job,$data);if($requirements!==null){$job->requirements()->delete();$job->requirements()->createMany(array_map(fn($r)=>['requirement'=>$r,'is_mandatory'=>true],$requirements));}return $job;});} public function delete(Job $job):void{DB::transaction(fn()=>$this->jobs->delete($job));} }
+
+use App\Models\{Company, Job};
+use App\Repositories\Contracts\JobRepositoryInterface;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+class JobService
+{
+    public function __construct(private JobRepositoryInterface $jobs) {}
+
+    public function create(Company $company, array $data): Job
+    {
+        return DB::transaction(function () use ($company, $data): Job {
+            $requirements = array_filter(
+                $data['requirements'] ?? [],
+                fn ($r) => filled($r) && is_string($r)
+            );
+            unset($data['requirements']);
+
+            $data['company_id'] = $company->id;
+            $data['slug'] = Str::slug($data['title']) . '-' . Str::lower(Str::random(6));
+
+            $job = $this->jobs->create($data);
+
+            if (!empty($requirements)) {
+                $job->requirements()->createMany(
+                    array_map(fn ($r) => ['requirement' => trim($r), 'is_mandatory' => true], $requirements)
+                );
+            }
+
+            return $job;
+        });
+    }
+
+    public function update(Job $job, array $data): Job
+    {
+        return DB::transaction(function () use ($job, $data): Job {
+            $requirements = isset($data['requirements'])
+                ? array_filter($data['requirements'], fn ($r) => filled($r) && is_string($r))
+                : null;
+            unset($data['requirements']);
+
+            $job = $this->jobs->update($job, $data);
+
+            if ($requirements !== null) {
+                $job->requirements()->delete();
+                if (!empty($requirements)) {
+                    $job->requirements()->createMany(
+                        array_map(fn ($r) => ['requirement' => trim($r), 'is_mandatory' => true], $requirements)
+                    );
+                }
+            }
+
+            return $job;
+        });
+    }
+
+    public function delete(Job $job): void
+    {
+        DB::transaction(fn () => $this->jobs->delete($job));
+    }
+}

@@ -67,9 +67,33 @@ class MarketplacePageController extends Controller
 
     public function reviews(Request $request): View
     {
-        $reviews = Rating::with(['review', 'reviewer', 'application.job'])->where('reviewee_id', $request->user()->id)->latest()->paginate(10);
-        $average = round((float) Rating::where('reviewee_id', $request->user()->id)->avg('score'), 1);
-        return view('reviews.index', compact('reviews', 'average'));
+        $user = $request->user();
+        $tab = $request->get('tab', 'received');
+        
+        $receivedQuery = Rating::with(['review', 'reviewer', 'application.job'])
+            ->where('reviewee_id', $user->id);
+            
+        $givenQuery = Rating::with(['review', 'reviewee', 'application.job'])
+            ->where('reviewer_id', $user->id);
+
+        $reviews = $tab === 'given' 
+            ? $givenQuery->latest()->paginate(10)->withQueryString() 
+            : $receivedQuery->latest()->paginate(10)->withQueryString();
+
+        $average = round((float) Rating::where('reviewee_id', $user->id)->avg('score'), 1);
+        $totalReceived = Rating::where('reviewee_id', $user->id)->count();
+        $totalGiven = Rating::where('reviewer_id', $user->id)->count();
+        
+        $starBreakdown = [];
+        for ($i = 5; $i >= 1; $i--) {
+            $count = Rating::where('reviewee_id', $user->id)->where('score', $i)->count();
+            $starBreakdown[$i] = [
+                'count' => $count,
+                'percentage' => $totalReceived > 0 ? round(($count / $totalReceived) * 100) : 0,
+            ];
+        }
+
+        return view('reviews.index', compact('reviews', 'average', 'totalReceived', 'totalGiven', 'starBreakdown', 'tab'));
     }
 
     public function payment(Request $request, Payment $payment): View
@@ -77,6 +101,8 @@ class MarketplacePageController extends Controller
         $payment->load(['application.job.company', 'application.worker.user']);
         $user = $request->user();
         abort_unless($user->hasRole('admin') || $payment->application->worker->user_id === $user->id || $payment->application->job->company->user_id === $user->id, 403);
-        return view('payments.show', compact('payment'));
+        $companyWallet = Wallet::where('user_id', $user->id)->first();
+        return view('payments.show', compact('payment', 'companyWallet'));
     }
 }
+
