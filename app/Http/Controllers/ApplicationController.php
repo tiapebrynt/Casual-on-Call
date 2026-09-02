@@ -32,7 +32,7 @@ class ApplicationController extends Controller
             ->where('worker_id', $worker->id)
             ->whereIn('status', ['accepted', 'completed'])
             ->whereHas('job', fn ($query) => $query->whereIn('status', ['published', 'closed', 'completed']))
-            ->orderByRaw("FIELD(status, 'accepted', 'completed')")
+            ->orderByRaw("CASE WHEN status = 'accepted' THEN 0 ELSE 1 END")
             ->latest()
             ->paginate(8);
 
@@ -45,7 +45,8 @@ class ApplicationController extends Controller
             ->get()
             ->sum(fn (Application $application) => $application->payment?->status === 'paid' ? (float) $application->payment->total : 0);
 
-        return view('jobs.my-jobs', compact('jobs', 'activeJob', 'completedCount', 'totalEarnings'));
+        $activeDays = $activeJob ? max(0, (int) now()->startOfDay()->diffInDays($activeJob->job->starts_at->startOfDay(), false)) : 0;
+        return view('jobs.my-jobs', compact('jobs', 'activeJob', 'completedCount', 'totalEarnings', 'activeDays'));
     }
 
     public function store(Request $request, Job $job): RedirectResponse

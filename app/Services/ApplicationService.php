@@ -55,11 +55,12 @@ class ApplicationService
             }
 
             if ($status === 'rejected') {
-                $application->worker->user->notify(new WorkflowNotification('Pembaruan lamaran', 'Lamaran untuk '.$application->job->title.' belum berhasil.', route('applications.index')));
+                $quote = 'Kegagalan hari ini bukan akhir dari perjalananmu. Tetap percaya, terus belajar, dan buka kesempatan yang lebih baik berikutnya.';
+                $application->worker->user->notify(new WorkflowNotification('Pembaruan lamaran', 'Lamaran untuk '.$application->job->title.' belum berhasil. “'.$quote.'”', route('applications.index')));
             }
 
             if ($status === 'completed' && !$application->payment) {
-                $days = max(1, $application->job->starts_at->startOfDay()->diffInDays($application->job->ends_at->startOfDay()) + 1);
+                $days = $application->job->duration_days;
                 $subtotal = (float) $application->job->daily_rate * $days;
                 Payment::create([
                     'application_id' => $application->id,

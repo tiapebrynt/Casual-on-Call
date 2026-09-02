@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/jobs/{job:slug}/apply', [ApplicationController::class, 'create'])->name('applications.create');
     Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store'])->name('applications.store');
     Route::patch('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
+    Route::post('/applications/{application}/review', [WorkflowController::class, 'storeReview'])->name('applications.review');
     Route::delete('/applications/{application}', [ApplicationController::class, 'destroy'])->name('applications.destroy');
     Route::get('/wallet', [MarketplacePageController::class, 'wallet'])->name('wallet.index');
     Route::get('/notifications', [MarketplacePageController::class, 'notifications'])->name('notifications.index');

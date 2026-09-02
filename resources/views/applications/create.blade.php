@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('title', 'Form Lamaran')
 @section('content')
 <section class="bg-gradient-to-br from-[#fff7f8] to-[#eaffff]">
@@ -6,7 +6,7 @@
         <a href="{{ route('jobs.show', $job) }}" class="text-sm font-bold text-primary">&larr; Kembali ke detail lowongan</a>
         <p class="mt-8 text-xs font-bold uppercase tracking-[.18em] text-primary">Formulir lamaran</p>
         <h1 class="mt-3 font-display text-3xl font-bold lg:text-5xl">Lamar {{ $job->title }}</h1>
-        <p class="mt-3 text-on-surface-variant">{{ $job->company->name }} · {{ $job->location }}</p>
+        <p class="mt-3 text-on-surface-variant">{{ $job->company->name }} Â· {{ $job->location }}</p>
     </div>
 </section>
 <section class="mx-auto grid max-w-5xl gap-8 px-5 py-12 lg:grid-cols-[1fr_320px] lg:px-10">
@@ -34,9 +34,10 @@
         <h2 class="mt-4 font-display text-xl font-bold">{{ $job->title }}</h2>
         <dl class="mt-6 space-y-4 text-sm">
             <div><dt class="text-on-surface-variant">Bayaran</dt><dd class="mt-1 font-bold">Rp{{ number_format($job->daily_rate, 0, ',', '.') }}/hari</dd></div>
-            <div><dt class="text-on-surface-variant">Jadwal</dt><dd class="mt-1 font-bold">{{ $job->starts_at->format('d M') }} – {{ $job->ends_at->format('d M Y') }}</dd></div>
+            <div><dt class="text-on-surface-variant">Jadwal</dt><dd class="mt-1 font-bold">{{ $job->starts_at->format('d M') }} â€“ {{ $job->ends_at->format('d M Y') }}</dd></div>
             <div><dt class="text-on-surface-variant">Batas lamaran</dt><dd class="mt-1 font-bold">{{ $job->application_deadline->format('d M Y') }}</dd></div>
         </dl>
     </aside>
 </section>
 @endsection
+

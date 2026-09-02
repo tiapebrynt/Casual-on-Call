@@ -93,14 +93,43 @@ class WorkflowController extends Controller
         return redirect()->route('messages.index', ['conversation' => $conversation->id])->with('success', 'Pesan terkirim.');
     }
 
+    public function storeReview(Request $request, Application $application): RedirectResponse
+    {
+        $user = $request->user();
+        abort_unless($user->hasRole('worker') || $user->hasRole('company'), 403);
+        abort_unless($application->status === 'completed', 403);
+        $application->loadMissing(['job.company','worker']);
+        abort_unless(($user->hasRole('worker') && $application->worker->user_id === $user->id) || ($user->hasRole('company') && $application->job->company->user_id === $user->id), 403);
+
+        $data = $request->validate([
+            'score' => ['required', 'integer', 'min:1', 'max:5'],
+            'title' => ['nullable', 'string', 'max:120'],
+            'body' => ['required', 'string', 'max:2000'],
+        ]);
+
+        $revieweeId = $user->hasRole('worker') ? $application->job->company->user_id : $application->worker->user_id;
+        $rating = Rating::updateOrCreate(
+            ['application_id' => $application->id, 'reviewer_id' => $user->id],
+            ['reviewee_id' => $revieweeId, 'score' => $data['score']]
+        );
+
+        Review::updateOrCreate(
+            ['rating_id' => $rating->id],
+            ['title' => $data['title'] ?? null, 'body' => $data['body'], 'is_visible' => true]
+        );
+
+        return back()->with('success', 'Rating dan ulasan berhasil dikirim.');
+    }
+
     public function pay(Request $request, Payment $payment): RedirectResponse
     {
         $payment->loadMissing(['application.job.company', 'application.worker.user']);
         abort_unless($request->user()->hasRole('company') && $payment->application->job->company->user_id === $request->user()->id, 403);
-        DB::transaction(function () use ($payment): void {
+        $data = $request->validate(['method' => ['required', 'in:bank_transfer,e_wallet,cash,casual_wallet']]);
+        DB::transaction(function () use ($payment, $data): void {
             $payment = Payment::lockForUpdate()->findOrFail($payment->id);
             if ($payment->status === 'paid') throw ValidationException::withMessages(['payment' => 'Invoice ini sudah dibayar.']);
-            $payment->update(['status' => 'paid', 'method' => 'CasualHub Wallet', 'transaction_reference' => 'PAY-'.now()->format('YmdHis').'-'.$payment->id, 'paid_at' => now()]);
+            $payment->update(['status' => 'paid', 'method' => match ($data['method']) { 'bank_transfer' => 'Transfer Bank', 'e_wallet' => 'E-Wallet', 'cash' => 'Cash', 'casual_wallet' => 'CoC Wallet', default => 'Transfer Bank' }, 'transaction_reference' => 'PAY-'.now()->format('YmdHis').'-'.$payment->id, 'paid_at' => now()]);
             $user = $payment->application->worker->user;
             $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->firstOrFail();
             $wallet->increment('balance', $payment->total);

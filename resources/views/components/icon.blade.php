@@ -1,4 +1,4 @@
-@props(['name'])
+﻿@props(['name'])
 @php
     $paths = [
         'search' => '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
@@ -25,3 +25,4 @@
     $content = $paths[$name] ?? '<circle cx="12" cy="12" r="9"/>';
 @endphp
 <svg {{ $attributes->class('svg-icon') }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $content !!}</svg>
+
