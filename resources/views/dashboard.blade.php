@@ -11,7 +11,7 @@
                     </span>
                     <span class="text-xs text-on-surface-variant">&bull; {{ now()->translatedFormat('l, d F Y') }}</span>
                 </div>
-                <h1 class="mt-2 font-display text-3xl font-bold tracking-tight text-secondary sm:text-4xl lg:text-5xl">
+                <h1 class="mt-1.5 font-display text-2xl sm:text-3xl font-bold tracking-tight text-secondary">
                     Selamat Datang, {{ explode(' ', $user->name)[0] }}! 👋
                 </h1>
                 <p class="mt-1 text-xs sm:text-sm text-on-surface-variant">
@@ -48,20 +48,39 @@
                     </button>
                     <div id="export-menu" class="hidden absolute right-0 mt-2 w-56 rounded-2xl bg-white p-2 shadow-2xl border border-black/10 z-40">
                         <p class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-on-surface-variant border-b border-black/5">Pilihan Format CSV / Excel</p>
-                        @if($user->hasAnyRole(['admin', 'company']))
-                            <a href="{{ route('reports.export.jobs') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
-                                <x-icon name="work" class="size-4 text-primary" />
-                                <span>Export Data Lowongan</span>
+                        @if($user->hasRole('worker'))
+                            <a href="{{ route('reports.export.applications') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
+                                <x-icon name="description" class="size-4 text-emerald-600" />
+                                <span>Export Riwayat Lamaran</span>
+                            </a>
+                            <a href="{{ route('reports.export.payments') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
+                                <x-icon name="wallet" class="size-4 text-amber-600" />
+                                <span>Export Riwayat Penghasilan</span>
+                            </a>
+                            <a href="{{ route('reports.export.attendance') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
+                                <x-icon name="calendar" class="size-4 text-blue-600" />
+                                <span>Export Riwayat Presensi</span>
+                            </a>
+                        @else
+                            @if($user->hasAnyRole(['admin', 'company']))
+                                <a href="{{ route('reports.export.jobs') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
+                                    <x-icon name="work" class="size-4 text-primary" />
+                                    <span>Export Data Lowongan</span>
+                                </a>
+                            @endif
+                            <a href="{{ route('reports.export.applications') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
+                                <x-icon name="description" class="size-4 text-emerald-600" />
+                                <span>Export Data Pelamar</span>
+                            </a>
+                            <a href="{{ route('reports.export.payments') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
+                                <x-icon name="wallet" class="size-4 text-amber-600" />
+                                <span>Export Keuangan & Payroll</span>
+                            </a>
+                            <a href="{{ route('reports.export.attendance') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
+                                <x-icon name="calendar" class="size-4 text-blue-600" />
+                                <span>Export Rekap Presensi</span>
                             </a>
                         @endif
-                        <a href="{{ route('reports.export.applications') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
-                            <x-icon name="description" class="size-4 text-emerald-600" />
-                            <span>Export Data Pelamar</span>
-                        </a>
-                        <a href="{{ route('reports.export.payments') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl hover:bg-surface-low text-secondary">
-                            <x-icon name="wallet" class="size-4 text-amber-600" />
-                            <span>Export Keuangan & Payroll</span>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -130,9 +149,12 @@
 
                             <div class="flex items-center gap-2 self-end sm:self-center">
                                 @if($application->cv_path || $application->worker->cv_path)
+                                    <a href="{{ route('applications.cv.view', $application) }}" target="_blank" class="btn-ghost compact !py-1.5 !text-xs !bg-blue-50 !text-blue-700 font-bold hover:!bg-blue-100" title="Buka & Baca CV di Tab Baru">
+                                        <x-icon name="visibility" class="size-3.5" />
+                                        <span>Lihat CV</span>
+                                    </a>
                                     <a href="{{ route('applications.cv.download', $application) }}" class="btn-ghost compact !py-1.5 !text-xs !bg-primary-soft !text-primary" title="Unduh CV">
                                         <x-icon name="description" class="size-3.5" />
-                                        <span>CV</span>
                                     </a>
                                 @endif
                                 <a href="{{ route('applications.index') }}" class="btn-primary compact !py-1.5 !text-xs">

@@ -71,12 +71,12 @@ class JobCatalogSeeder extends Seeder
             [$title, $companyName, $categoryName, $location, $rate, $vacancies] = $item;
             $start = now()->addDays(14 + $index);
             $job = Job::withTrashed()->updateOrCreate(
-                ['slug' => Str::slug($title).'-casualhub'],
+                ['slug' => Str::slug($title).'-coc'],
                 [
                     'company_id' => $companies[$companyName]->id,
                     'job_category_id' => $categories[$categoryName]->id,
                     'title' => $title,
-                    'description' => "Bergabung sebagai {$title} dalam tim profesional yang suportif. Pekerjaan memiliki jadwal yang jelas, briefing sebelum shift, serta pembayaran transparan melalui CasualHub.",
+                    'description' => "Bergabung sebagai {$title} dalam tim profesional yang suportif. Pekerjaan memiliki jadwal yang jelas, briefing sebelum shift, serta pembayaran transparan melalui CoC (Casual on Call).",
                     'location' => $location,
                     'starts_at' => $start,
                     'ends_at' => $start->copy()->addDays(2),

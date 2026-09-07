@@ -99,11 +99,32 @@
 
             @auth
                 @if(auth()->user()->hasRole('worker'))
-                    <a href="{{ route('applications.create', $job) }}" class="btn-primary mt-6 w-full justify-center">
-                        <x-icon name="send" class="size-4" />
-                        <span>Lamar Sekarang</span>
-                    </a>
-                    <p class="mt-2 text-center text-xs text-on-surface-variant">Formulir pendaftaran singkat & gratis.</p>
+                    @php
+                        $existingApp = auth()->user()->worker?->applications()->where('job_id', $job->id)->first();
+                    @endphp
+                    @if($existingApp)
+                        <div class="mt-6 rounded-2xl bg-primary-soft/60 border border-primary/20 p-4 text-center">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary text-white">
+                                <x-icon name="check_circle" class="size-3.5" />
+                                <span>Sudah Dilamar</span>
+                            </span>
+                            <p class="mt-2 text-xs text-secondary font-semibold">
+                                Status Lamaran: <span class="uppercase text-primary font-bold">{{ $existingApp->status }}</span>
+                            </p>
+                            <p class="text-[11px] text-on-surface-variant mt-0.5">
+                                Dikirim pada {{ $existingApp->created_at->format('d M Y, H:i') }}
+                            </p>
+                            <a href="{{ route('applications.index') }}" class="btn-ghost compact mt-3 w-full justify-center text-xs !bg-white border border-black/10 font-bold text-primary hover:bg-surface-low">
+                                <span>Lihat Status Lamaran Saya &rarr;</span>
+                            </a>
+                        </div>
+                    @else
+                        <a href="{{ route('applications.create', $job) }}" class="btn-primary mt-6 w-full justify-center">
+                            <x-icon name="send" class="size-4" />
+                            <span>Lamar Sekarang</span>
+                        </a>
+                        <p class="mt-2 text-center text-xs text-on-surface-variant">Formulir pendaftaran singkat & gratis.</p>
+                    @endif
                 @elseif(auth()->user()->hasRole('company') && auth()->user()->company?->id === $job->company_id)
                     <a href="{{ route('applications.index') }}" class="btn-primary mt-6 w-full justify-center">
                         <span>Lihat Daftar Pelamar</span>

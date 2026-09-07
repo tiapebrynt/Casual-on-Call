@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function (): void {
     Route::delete('/manage/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
     Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
     Route::get('/applications/{application}/cv', [ApplicationController::class, 'downloadCv'])->name('applications.cv.download');
+    Route::get('/applications/{application}/cv/view', [ApplicationController::class, 'viewCv'])->name('applications.cv.view');
     Route::get('/applications/{application}/sent', [ApplicationController::class, 'sent'])->name('applications.sent');
     Route::get('/jobs/{job:slug}/apply', [ApplicationController::class, 'create'])->name('applications.create');
     Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store'])->name('applications.store');
@@ -52,6 +53,9 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/payments/{payment}', [MarketplacePageController::class, 'payment'])->name('payments.show');
     Route::post('/payments/{payment}/pay', [WorkflowController::class, 'pay'])->name('payments.pay');
     Route::post('/wallet/withdraw', [WorkflowController::class, 'withdraw'])->name('wallet.withdraw');
+    Route::post('/wallet/topup', [WorkflowController::class, 'topupWallet'])->name('wallet.topup');
+
+
     Route::post('/notifications/read-all', [WorkflowController::class, 'readAllNotifications'])->name('notifications.read-all');
     Route::put('/settings/account', [WorkflowController::class, 'updateAccount'])->name('settings.account');
     Route::put('/settings/password', [WorkflowController::class, 'updatePassword'])->name('settings.password');
@@ -62,6 +66,7 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/export/jobs', [ReportController::class, 'exportJobs'])->name('export.jobs');
         Route::get('/export/applications', [ReportController::class, 'exportApplications'])->name('export.applications');
         Route::get('/export/payments', [ReportController::class, 'exportPayments'])->name('export.payments');
+        Route::get('/export/attendance', [ReportController::class, 'exportAttendance'])->name('export.attendance');
     });
 
 

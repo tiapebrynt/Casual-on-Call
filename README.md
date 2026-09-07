@@ -1,11 +1,68 @@
-Akun demo project ini:
-- Worker: worker@casualhub.id
-- Company: company@casualhub.id
-- Admin: admin@casualhub.id
-Password semuanya:
-Password123!
+# CoC (Casual on Call) &mdash; Marketplace Tenaga Kerja Harian (Casual Worker)
+
+### Akun Demo Project:
+- Worker: `worker@casualhub.id`
+- Company: `company@casualhub.id`
+- Admin: `admin@casualhub.id`
+- Password semua akun: `Password123!`
+Platform marketplace penghubung pekerja harian (*casual worker*) dengan perusahaan/bisnis (Hospitality, Event Organizer, Retail, Logistik). Dilengkapi dengan sistem absensi, sistem dompet/rekening penampung (Escrow), review & rating dua arah, serta laporan otomatis.
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+---
+
+### 🔑 Akun Demo Siap Pakai:
+- **Pekerja (Worker)**: `worker@casualhub.id`
+- **Perusahaan (Company)**: `company@casualhub.id`
+- **Administrator (Admin)**: `admin@casualhub.id`
+- **Password untuk semua akun**: `Password123!`
+
+---
+
+## ⚙️ Panduan Setup untuk Kolaborator (Clone / Pull dari GitHub)
+
+Bagi teman atau kolaborator yang baru saja melakukan `git clone` atau `git pull`, lakukan langkah-langkah berikut di terminal:
+
+```bash
+# 1. Install dependensi backend (PHP/Laravel)
+composer install
+
+# 2. Install dependensi frontend (Tailwind/Vite)
+npm install
+
+# 3. Salin environment file (jika clone baru)
+cp .env.example .env
+
+# 4. Generate App Encryption Key
+php artisan key:generate
+
+# 5. Hubungkan storage lokal (untuk upload & download CV)
+php artisan storage:link
+
+# 6. Setup Database & Jalankan Seeder
+# Pastikan konfigurasi database di .env sudah sesuai (bisa SQLite atau MySQL)
+php artisan migrate:fresh --seed
+
+# 7. Compile asset frontend
+npm run build
+
+# 8. Jalankan local server
+php artisan serve
+```
+
+---
+
+## 💳 Penjelasan Sistem Pembayaran & Dana Mengendap (Escrow)
+
+1. **Apakah menggunakan API Payment Gateway?**
+   - Saat ini sistem menggunakan **Native Ledger / Simulated Gateway** berarsitektur modular yang mendukung metode: **BCA VA, Mandiri VA, BRI VA, BNI VA, dan QRIS**.
+   - Sistem ini siap dihubungkan langsung ke vendor API pihak ketiga (seperti **Midtrans** atau **Xendit**) saat akun merchant / API Key sudah tersedia.
+
+2. **Bagaimana Konsep "Dana Mengendap" (Escrow)?**
+   - **Saat Invoice Dibuat**: Pekerjaan yang diselesaikan akan menghasilkan invoice, dan upah worker sementara tercatat sebagai `pending_balance` (saldo tertunda).
+   - **Pengendapan Dana**: Uang "mengendap" di sistem CoC sebagai jaminan keamanan dua arah (perusahaan terlindungi dari pekerja yang tidak hadir/absen, dan pekerja terjamin hak upahnya pasti cair).
+   - **Rilis Dana**: Begitu perusahaan melakukan verifikasi dan menekan tombol konfirmasi bayar, dana dari `pending_balance` langsung dikonversi menjadi `balance` aktif di dompet worker.
+   - **Pencairan (Withdraw)**: Worker dapat mencairkan saldo aktifnya kapan saja ke rekening bank tujuan.
+
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>

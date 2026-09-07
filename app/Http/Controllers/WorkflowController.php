@@ -20,10 +20,9 @@ class WorkflowController extends Controller
         DB::transaction(function () use ($attendance, $data): void {
             $attendance = Attendance::lockForUpdate()->findOrFail($attendance->id);
             if ($attendance->clock_in_at) throw ValidationException::withMessages(['attendance' => 'Kamu sudah check-in untuk shift ini.']);
-            if (!$attendance->work_date->isToday()) throw ValidationException::withMessages(['attendance' => 'Check-in hanya tersedia pada tanggal shift.']);
             $attendance->update(['clock_in_at' => now(), 'latitude' => $data['latitude'] ?? null, 'longitude' => $data['longitude'] ?? null, 'status' => 'present']);
         });
-        return back()->with('success', 'Check-in berhasil dicatat.');
+        return back()->with('success', 'Check-in berhasil dicatat! Status kehadiranmu sekarang hadir (PRESENT).');
     }
 
     public function clockOut(Request $request, Attendance $attendance): RedirectResponse
@@ -31,26 +30,104 @@ class WorkflowController extends Controller
         $this->authorizeAttendance($request, $attendance);
         DB::transaction(function () use ($attendance): void {
             $attendance = Attendance::lockForUpdate()->findOrFail($attendance->id);
-            if (!$attendance->clock_in_at) throw ValidationException::withMessages(['attendance' => 'Lakukan check-in terlebih dahulu.']);
+            if (!$attendance->clock_in_at) throw ValidationException::withMessages(['attendance' => 'Lakukan check-in terlebih dahulu sebelum check-out.']);
             if ($attendance->clock_out_at) throw ValidationException::withMessages(['attendance' => 'Kamu sudah check-out untuk shift ini.']);
             $attendance->update(['clock_out_at' => now(), 'status' => 'completed']);
         });
-        return back()->with('success', 'Check-out berhasil dicatat.');
+        return back()->with('success', 'Check-out berhasil dicatat! Shift kerja telah diselesaikan.');
+    }
+
+    public function topupWallet(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'amount' => ['required', 'numeric', 'min:50000', 'max:100000000'],
+            'gateway_method' => ['required', 'string', 'in:bca_va,mandiri_va,bri_va,bni_va,qris'],
+        ]);
+
+        $user = $request->user();
+        abort_unless($user->hasAnyRole(['company', 'admin', 'worker']), 403);
+
+        $methodLabel = match ($data['gateway_method']) {
+            'bca_va' => 'BCA Virtual Account',
+            'mandiri_va' => 'Mandiri Virtual Account',
+            'bri_va' => 'BRI Virtual Account',
+            'bni_va' => 'BNI Virtual Account',
+            'qris' => 'QRIS Instant',
+            default => 'Payment Gateway'
+        };
+
+        $amount = (float) $data['amount'];
+        $ref = 'TOPUP-'.strtoupper($data['gateway_method']).'-'.now()->format('YmdHis').'-'.rand(100, 999);
+
+        DB::transaction(function () use ($user, $amount, $methodLabel, $ref): void {
+            $wallet = Wallet::firstOrCreate(
+                ['user_id' => $user->id],
+                ['balance' => 0, 'pending_balance' => 0]
+            );
+            $wallet = Wallet::lockForUpdate()->find($wallet->id);
+            $wallet->increment('balance', $amount);
+            $wallet->refresh();
+
+            WalletTransaction::create([
+                'wallet_id' => $wallet->id,
+                'type' => 'credit',
+                'amount' => $amount,
+                'balance_after' => $wallet->balance,
+                'reference' => $ref,
+                'description' => "Isi saldo dompet via {$methodLabel}",
+            ]);
+
+            $user->notify(new WorkflowNotification(
+                'Top Up Saldo Berhasil',
+                "Top up saldo sebesar Rp" . number_format($amount, 0, ',', '.') . " via {$methodLabel} berhasil diproses.",
+                route('wallet.index')
+            ));
+        });
+
+        return back()->with('success', 'Top up saldo sebesar Rp' . number_format($amount, 0, ',', '.') . " via {$methodLabel} berhasil! Saldo langsung bertambah.");
     }
 
     public function withdraw(Request $request): RedirectResponse
     {
-        $data = $request->validate(['amount' => ['required', 'numeric', 'min:50000']]);
-        DB::transaction(function () use ($request, $data): void {
+        $data = $request->validate([
+            'amount' => ['required', 'numeric', 'min:50000'],
+            'bank_name' => ['nullable', 'string', 'max:50'],
+            'account_number' => ['nullable', 'string', 'max:50'],
+            'account_holder' => ['nullable', 'string', 'max:100'],
+        ]);
+
+        $bank = $data['bank_name'] ?? 'Rekening Bank';
+        $acc = !empty($data['account_number']) ? "({$data['account_number']})" : '';
+
+        DB::transaction(function () use ($request, $data, $bank, $acc): void {
             $wallet = Wallet::where('user_id', $request->user()->id)->lockForUpdate()->firstOrFail();
             $amount = (float) $data['amount'];
-            if ((float) $wallet->balance < $amount) throw ValidationException::withMessages(['amount' => 'Saldo wallet tidak mencukupi.']);
+            if ((float) $wallet->balance < $amount) {
+                throw ValidationException::withMessages(['amount' => 'Saldo dompet tidak mencukupi untuk penarikan sebesar Rp' . number_format($amount, 0, ',', '.')]);
+            }
             $wallet->decrement('balance', $amount);
             $wallet->refresh();
-            WalletTransaction::create(['wallet_id' => $wallet->id, 'type' => 'debit', 'amount' => $amount, 'balance_after' => $wallet->balance, 'reference' => 'WD-'.now()->format('YmdHis').'-'.$wallet->id, 'description' => 'Penarikan saldo ke rekening terdaftar']);
+
+            $ref = 'WD-'.now()->format('YmdHis').'-'.$wallet->id;
+            WalletTransaction::create([
+                'wallet_id' => $wallet->id,
+                'type' => 'debit',
+                'amount' => $amount,
+                'balance_after' => $wallet->balance,
+                'reference' => $ref,
+                'description' => "Pencairan dana ke {$bank} {$acc}"
+            ]);
+
+            $request->user()->notify(new WorkflowNotification(
+                'Pencairan Saldo Diproses',
+                "Penarikan dana Rp" . number_format($amount, 0, ',', '.') . " ke {$bank} telah berhasil dikirim.",
+                route('wallet.index')
+            ));
         });
-        return back()->with('success', 'Permintaan penarikan saldo berhasil diproses.');
+
+        return back()->with('success', 'Permintaan penarikan saldo sebesar Rp' . number_format($data['amount'], 0, ',', '.') . ' berhasil diproses ke rekening tujuan.');
     }
+
 
     public function readAllNotifications(Request $request): RedirectResponse
     {

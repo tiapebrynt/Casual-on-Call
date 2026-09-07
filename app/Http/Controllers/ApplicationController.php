@@ -112,13 +112,31 @@ class ApplicationController extends Controller
     public function downloadCv(Request $request, Application $application): StreamedResponse
     {
         $application->loadMissing(['job', 'worker.user']);
-        $user = $request->user();
-        $allowed = $user->hasRole('admin') || ($user->hasRole('company') && $application->job->company_id === $user->company->id) || ($user->hasRole('worker') && $application->worker_id === $user->worker->id);
+        $user = $request->user() ?? auth()->user();
+        abort_unless($user, 401);
+        $allowed = $user->hasRole('admin') || ($user->hasRole('company') && $user->company && $application->job->company_id === $user->company->id) || ($user->hasRole('worker') && $user->worker && $application->worker_id === $user->worker->id);
         abort_unless($allowed, 403);
         $path = $application->cv_path ?: $application->worker->cv_path;
         abort_unless($path && Storage::disk('local')->exists($path), 404);
         $filename = 'CV-'.str($application->worker->user->name)->slug().'-'.str($application->job->title)->slug().'.'.pathinfo($path, PATHINFO_EXTENSION);
         return Storage::disk('local')->download($path, $filename);
+    }
+
+    public function viewCv(Request $request, Application $application): StreamedResponse
+    {
+        $application->loadMissing(['job', 'worker.user']);
+        $user = $request->user() ?? auth()->user();
+        abort_unless($user, 401);
+        $allowed = $user->hasRole('admin') || ($user->hasRole('company') && $user->company && $application->job->company_id === $user->company->id) || ($user->hasRole('worker') && $user->worker && $application->worker_id === $user->worker->id);
+        abort_unless($allowed, 403);
+        $path = $application->cv_path ?: $application->worker->cv_path;
+        abort_unless($path && Storage::disk('local')->exists($path), 404);
+        $filename = 'CV-'.str($application->worker->user->name)->slug().'-'.str($application->job->title)->slug().'.'.pathinfo($path, PATHINFO_EXTENSION);
+        $mime = Storage::disk('local')->mimeType($path) ?: 'application/pdf';
+        return Storage::disk('local')->response($path, $filename, [
+            'Content-Type' => $mime,
+            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+        ]);
     }
 
 

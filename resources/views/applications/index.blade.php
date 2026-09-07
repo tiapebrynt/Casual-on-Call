@@ -15,9 +15,9 @@
             </p>
         </div>
         <div class="flex items-center gap-2.5">
-            <a href="{{ route('reports.export.applications') }}" class="btn-ghost !bg-white !border !border-black/10 shadow-sm" title="Download data pelamar ke CSV / Excel">
+            <a href="{{ route('reports.export.applications') }}" class="btn-ghost !bg-white !border !border-black/10 shadow-sm" title="Download data riwayat ke CSV / Excel">
                 <x-icon name="description" class="size-4 text-emerald-600" />
-                <span>Export Pelamar (CSV)</span>
+                <span>{{ auth()->user()->hasRole('worker') ? 'Export Lamaran Saya (CSV)' : 'Export Pelamar Masuk (CSV)' }}</span>
             </a>
             @if(auth()->user()->hasRole('worker'))
                 <a href="{{ route('jobs.index') }}" class="btn-primary">
@@ -119,6 +119,10 @@
                                 <span>Profil Pelamar</span>
                             </button>
                             @if($application->cv_path || $application->worker->cv_path)
+                                <a class="btn-ghost compact !text-xs !bg-blue-50 !text-blue-700 font-bold hover:!bg-blue-100" href="{{ route('applications.cv.view', $application) }}" target="_blank" title="Buka dan baca CV di tab baru">
+                                    <x-icon name="visibility" class="size-3.5" />
+                                    <span>Lihat CV</span>
+                                </a>
                                 <a class="btn-ghost compact !text-xs !bg-primary-soft !text-primary font-bold hover:!bg-primary/20" href="{{ route('applications.cv.download', $application) }}" title="Unduh CV khusus lamaran ini">
                                     <x-icon name="description" class="size-3.5" />
                                     <span>Unduh CV</span>
@@ -268,14 +272,60 @@
                             </div>
                         @endif
 
-                        <div class="flex items-center gap-3 pt-3 border-t border-black/10">
-                            @if($application->cv_path || $application->worker->cv_path)
-                                <a href="{{ route('applications.cv.download', $application) }}" class="btn-primary compact flex-1 text-center font-bold">
-                                    <x-icon name="description" class="size-4" />
-                                    <span>Unduh CV Pelamar</span>
+                        <!-- DOKUMEN CV PELAMAR -->
+                        <div class="rounded-2xl border border-primary/20 bg-primary-soft/30 p-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="grid size-10 place-items-center rounded-xl bg-primary text-white">
+                                        <x-icon name="description" class="size-5" />
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-bold text-secondary block">Dokumen Curriculum Vitae (CV)</span>
+                                        <span class="text-[11px] text-on-surface-variant">Format PDF resmi pelamar</span>
+                                    </div>
+                                </div>
+                                <span class="badge !bg-emerald-50 !text-emerald-700 font-bold !text-[10px]">Tersedia</span>
+                            </div>
+
+                            <div class="mt-3 flex items-center gap-2">
+                                <a href="{{ route('applications.cv.view', $application) }}" target="_blank" class="btn-primary compact !py-1.5 !px-3 !text-xs flex-1 justify-center">
+                                    <x-icon name="visibility" class="size-3.5" />
+                                    <span>Buka & Baca CV</span>
                                 </a>
-                            @endif
-                            <button type="button" onclick="document.getElementById('applicant-modal-{{ $application->id }}').close()" class="btn-ghost compact">Tutup</button>
+                                <a href="{{ route('applications.cv.download', $application) }}" class="btn-ghost compact !py-1.5 !px-3 !text-xs border border-black/10 !bg-white">
+                                    <x-icon name="description" class="size-3.5" />
+                                    <span>Unduh</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- MODAL FOOTER & DIRECT DECISION (TERIMA / TOLAK) -->
+                        <div class="pt-4 border-t border-black/10 flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                @if($application->status === 'pending')
+                                    <form method="POST" action="{{ route('applications.update', $application) }}" class="inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="accepted">
+                                        <button class="btn-primary compact !text-xs !bg-[#007d7d] hover:!bg-[#006262]" type="submit">
+                                            <x-icon name="check" class="size-3.5" />
+                                            <span>Terima Pelamar Ini</span>
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="{{ route('applications.update', $application) }}" class="inline" onsubmit="return confirm('Tolak lamaran kandidat ini?')">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="rejected">
+                                        <button class="btn-ghost compact !text-xs !text-rose-600 hover:!bg-rose-50 border border-rose-200" type="submit">
+                                            <x-icon name="close" class="size-3.5" />
+                                            <span>Tolak</span>
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                            <button type="button" onclick="document.getElementById('applicant-modal-{{ $application->id }}').close()" class="btn-ghost compact !text-xs">
+                                Tutup
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -27,9 +27,32 @@
                 <span>&larr; Kembali</span>
             </a>
         </div>
-    </div>
+
+
+    @if($errors->any())
+        <div class="mt-6 rounded-2xl bg-rose-50 border border-rose-200 p-4 text-rose-800 space-y-2">
+            <div class="flex items-center gap-2 font-bold text-xs sm:text-sm">
+                <x-icon name="close" class="size-4 text-rose-600 shrink-0" />
+                <span>Kendala Pembayaran:</span>
+            </div>
+            <ul class="list-disc list-inside text-xs pl-6">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            @if(auth()->user()->hasRole('company'))
+                <div class="pt-2">
+                    <a href="{{ route('wallet.index') }}" class="btn-primary compact !text-xs inline-flex">
+                        <x-icon name="wallet" class="size-3.5" />
+                        <span>Isi Saldo / Top Up CoC Wallet Sekarang &rarr;</span>
+                    </a>
+                </div>
+            @endif
+        </div>
+    @endif
 
     <div class="mt-8 grid gap-8 lg:grid-cols-[1fr_380px]">
+
         <!-- MAIN INVOICE CARD -->
         <div class="card !p-6 sm:!p-8 bg-white border border-black/5 shadow-sm print:border-none print:shadow-none">
             <!-- Header Invoice Printable -->
@@ -140,10 +163,14 @@
                     <form method="POST" action="{{ route('payments.pay', $payment) }}" class="mt-5 space-y-3" id="payment-form">
                         @csrf
 
+                        @php
+                            $hasEnoughWallet = ($companyWallet?->balance ?? 0) >= $payment->total;
+                        @endphp
+
                         <!-- CoC Wallet Option -->
-                        <label class="block cursor-pointer rounded-2xl border border-black/10 p-3.5 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary-soft/30">
+                        <label class="block cursor-pointer rounded-2xl border border-black/10 p-3.5 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary-soft/30 {{ !$hasEnoughWallet ? 'opacity-85 bg-surface-low' : '' }}">
                             <div class="flex items-start gap-3">
-                                <input type="radio" name="method" value="casual_wallet" class="mt-1 text-primary focus:ring-primary" checked>
+                                <input type="radio" name="method" value="casual_wallet" class="mt-1 text-primary focus:ring-primary" {{ $hasEnoughWallet ? 'checked' : '' }}>
                                 <div class="flex-1 text-xs">
                                     <div class="flex items-center justify-between">
                                         <b class="text-secondary text-sm">CoC Wallet Perusahaan</b>
@@ -152,6 +179,12 @@
                                     <p class="mt-1 text-on-surface-variant">
                                         Saldo Anda: <strong class="text-secondary">Rp{{ number_format($companyWallet?->balance ?? 0, 0, ',', '.') }}</strong>
                                     </p>
+                                    @if(!$hasEnoughWallet)
+                                        <div class="mt-2 flex items-center justify-between text-[11px] text-rose-600 font-medium">
+                                            <span>Saldo kurang Rp{{ number_format($payment->total - ($companyWallet?->balance ?? 0), 0, ',', '.') }}</span>
+                                            <a href="{{ route('wallet.index') }}" class="font-bold underline text-primary">Isi Saldo &rarr;</a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </label>
@@ -159,19 +192,21 @@
                         <!-- Bank Transfer (VA) Option -->
                         <label class="block cursor-pointer rounded-2xl border border-black/10 p-3.5 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary-soft/30">
                             <div class="flex items-start gap-3">
-                                <input type="radio" name="method" value="bank_transfer" class="mt-1 text-primary focus:ring-primary">
+                                <input type="radio" name="method" value="bank_transfer" class="mt-1 text-primary focus:ring-primary" {{ !$hasEnoughWallet ? 'checked' : '' }}>
                                 <div class="flex-1 text-xs">
                                     <div class="flex items-center justify-between">
                                         <b class="text-secondary text-sm">Transfer Virtual Account</b>
-                                        <span class="text-[10px] text-on-surface-variant">BCA / Mandiri / BRI</span>
+                                        <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">BCA / Mandiri / BRI</span>
                                     </div>
                                     <div class="mt-1.5 rounded-lg bg-surface-low p-2 font-mono text-[11px] text-secondary flex items-center justify-between">
                                         <span>VA: 8809 1234 {{ str_pad($payment->id, 4, '0', STR_PAD_LEFT) }}</span>
                                         <button type="button" onclick="navigator.clipboard.writeText('88091234{{ str_pad($payment->id, 4, '0', STR_PAD_LEFT) }}'); alert('Nomor Virtual Account disalin!');" class="text-primary font-bold text-[10px] underline">Salin</button>
                                     </div>
+                                    <p class="mt-1 text-[11px] text-on-surface-variant">Simulasi pelunasan instan: klik tombol di bawah untuk menyelesaikan pembayaran.</p>
                                 </div>
                             </div>
                         </label>
+
 
                         <!-- E-Wallet / QRIS Option -->
                         <label class="block cursor-pointer rounded-2xl border border-black/10 p-3.5 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary-soft/30">
