@@ -228,5 +228,113 @@ class MarketplaceFeatureTest extends TestCase
         $this->assertEquals('expired', $job->status);
         $this->assertEquals('daily', $job->payment_type);
     }
+
+    public function test_worker_can_apply_job_with_custom_cv_file(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('local');
+
+        $companyUser = User::factory()->create();
+        $companyUser->assignRole('company');
+        $company = $companyUser->company()->create([
+            'name' => 'PT Resto Indonesia',
+            'slug' => 'pt-resto-indonesia',
+            'city' => 'Jakarta',
+            'verification_status' => 'verified',
+        ]);
+
+        $category = JobCategory::create([
+            'name' => 'Hospitality',
+            'slug' => 'hospitality-cv',
+        ]);
+
+        $job = Job::create([
+            'company_id' => $company->id,
+            'job_category_id' => $category->id,
+            'title' => 'Head Barista Shift',
+            'slug' => 'head-barista-shift',
+            'description' => 'Membutuhkan head barista berpengalaman untuk shift.',
+            'location' => 'Jakarta',
+            'starts_at' => now()->addDays(2),
+            'ends_at' => now()->addDays(5),
+            'daily_rate' => 300000,
+            'payment_type' => 'daily',
+            'vacancies' => 2,
+            'status' => 'published',
+            'application_deadline' => now()->addDay(),
+        ]);
+
+        $workerUser = User::factory()->create();
+        $workerUser->assignRole('worker');
+        $worker = $workerUser->worker()->create([
+            'city' => 'Jakarta',
+            'verification_status' => 'verified',
+        ]);
+
+        $cvFile = \Illuminate\Http\UploadedFile::fake()->create('custom-cv-barista.pdf', 500, 'application/pdf');
+
+        $response = $this->actingAs($workerUser)->post(route('applications.store', $job), [
+            'cover_letter' => 'Saya melampirkan CV khusus pengalaman barista saya.',
+            'cv' => $cvFile,
+        ]);
+
+        $response->assertRedirect();
+        $application = Application::where('job_id', $job->id)->where('worker_id', $worker->id)->first();
+        $this->assertNotNull($application);
+        $this->assertNotNull($application->cv_path);
+        \Illuminate\Support\Facades\Storage::disk('local')->assertExists($application->cv_path);
+    }
+
+    public function test_users_can_export_reports_as_csv(): void
+    {
+        $companyUser = User::factory()->create();
+        $companyUser->assignRole('company');
+        $companyUser->company()->create([
+            'name' => 'PT Export Test',
+            'slug' => 'pt-export-test',
+            'city' => 'Jakarta',
+            'verification_status' => 'verified',
+        ]);
+
+        // Export jobs
+        $jobExport = $this->actingAs($companyUser)->get(route('reports.export.jobs'));
+        $jobExport->assertOk();
+        $this->assertStringContainsString('text/csv', $jobExport->headers->get('Content-Type'));
+
+        // Export applications
+        $appExport = $this->actingAs($companyUser)->get(route('reports.export.applications'));
+        $appExport->assertOk();
+        $this->assertStringContainsString('text/csv', $appExport->headers->get('Content-Type'));
+    }
+
+    public function test_dashboard_renders_for_company_and_worker(): void
+    {
+        $companyUser = User::factory()->create();
+        $companyUser->assignRole('company');
+        $companyUser->company()->create([
+            'name' => 'PT Dashboard Test',
+            'slug' => 'pt-dashboard-test',
+            'city' => 'Jakarta',
+            'verification_status' => 'verified',
+        ]);
+        $companyUser->wallet()->create(['balance' => 5000000]);
+
+        $response = $this->actingAs($companyUser)->get(route('dashboard'));
+        $response->assertOk();
+        $response->assertSee('COMPANY PORTAL');
+        $response->assertSee('Export Laporan');
+
+        $workerUser = User::factory()->create();
+        $workerUser->assignRole('worker');
+        $workerUser->worker()->create([
+            'city' => 'Jakarta',
+            'verification_status' => 'verified',
+        ]);
+        $workerUser->wallet()->create(['balance' => 1000000]);
+
+        $responseWorker = $this->actingAs($workerUser)->get(route('dashboard'));
+        $responseWorker->assertOk();
+        $responseWorker->assertSee('WORKER PORTAL');
+    }
 }
+
 

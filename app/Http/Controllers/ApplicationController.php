@@ -67,9 +67,24 @@ class ApplicationController extends Controller
 
     public function store(Request $request, Job $job): RedirectResponse
     {
-        $request->validate(['cover_letter' => ['nullable', 'string', 'max:3000']]);
+        $request->validate([
+            'cover_letter' => ['nullable', 'string', 'max:3000'],
+            'cv' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
+        ]);
         abort_unless($request->user()->hasRole('worker'), 403);
-        $application = $this->service->apply($job, $request->user()->worker, $request->input('cover_letter'));
+        $worker = $request->user()->worker;
+        
+        $cvPath = null;
+        if ($request->hasFile('cv')) {
+            $cvPath = $request->file('cv')->store('cvs', 'local');
+            if (!$worker->cv_path) {
+                $worker->update(['cv_path' => $cvPath]);
+            }
+        } else {
+            $cvPath = $worker->cv_path;
+        }
+
+        $application = $this->service->apply($job, $worker, $request->input('cover_letter'), $cvPath);
         return redirect()->route('applications.sent', $application);
     }
 
@@ -83,7 +98,8 @@ class ApplicationController extends Controller
             ->where('worker_id', $request->user()->worker->id)
             ->exists();
 
-        return view('applications.create', compact('job', 'alreadyApplied'));
+        $worker = $request->user()->worker;
+        return view('applications.create', compact('job', 'alreadyApplied', 'worker'));
     }
 
     public function sent(Request $request, Application $application): View
@@ -99,10 +115,12 @@ class ApplicationController extends Controller
         $user = $request->user();
         $allowed = $user->hasRole('admin') || ($user->hasRole('company') && $application->job->company_id === $user->company->id) || ($user->hasRole('worker') && $application->worker_id === $user->worker->id);
         abort_unless($allowed, 403);
-        $path = $application->worker->cv_path;
+        $path = $application->cv_path ?: $application->worker->cv_path;
         abort_unless($path && Storage::disk('local')->exists($path), 404);
-        return Storage::disk('local')->download($path, 'CV-'.$application->worker->user->name.'.'.pathinfo($path, PATHINFO_EXTENSION));
+        $filename = 'CV-'.str($application->worker->user->name)->slug().'-'.str($application->job->title)->slug().'.'.pathinfo($path, PATHINFO_EXTENSION);
+        return Storage::disk('local')->download($path, $filename);
     }
+
 
     public function update(Request $request, Application $application): RedirectResponse
     {

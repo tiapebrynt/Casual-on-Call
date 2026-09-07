@@ -154,9 +154,10 @@
 
                 <!-- REVIEW MODAL FOR WORKER -->
                 @if($application->status === 'completed')
-                <dialog id="review-modal-{{ $application->id }}" class="rounded-3xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-sm w-full max-w-lg shadow-2xl">
-                    <div class="bg-white p-6 sm:p-8">
+                <dialog id="review-modal-{{ $application->id }}" class="fixed inset-0 m-auto rounded-3xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-sm w-[92vw] max-w-lg shadow-2xl border-0 overflow-hidden">
+                    <div class="bg-white p-6 sm:p-8 max-h-[85vh] overflow-y-auto">
                         <div class="flex items-center justify-between border-b border-black/10 pb-4">
+
                             <div>
                                 <span class="badge">REVIEW PERUSAHAAN</span>
                                 <h3 class="mt-1 font-display text-xl font-bold">{{ $application->job->company->name }}</h3>

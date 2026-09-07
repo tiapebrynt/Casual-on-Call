@@ -5,9 +5,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\MarketplacePageController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WorkerProfileController;
 use App\Http\Controllers\WorkflowController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::view('/', 'welcome')->name('home');
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
@@ -55,6 +57,13 @@ Route::middleware('auth')->group(function (): void {
     Route::put('/settings/password', [WorkflowController::class, 'updatePassword'])->name('settings.password');
     Route::post('/applications/{application}/conversation', [WorkflowController::class, 'startConversation'])->name('conversations.start');
     Route::post('/messages/{conversation}', [WorkflowController::class, 'sendMessage'])->name('messages.store');
+
+    Route::prefix('reports')->name('reports.')->group(function (): void {
+        Route::get('/export/jobs', [ReportController::class, 'exportJobs'])->name('export.jobs');
+        Route::get('/export/applications', [ReportController::class, 'exportApplications'])->name('export.applications');
+        Route::get('/export/payments', [ReportController::class, 'exportPayments'])->name('export.payments');
+    });
+
 
     Route::middleware('role:worker')->group(function (): void {
         Route::get('/my-jobs', [ApplicationController::class, 'myJobs'])->name('jobs.my');

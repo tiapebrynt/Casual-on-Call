@@ -14,18 +14,25 @@
                     : 'Kelola dan seleksi kandidat pelamar yang mendaftar pada lowongan perusahaan.' }}
             </p>
         </div>
-        @if(auth()->user()->hasRole('worker'))
-            <a href="{{ route('jobs.index') }}" class="btn-primary">
-                <x-icon name="search" class="size-4" />
-                <span>Cari Lowongan Baru</span>
+        <div class="flex items-center gap-2.5">
+            <a href="{{ route('reports.export.applications') }}" class="btn-ghost !bg-white !border !border-black/10 shadow-sm" title="Download data pelamar ke CSV / Excel">
+                <x-icon name="description" class="size-4 text-emerald-600" />
+                <span>Export Pelamar (CSV)</span>
             </a>
-        @else
-            <a href="{{ route('jobs.manage') }}" class="btn-primary">
-                <x-icon name="plus" class="size-4" />
-                <span>Kelola Lowongan</span>
-            </a>
-        @endif
+            @if(auth()->user()->hasRole('worker'))
+                <a href="{{ route('jobs.index') }}" class="btn-primary">
+                    <x-icon name="search" class="size-4" />
+                    <span>Cari Lowongan Baru</span>
+                </a>
+            @else
+                <a href="{{ route('jobs.manage') }}" class="btn-primary">
+                    <x-icon name="plus" class="size-4" />
+                    <span>Kelola Lowongan</span>
+                </a>
+            @endif
+        </div>
     </div>
+
 
     <!-- STATUS FILTER PILLS -->
     <div class="mt-8 flex gap-2.5 overflow-x-auto border-b border-black/5 pb-4 scrollbar-none">
@@ -111,13 +118,14 @@
                                 <x-icon name="person" class="size-3.5" />
                                 <span>Profil Pelamar</span>
                             </button>
-                            @if($application->worker->cv_path)
-                                <a class="btn-ghost compact !text-xs" href="{{ route('applications.cv.download', $application) }}">
+                            @if($application->cv_path || $application->worker->cv_path)
+                                <a class="btn-ghost compact !text-xs !bg-primary-soft !text-primary font-bold hover:!bg-primary/20" href="{{ route('applications.cv.download', $application) }}" title="Unduh CV khusus lamaran ini">
                                     <x-icon name="description" class="size-3.5" />
                                     <span>Unduh CV</span>
                                 </a>
                             @endif
                         @endif
+
 
                         <form method="POST" action="{{ route('conversations.start', $application) }}" class="inline">
                             @csrf
@@ -209,8 +217,8 @@
 
             <!-- APPLICANT PROFILE MODAL (FOR COMPANY) -->
             @if(!$isWorker)
-            <dialog id="applicant-modal-{{ $application->id }}" class="rounded-3xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-sm w-full max-w-lg shadow-2xl">
-                <div class="bg-white p-6 sm:p-8 max-h-[90vh] overflow-y-auto">
+            <dialog id="applicant-modal-{{ $application->id }}" class="fixed inset-0 m-auto rounded-3xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-sm w-[92vw] max-w-lg shadow-2xl border-0 overflow-hidden">
+                <div class="bg-white p-6 sm:p-8 max-h-[85vh] overflow-y-auto">
                     <div class="flex items-center justify-between border-b border-black/10 pb-4">
                         <div class="flex items-center gap-3">
                             <div class="grid size-12 place-items-center rounded-2xl bg-primary-soft font-display text-xl font-bold text-primary">
@@ -261,8 +269,8 @@
                         @endif
 
                         <div class="flex items-center gap-3 pt-3 border-t border-black/10">
-                            @if($application->worker->cv_path)
-                                <a href="{{ route('applications.cv.download', $application) }}" class="btn-primary compact flex-1 text-center">
+                            @if($application->cv_path || $application->worker->cv_path)
+                                <a href="{{ route('applications.cv.download', $application) }}" class="btn-primary compact flex-1 text-center font-bold">
                                     <x-icon name="description" class="size-4" />
                                     <span>Unduh CV Pelamar</span>
                                 </a>
@@ -276,8 +284,9 @@
 
             <!-- REVIEW MODAL -->
             @if($application->status === 'completed')
-            <dialog id="review-modal-{{ $application->id }}" class="rounded-3xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-sm w-full max-w-lg shadow-2xl">
-                <div class="bg-white p-6 sm:p-8">
+            <dialog id="review-modal-{{ $application->id }}" class="fixed inset-0 m-auto rounded-3xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-sm w-[92vw] max-w-lg shadow-2xl border-0 overflow-hidden">
+                <div class="bg-white p-6 sm:p-8 max-h-[85vh] overflow-y-auto">
+
                     <div class="flex items-center justify-between border-b border-black/10 pb-4">
                         <div>
                             <span class="badge">{{ $isWorker ? 'REVIEW PERUSAHAAN' : 'REVIEW WORKER' }}</span>

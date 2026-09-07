@@ -8,11 +8,18 @@
             <h1 class="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">Kelola Lowongan</h1>
             <p class="mt-1 text-sm text-on-surface-variant">Buat, edit, perbarui status, dan pantau seluruh lowongan pekerjaanmu.</p>
         </div>
-        <button type="button" onclick="document.getElementById('create-job-modal').showModal()" class="btn-primary">
-            <x-icon name="plus" class="size-5" />
-            <span>Buat Lowongan Baru</span>
-        </button>
+        <div class="flex items-center gap-2.5">
+            <a href="{{ route('reports.export.jobs') }}" class="btn-ghost !bg-white !border !border-black/10 shadow-sm" title="Download data lowongan ke CSV / Excel">
+                <x-icon name="description" class="size-4 text-primary" />
+                <span>Export Lowongan (CSV)</span>
+            </a>
+            <button type="button" onclick="document.getElementById('create-job-modal').showModal()" class="btn-primary">
+                <x-icon name="plus" class="size-5" />
+                <span>Buat Lowongan Baru</span>
+            </button>
+        </div>
     </div>
+
 
     <!-- Quick Stats -->
     <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">

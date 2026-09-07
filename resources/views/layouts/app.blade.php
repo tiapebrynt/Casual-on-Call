@@ -46,13 +46,14 @@
                 <a href="{{ route('login') }}" class="btn-ghost !px-4">Masuk</a>
                 <a href="{{ route('register') }}" class="btn-primary compact">Daftar</a>
             @else
-                <a href="{{ route('notifications.index') }}" class="icon-button relative" title="Notifikasi" aria-label="Notifikasi">
+                <button type="button" onclick="document.getElementById('notifications-modal').showModal()" class="icon-button relative" title="Notifikasi" aria-label="Notifikasi">
                     <x-icon name="notifications" />
                     @if(auth()->user()->unreadNotifications()->count() > 0)
-                        <span class="absolute top-2 right-2 size-2.5 rounded-full bg-primary ring-2 ring-white"></span>
+                        <span class="absolute top-2 right-2 size-2.5 rounded-full bg-primary ring-2 ring-white animate-pulse"></span>
                     @endif
-                </a>
+                </button>
                 <a href="{{ auth()->user()->hasRole('worker') ? route('profile.edit') : route('settings.index') }}" class="icon-button" title="Akun saya" aria-label="Akun saya">
+
                     <x-icon name="person" />
                 </a>
                 <form method="post" action="{{ route('logout') }}" class="inline">
@@ -222,7 +223,83 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
+
+@auth
+<!-- NOTIFICATIONS POP-UP MODAL -->
+<dialog id="notifications-modal" class="fixed inset-0 m-auto rounded-3xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-sm w-[92vw] max-w-lg shadow-2xl border-0 overflow-hidden">
+    <div class="bg-white p-6 sm:p-7 max-h-[85vh] flex flex-col justify-between">
+        <div class="flex items-center justify-between border-b border-black/10 pb-4">
+            <div class="flex items-center gap-2.5">
+                <div class="grid size-10 place-items-center rounded-2xl bg-primary-soft text-primary">
+                    <x-icon name="notifications" class="size-5" />
+                </div>
+                <div>
+                    <h3 class="font-display text-lg font-bold text-secondary">Notifikasi CoC</h3>
+                    <p class="text-xs text-on-surface-variant">
+                        {{ auth()->user()->unreadNotifications()->count() }} pemberitahuan belum dibaca
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                @if(auth()->user()->unreadNotifications()->count() > 0)
+                    <form method="POST" action="{{ route('notifications.read-all') }}">
+                        @csrf
+                        <button type="submit" class="text-xs font-bold text-primary hover:underline bg-primary-soft px-2.5 py-1.5 rounded-xl">
+                            Tandai Dibaca
+                        </button>
+                    </form>
+                @endif
+                <button type="button" onclick="document.getElementById('notifications-modal').close()" class="icon-button !size-8">
+                    <x-icon name="close" />
+                </button>
+            </div>
+        </div>
+
+        <div class="overflow-y-auto py-2 my-2 space-y-2.5 divide-y divide-black/5 max-h-[55vh]">
+            @forelse(auth()->user()->notifications()->take(10)->get() as $notification)
+                <div class="pt-2.5 first:pt-0 flex items-start gap-3 p-3 rounded-2xl transition hover:bg-surface-low {{ $notification->read_at ? 'opacity-80' : 'bg-primary-soft/30 border border-primary/20' }}">
+                    <div class="grid size-8 shrink-0 place-items-center rounded-xl {{ $notification->read_at ? 'bg-surface-container text-neutral' : 'bg-primary text-white' }}">
+                        <x-icon name="notifications" class="size-4" />
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="text-xs font-bold text-secondary truncate">{{ $notification->data['title'] ?? 'Pemberitahuan' }}</h4>
+                            <span class="text-[10px] text-on-surface-variant whitespace-nowrap">{{ $notification->created_at->diffForHumans() }}</span>
+                        </div>
+                        <p class="mt-1 text-xs leading-relaxed text-on-surface-variant line-clamp-2">{{ $notification->data['message'] ?? $notification->data['body'] ?? '-' }}</p>
+                        @if(!empty($notification->data['action_url']))
+                            <a href="{{ $notification->data['action_url'] }}" class="inline-flex items-center gap-1 text-[11px] font-bold text-primary mt-1.5 hover:underline">
+                                <span>Lihat detail</span>
+                                <x-icon name="arrow_forward" class="size-3" />
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            @empty
+                <div class="py-12 text-center">
+                    <div class="mx-auto grid size-12 place-items-center rounded-2xl bg-surface-container text-neutral">
+                        <x-icon name="notifications" class="size-6 text-neutral" />
+                    </div>
+                    <h4 class="mt-3 text-sm font-bold text-secondary">Belum ada notifikasi</h4>
+                    <p class="mt-1 text-xs text-on-surface-variant">Pemberitahuan aktivitas, shift kerja, dan transaksi akan muncul di sini.</p>
+                </div>
+            @endforelse
+        </div>
+
+        <div class="pt-3 border-t border-black/10 flex items-center justify-between">
+            <a href="{{ route('notifications.index') }}" class="text-xs font-bold text-primary hover:underline">
+                Buka Semua Riwayat Notifikasi &rarr;
+            </a>
+            <button type="button" onclick="document.getElementById('notifications-modal').close()" class="btn-ghost compact !py-1.5 !text-xs">
+                Tutup
+            </button>
+        </div>
+    </div>
+</dialog>
+@endauth
+
 </body>
 </html>
+
 
 

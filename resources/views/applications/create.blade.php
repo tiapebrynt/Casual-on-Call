@@ -22,22 +22,53 @@
             </div>
             <a href="{{ route('applications.index') }}" class="btn-primary mt-6">Lihat status lamaran</a>
         @else
-            <form method="POST" action="{{ route('applications.store', $job) }}">
+            <form method="POST" action="{{ route('applications.store', $job) }}" enctype="multipart/form-data">
                 @csrf
-                <h2 class="font-display text-2xl font-bold">Perkenalkan Dirimu</h2>
-                <p class="mt-2 text-xs sm:text-sm leading-6 text-on-surface-variant">Ceritakan pengalaman, keterampilan, dan alasan kamu cocok untuk posisi ini.</p>
+                <h2 class="font-display text-2xl font-bold">Perkenalkan Dirimu & Kirim CV</h2>
+                <p class="mt-2 text-xs sm:text-sm leading-6 text-on-surface-variant">Kirimkan pesan lamaran dan CV terbaikmu yang relevan dengan posisi ini.</p>
+                
+                <!-- UPLOAD CV SECTION -->
+                <div class="mt-6 rounded-2xl border border-dashed border-primary/40 bg-surface-low p-5">
+                    <label class="label !text-sm !font-bold flex items-center justify-between" for="cv">
+                        <span class="flex items-center gap-2 text-secondary">
+                            <x-icon name="description" class="size-4 text-primary" />
+                            <span>Unggah CV / Resume Pelamar</span>
+                        </span>
+                        <span class="text-xs font-normal text-on-surface-variant">PDF, DOC, DOCX (Maks 5MB)</span>
+                    </label>
+                    <p class="mt-1 text-xs text-on-surface-variant">
+                        Kamu dapat mengunggah file CV berbeda yang disesuaikan khusus untuk posisi <b>{{ $job->title }}</b> ini.
+                    </p>
+                    <div class="mt-3">
+                        <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" class="input !py-2.5 !bg-white file:mr-4 file:py-1.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary-soft file:text-primary hover:file:bg-primary/20">
+                    </div>
+                    @if(!empty($worker->cv_path))
+                        <p class="mt-2.5 flex items-center gap-1.5 text-xs text-emerald-700 font-medium">
+                            <x-icon name="check_circle" class="size-3.5" />
+                            <span>Kamu sudah memiliki CV profil tersimpan. Jika tidak memilih file baru, CV profil akan otomatis digunakan.</span>
+                        </p>
+                    @endif
+                    @error('cv')
+                        <p class="mt-1.5 text-xs text-rose-600 font-medium">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="mt-6">
                     <label class="label" for="cover_letter">Pesan Lamaran / Cover Letter</label>
-                    <textarea id="cover_letter" name="cover_letter" class="input min-h-48 resize-y" maxlength="3000" required placeholder="Contoh: Saya memiliki pengalaman sebagai barista selama 2 tahun dan terbiasa bekerja dalam shift...">{{ old('cover_letter') }}</textarea>
+                    <textarea id="cover_letter" name="cover_letter" class="input min-h-36 resize-y" maxlength="3000" placeholder="Contoh: Saya memiliki pengalaman sebagai barista selama 2 tahun dan terbiasa bekerja dalam shift...">{{ old('cover_letter') }}</textarea>
                     <div class="mt-2 flex justify-between gap-4 text-xs text-on-surface-variant">
                         <span>Maksimal 3.000 karakter</span>
-                        <span>CV profil akan otomatis terlampir.</span>
+                        <span>Opsional namun sangat direkomendasikan.</span>
                     </div>
+                    @error('cover_letter')
+                        <p class="mt-1.5 text-xs text-rose-600 font-medium">{{ $message }}</p>
+                    @enderror
                 </div>
+
                 <label class="choice mt-6 items-start">
                     <input type="checkbox" required class="mt-1 accent-primary">
                     <span>
-                        <span class="block text-sm font-semibold">Saya memastikan informasi yang diberikan benar</span>
+                        <span class="block text-sm font-semibold">Saya memastikan informasi & CV yang diberikan benar</span>
                         <span class="mt-0.5 block text-xs font-normal text-on-surface-variant">Periksa kembali detail lowongan dan jadwal sebelum mengirim.</span>
                     </span>
                 </label>

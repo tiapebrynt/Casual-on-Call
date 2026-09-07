@@ -10,9 +10,9 @@ use Illuminate\Validation\ValidationException;
 
 class ApplicationService
 {
-    public function apply(Job $job, Worker $worker, ?string $letter): Application
+    public function apply(Job $job, Worker $worker, ?string $letter, ?string $cvPath = null): Application
     {
-        return DB::transaction(function () use ($job, $worker, $letter): Application {
+        return DB::transaction(function () use ($job, $worker, $letter, $cvPath): Application {
             $job = Job::query()->lockForUpdate()->findOrFail($job->id);
             if ($job->status !== 'published' || $job->application_deadline->isPast()) {
                 throw ValidationException::withMessages(['job' => 'Lowongan ini sudah tidak menerima lamaran.']);
@@ -24,12 +24,24 @@ class ApplicationService
             }
             if ($application) {
                 $application->restore();
-                $application->update(['cover_letter' => $letter, 'status' => 'pending', 'responded_at' => null]);
+                $application->update([
+                    'cover_letter' => $letter,
+                    'cv_path' => $cvPath ?? $application->cv_path ?? $worker->cv_path,
+                    'status' => 'pending',
+                    'responded_at' => null
+                ]);
                 return $application;
             }
-            return Application::create(['job_id' => $job->id, 'worker_id' => $worker->id, 'cover_letter' => $letter, 'status' => 'pending']);
+            return Application::create([
+                'job_id' => $job->id,
+                'worker_id' => $worker->id,
+                'cover_letter' => $letter,
+                'cv_path' => $cvPath ?? $worker->cv_path,
+                'status' => 'pending'
+            ]);
         });
     }
+
 
     public function changeStatus(Application $application, string $status): Application
     {
