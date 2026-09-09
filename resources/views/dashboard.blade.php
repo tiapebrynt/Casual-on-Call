@@ -87,14 +87,16 @@
         </div>
 
         <!-- STATS OVERVIEW CARDS -->
-        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="mt-8 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
             @foreach($stats as $label => $value)
-                <div class="card !p-5 bg-white border border-black/5 shadow-sm hover:shadow-md transition-all">
-                    <p class="text-xs font-semibold uppercase tracking-wider text-on-surface-variant">{{ $label }}</p>
-                    <strong class="mt-2 block font-display text-2xl sm:text-3xl font-bold text-secondary">
-                        {{ $value }}
-                    </strong>
-                    <div class="mt-4 flex items-center justify-between">
+                <div class="card !p-4 sm:!p-5 bg-white border border-black/5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">{{ $label }}</p>
+                        <strong class="mt-2 block font-display text-lg sm:text-xl font-bold text-secondary leading-tight">
+                            {{ $value }}
+                        </strong>
+                    </div>
+                    <div class="mt-3.5 pt-3 border-t border-black/5 flex items-center justify-between">
                         <span class="text-[11px] text-primary font-semibold flex items-center gap-1">
                             <x-icon name="bolt" class="size-3.5" />
                             <span>Real-Time</span>
@@ -220,7 +222,7 @@
                         <span class="text-xs uppercase tracking-wider text-slate-300 font-semibold">CoC Company Wallet</span>
                         <x-icon name="wallet" class="size-6 text-primary-soft" />
                     </div>
-                    <strong class="mt-4 block font-display text-3xl font-bold tracking-tight text-white">
+                    <strong class="mt-3 block font-display text-2xl font-bold tracking-tight text-white">
                         Rp{{ number_format($user->wallet?->balance ?? 0, 0, ',', '.') }}
                     </strong>
                     <p class="mt-1 text-xs text-slate-300">Saldo siap digunakan untuk pembayaran gaji instan casual worker.</p>
@@ -395,7 +397,7 @@
                         <span class="text-xs uppercase tracking-wider text-slate-300 font-semibold">Dompet Saldo Worker</span>
                         <x-icon name="wallet" class="size-6 text-primary-soft" />
                     </div>
-                    <strong class="mt-4 block font-display text-3xl font-bold tracking-tight text-white">
+                    <strong class="mt-3 block font-display text-2xl font-bold tracking-tight text-white">
                         Rp{{ number_format($user->wallet?->balance ?? 0, 0, ',', '.') }}
                     </strong>
                     <p class="mt-1 text-xs text-slate-300">Gaji dari pekerjaan yang selesai otomatis masuk ke sini.</p>

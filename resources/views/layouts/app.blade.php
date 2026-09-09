@@ -11,6 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-surface text-secondary flex flex-col justify-between">
+@unless(request()->routeIs('login', 'password.*'))
 <header class="sticky top-0 z-50 border-b border-[#eadadb] bg-white/95 backdrop-blur-xl">
     <nav class="mx-auto flex h-20 max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
         <div class="flex items-center gap-3">
@@ -192,6 +193,7 @@
         @endauth
     </div>
 </div>
+@endunless
 
 @auth
 <nav class="sticky top-20 z-40 flex gap-2 overflow-x-auto border-b border-black/5 bg-white px-4 py-2.5 lg:hidden">
@@ -210,28 +212,33 @@
 </nav>
 @endauth
 
+@unless(request()->routeIs('login', 'password.*'))
 @if(session('success'))
-<div class="mx-auto mt-5 w-full max-w-7xl px-4 sm:px-6 lg:px-10">
-    <div class="alert-success">
+<div id="flash-success" class="fixed right-4 top-24 z-[60] w-[calc(100%-2rem)] max-w-md transition-all duration-300 sm:right-6">
+    <div class="alert-success shadow-lg">
         <x-icon name="check_circle" class="size-5 shrink-0" />
-        <span>{{ session('success') }}</span>
+        <span class="flex-1">{{ session('success') }}</span>
+        <button type="button" class="ml-auto rounded p-1 hover:bg-black/10" aria-label="Tutup notifikasi" onclick="this.closest('#flash-success').remove()"><x-icon name="close" class="size-4" /></button>
     </div>
 </div>
 @endif
 
-@if($errors->any())
-<div class="mx-auto mt-5 w-full max-w-7xl px-4 sm:px-6 lg:px-10">
-    <div class="alert-error">
+@if(isset($errors) && $errors->any())
+<div id="flash-error" class="fixed right-4 top-24 z-[60] w-[calc(100%-2rem)] max-w-md transition-all duration-300 sm:right-6">
+    <div class="alert-error shadow-lg">
         <x-icon name="error" class="size-5 shrink-0" />
-        <span>{{ $errors->first() }}</span>
+        <span class="flex-1">{{ $errors->first() }}</span>
+        <button type="button" class="ml-auto rounded p-1 hover:bg-black/10" aria-label="Tutup notifikasi" onclick="this.closest('#flash-error').remove()"><x-icon name="close" class="size-4" /></button>
     </div>
 </div>
 @endif
+@endunless
 
 <main class="flex-1">
     @yield('content')
 </main>
 
+@unless(request()->routeIs('login', 'password.*'))
 <footer class="border-t border-[#eadadb] bg-white mt-20">
     <div class="mx-auto max-w-[1440px] px-5 py-14 lg:px-10">
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
@@ -267,6 +274,7 @@
         </div>
     </div>
 </footer>
+@endunless
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -293,6 +301,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         wrap.appendChild(btn);
     });
+    ['flash-success', 'flash-error'].forEach((id) => {
+        const flash = document.getElementById(id);
+        if (flash) setTimeout(() => {
+            flash.classList.add('translate-x-full', 'opacity-0');
+            setTimeout(() => flash.remove(), 300);
+        }, 5000);
+    });
     // Close notifications dropdown on outside click
     document.addEventListener('click', function(e) {
         const wrap = document.getElementById('notifications-menu-wrapper');
@@ -304,8 +319,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+@stack('scripts')
+
 </body>
 </html>
-
 
 

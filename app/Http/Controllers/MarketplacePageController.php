@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Application,Company,Conversation,Job,Payment,Rating,Review,WalletTransaction};
+use App\Models\{Application,Company,Conversation,Job,Payment,Rating,Review,Wallet,WalletTransaction};
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -105,4 +105,3 @@ class MarketplacePageController extends Controller
         return view('payments.show', compact('payment', 'companyWallet'));
     }
 }
-

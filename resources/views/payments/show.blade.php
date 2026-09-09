@@ -189,53 +189,23 @@
                             </div>
                         </label>
 
-                        <!-- Bank Transfer (VA) Option -->
+                        <!-- Midtrans Snap Option -->
                         <label class="block cursor-pointer rounded-2xl border border-black/10 p-3.5 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary-soft/30">
                             <div class="flex items-start gap-3">
-                                <input type="radio" name="method" value="bank_transfer" class="mt-1 text-primary focus:ring-primary" {{ !$hasEnoughWallet ? 'checked' : '' }}>
+                                <input type="radio" name="method" value="midtrans" class="mt-1 text-primary focus:ring-primary" {{ !$hasEnoughWallet ? 'checked' : '' }}>
                                 <div class="flex-1 text-xs">
                                     <div class="flex items-center justify-between">
-                                        <b class="text-secondary text-sm">Transfer Virtual Account</b>
-                                        <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">BCA / Mandiri / BRI</span>
+                                        <b class="text-secondary text-sm">Midtrans</b>
+                                        <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">Aman & Terverifikasi</span>
                                     </div>
-                                    <div class="mt-1.5 rounded-lg bg-surface-low p-2 font-mono text-[11px] text-secondary flex items-center justify-between">
-                                        <span>VA: 8809 1234 {{ str_pad($payment->id, 4, '0', STR_PAD_LEFT) }}</span>
-                                        <button type="button" onclick="navigator.clipboard.writeText('88091234{{ str_pad($payment->id, 4, '0', STR_PAD_LEFT) }}'); alert('Nomor Virtual Account disalin!');" class="text-primary font-bold text-[10px] underline">Salin</button>
-                                    </div>
-                                    <p class="mt-1 text-[11px] text-on-surface-variant">Simulasi pelunasan instan: klik tombol di bawah untuk menyelesaikan pembayaran.</p>
-                                </div>
-                            </div>
-                        </label>
-
-
-                        <!-- E-Wallet / QRIS Option -->
-                        <label class="block cursor-pointer rounded-2xl border border-black/10 p-3.5 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary-soft/30">
-                            <div class="flex items-start gap-3">
-                                <input type="radio" name="method" value="e_wallet" class="mt-1 text-primary focus:ring-primary">
-                                <div class="flex-1 text-xs">
-                                    <div class="flex items-center justify-between">
-                                        <b class="text-secondary text-sm">QRIS & E-Wallet</b>
-                                        <span class="text-[10px] text-on-surface-variant">GoPay / OVO / DANA</span>
-                                    </div>
-                                    <p class="mt-1 text-on-surface-variant">Konfirmasi otomatis setelah pembayaran QRIS diterima.</p>
-                                </div>
-                            </div>
-                        </label>
-
-                        <!-- Cash Option -->
-                        <label class="block cursor-pointer rounded-2xl border border-black/10 p-3.5 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary-soft/30">
-                            <div class="flex items-start gap-3">
-                                <input type="radio" name="method" value="cash" class="mt-1 text-primary focus:ring-primary">
-                                <div class="flex-1 text-xs">
-                                    <b class="text-secondary text-sm">Pembayaran Tunai (Cash)</b>
-                                    <p class="mt-0.5 text-on-surface-variant">Serah terima tunai secara langsung di lokasi kerja.</p>
+                                    <p class="mt-1 text-[11px] text-on-surface-variant">Pilih VA bank, QRIS, GoPay, kartu, dan metode lain yang tersedia di halaman pembayaran Midtrans.</p>
                                 </div>
                             </div>
                         </label>
 
                         <button type="submit" class="btn-primary w-full mt-4 justify-center">
                             <x-icon name="check_circle" class="size-4" />
-                            <span>Konfirmasi & Bayar Sekarang</span>
+                            <span>Lanjutkan Pembayaran</span>
                         </button>
                     </form>
                 </div>
@@ -275,5 +245,22 @@
 </section>
 @endsection
 
+@if(auth()->user()->hasRole('company') && $payment->status !== 'paid' && $payment->midtrans_snap_token && config('services.midtrans.client_key'))
+    @push('scripts')
+        <script src="{{ config('services.midtrans.is_production') ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js' }}" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                if (window.snap) {
+                    window.snap.pay(@json($payment->midtrans_snap_token), {
+                        onSuccess: () => window.location.reload(),
+                        onPending: () => window.location.reload(),
+                        onError: () => window.location.reload(),
+                        onClose: () => window.location.reload(),
+                    });
+                }
+            });
+        </script>
+    @endpush
+@endif
 
 

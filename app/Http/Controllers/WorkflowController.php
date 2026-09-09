@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{Application, Attendance, Conversation, Message, Payment, Rating, Review, User, Wallet, WalletTransaction};
 use App\Notifications\WorkflowNotification;
+use App\Services\{MidtransService, PaymentService};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -215,85 +216,34 @@ class WorkflowController extends Controller
         return back()->with('success', 'Rating dan ulasan berhasil disimpan.');
     }
 
-    public function pay(Request $request, Payment $payment): RedirectResponse
+    public function pay(Request $request, Payment $payment, MidtransService $midtrans, PaymentService $payments): RedirectResponse
     {
         $payment->loadMissing(['application.job.company', 'application.worker.user']);
         abort_unless($request->user()->hasRole('company') && $payment->application->job->company->user_id === $request->user()->id, 403);
         
         $data = $request->validate([
-            'method' => ['required', 'in:bank_transfer,e_wallet,cash,casual_wallet']
+            'method' => ['required', 'in:midtrans,casual_wallet']
         ]);
+        if ($payment->status === 'paid') throw ValidationException::withMessages(['payment' => 'Invoice ini sudah dibayar.']);
 
-        DB::transaction(function () use ($payment, $data, $request): void {
-            $payment = Payment::lockForUpdate()->findOrFail($payment->id);
-            if ($payment->status === 'paid') {
-                throw ValidationException::withMessages(['payment' => 'Invoice ini sudah dibayar.']);
+        if ($data['method'] === 'midtrans') {
+            $midtrans->createSnapToken($payment);
+            return redirect()->route('payments.show', $payment)->with('success', 'Pilih metode pembayaran di halaman Midtrans yang terbuka. Saldo worker akan masuk setelah Midtrans mengonfirmasi pembayaran.');
+        }
+
+        DB::transaction(function () use ($payment, $request, $payments): void {
+            $companyWallet = Wallet::where('user_id', $request->user()->id)->lockForUpdate()->first();
+            if (!$companyWallet || (float) $companyWallet->balance < (float) $payment->total) {
+                $curr = number_format($companyWallet?->balance ?? 0, 0, ',', '.');
+                throw ValidationException::withMessages(['method' => "Saldo CoC Wallet perusahaan tidak mencukupi (Rp{$curr})."]);
             }
-
-            if ($data['method'] === 'casual_wallet') {
-                $companyWallet = Wallet::where('user_id', $request->user()->id)->lockForUpdate()->first();
-                if (!$companyWallet || (float) $companyWallet->balance < (float) $payment->total) {
-                    $curr = number_format($companyWallet?->balance ?? 0, 0, ',', '.');
-                    throw ValidationException::withMessages([
-                        'method' => "Saldo CoC Wallet perusahaan tidak mencukupi (Rp{$curr}). Silakan gunakan Transfer Bank atau E-Wallet."
-                    ]);
-                }
-                $companyWallet->decrement('balance', $payment->total);
-                $companyWallet->refresh();
-                WalletTransaction::create([
-                    'wallet_id' => $companyWallet->id,
-                    'payment_id' => $payment->id,
-                    'type' => 'debit',
-                    'amount' => $payment->total,
-                    'balance_after' => $companyWallet->balance,
-                    'reference' => 'PAY-W-'.now()->format('YmdHis').'-'.$payment->id,
-                    'description' => 'Pembayaran gaji '.$payment->application->job->title.' ke '.$payment->application->worker->user->name
-                ]);
-            }
-
-            $methodName = match ($data['method']) {
-                'bank_transfer' => 'Transfer Bank (VA)',
-                'e_wallet' => 'E-Wallet / QRIS',
-                'cash' => 'Tunai (Cash)',
-                'casual_wallet' => 'CoC Wallet',
-                default => 'Transfer Bank'
-            };
-
-            $ref = 'PAY-'.strtoupper($data['method']).'-'.now()->format('YmdHis').'-'.$payment->id;
-            $payment->update([
-                'status' => 'paid',
-                'method' => $methodName,
-                'transaction_reference' => $ref,
-                'paid_at' => now(),
-            ]);
-
-            $workerUser = $payment->application->worker->user;
-            $workerWallet = Wallet::firstOrCreate(
-                ['user_id' => $workerUser->id],
-                ['balance' => 0, 'pending_balance' => 0]
-            );
-            $workerWallet->increment('balance', $payment->total);
-            $workerWallet->decrement('pending_balance', min((float) $workerWallet->pending_balance, (float) $payment->total));
-            $workerWallet->refresh();
-
-            WalletTransaction::create([
-                'wallet_id' => $workerWallet->id,
-                'payment_id' => $payment->id,
-                'type' => 'credit',
-                'amount' => $payment->total,
-                'balance_after' => $workerWallet->balance,
-                'reference' => $ref,
-                'description' => 'Gaji diterima: '.$payment->application->job->title
-            ]);
-
-            $workerUser->notify(new WorkflowNotification(
-                'Pembayaran gaji diterima',
-                'Penghasilan sebesar Rp'.number_format($payment->total, 0, ',', '.').' dari '.$payment->application->job->title.' telah masuk ke wallet.',
-                route('payments.show', $payment)
-            ));
+            $companyWallet->decrement('balance', $payment->total);
+            $companyWallet->refresh();
+            $reference = 'PAY-W-'.now()->format('YmdHis').'-'.$payment->id;
+            WalletTransaction::create(['wallet_id' => $companyWallet->id, 'payment_id' => $payment->id, 'type' => 'debit', 'amount' => $payment->total, 'balance_after' => $companyWallet->balance, 'reference' => $reference, 'description' => 'Pembayaran gaji '.$payment->application->job->title]);
+            $payments->markPaid($payment, 'CoC Wallet', $reference);
         });
-
-        return back()->with('success', 'Pembayaran berhasil dan saldo worker telah diperbarui.');
+        return back()->with('success', 'Pembayaran wallet berhasil dan saldo worker telah diperbarui.');
     }
 
 

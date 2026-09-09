@@ -1,13 +1,7 @@
 # CoC (Casual on Call) &mdash; Marketplace Tenaga Kerja Harian (Casual Worker)
 
-### Akun Demo Project:
-- Worker: `worker@casualhub.id`
-- Company: `company@casualhub.id`
-- Admin: `admin@casualhub.id`
-- Password semua akun: `Password123!`
 Platform marketplace penghubung pekerja harian (*casual worker*) dengan perusahaan/bisnis (Hospitality, Event Organizer, Retail, Logistik). Dilengkapi dengan sistem absensi, sistem dompet/rekening penampung (Escrow), review & rating dua arah, serta laporan otomatis.
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 ---
 
 ### 🔑 Akun Demo Siap Pakai:

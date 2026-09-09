@@ -22,22 +22,22 @@
 
 
     <!-- Quick Stats -->
-    <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <div class="card !p-5">
-            <p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Total Lowongan</p>
-            <strong class="mt-2 block font-display text-2xl sm:text-3xl">{{ $jobs->total() }}</strong>
+    <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-4">
+        <div class="card !p-4 sm:!p-5">
+            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Total Lowongan</p>
+            <strong class="mt-1.5 block font-display text-lg sm:text-xl font-bold text-secondary">{{ $jobs->total() }}</strong>
         </div>
-        <div class="card !p-5">
-            <p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Published</p>
-            <strong class="mt-2 block font-display text-2xl sm:text-3xl text-[#006262]">{{ $jobs->where('status', 'published')->count() }}</strong>
+        <div class="card !p-4 sm:!p-5">
+            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Published</p>
+            <strong class="mt-1.5 block font-display text-lg sm:text-xl font-bold text-[#006262]">{{ $jobs->where('status', 'published')->count() }}</strong>
         </div>
-        <div class="card !p-5">
-            <p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Expired</p>
-            <strong class="mt-2 block font-display text-2xl sm:text-3xl text-amber-600">{{ $jobs->where('status', 'expired')->count() }}</strong>
+        <div class="card !p-4 sm:!p-5">
+            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Expired</p>
+            <strong class="mt-1.5 block font-display text-lg sm:text-xl font-bold text-amber-600">{{ $jobs->where('status', 'expired')->count() }}</strong>
         </div>
-        <div class="card !p-5">
-            <p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Total Pelamar</p>
-            <strong class="mt-2 block font-display text-2xl sm:text-3xl text-primary">{{ $jobs->sum('applications_count') }}</strong>
+        <div class="card !p-4 sm:!p-5">
+            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Total Pelamar</p>
+            <strong class="mt-1.5 block font-display text-lg sm:text-xl font-bold text-primary">{{ $jobs->sum('applications_count') }}</strong>
         </div>
     </div>
 

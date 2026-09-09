@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Job;
+use App\Http\Controllers\MidtransNotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,3 +13,5 @@ Route::get('/v1/jobs', function (Request $request) {
     $jobs=Job::with(['company:id,name,slug','category:id,name'])->where('status','published')->latest()->paginate(min($request->integer('per_page',12),50));
     return response()->json(['success'=>true,'message'=>'Daftar lowongan','data'=>$jobs->items(),'meta'=>['current_page'=>$jobs->currentPage(),'last_page'=>$jobs->lastPage(),'total'=>$jobs->total()]]);
 })->middleware('throttle:api');
+
+Route::post('/midtrans/notification', MidtransNotificationController::class)->name('midtrans.notification');

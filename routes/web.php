@@ -26,6 +26,10 @@ Route::middleware('guest')->group(function (): void {
     Route::post('/login', [AuthController::class, 'authenticate'])->middleware('throttle:5,1');
     Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/register', [AuthController::class, 'store'])->middleware('throttle:5,1');
+    Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password/{token}', [AuthController::class, 'resetPassword'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'updatePasswordFromReset'])->name('password.update');
 });
 
 Route::middleware('auth')->group(function (): void {

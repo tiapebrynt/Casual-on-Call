@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\{Application, Attendance, Job, Payment, Worker};
+use App\Models\{Application, Attendance, Job, Payment, Wallet, Worker};
 use App\Notifications\WorkflowNotification;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
@@ -82,7 +82,8 @@ class ApplicationService
                     'total' => $subtotal,
                     'status' => 'pending',
                 ]);
-                $application->worker->user->wallet()->increment('pending_balance', $subtotal);
+                $workerWallet = Wallet::firstOrCreate(['user_id' => $application->worker->user_id], ['balance' => 0, 'pending_balance' => 0]);
+                $workerWallet->increment('pending_balance', $subtotal);
                 $application->worker->user->notify(new WorkflowNotification('Pekerjaan selesai', 'Invoice '.$application->job->title.' telah dibuat dan menunggu pembayaran perusahaan.', route('wallet.index')));
             }
 
