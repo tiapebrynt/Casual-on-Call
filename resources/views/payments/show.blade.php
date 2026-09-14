@@ -170,7 +170,7 @@
                         <!-- CoC Wallet Option -->
                         <label class="block cursor-pointer rounded-2xl border border-black/10 p-3.5 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary-soft/30 {{ !$hasEnoughWallet ? 'opacity-85 bg-surface-low' : '' }}">
                             <div class="flex items-start gap-3">
-                                <input type="radio" name="method" value="casual_wallet" class="mt-1 text-primary focus:ring-primary" {{ $hasEnoughWallet ? 'checked' : '' }}>
+                                <input type="radio" name="method" value="casual_wallet" class="mt-1 text-primary focus:ring-primary" required>
                                 <div class="flex-1 text-xs">
                                     <div class="flex items-center justify-between">
                                         <b class="text-secondary text-sm">CoC Wallet Perusahaan</b>
@@ -192,7 +192,7 @@
                         <!-- Midtrans Snap Option -->
                         <label class="block cursor-pointer rounded-2xl border border-black/10 p-3.5 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary-soft/30">
                             <div class="flex items-start gap-3">
-                                <input type="radio" name="method" value="midtrans" class="mt-1 text-primary focus:ring-primary" {{ !$hasEnoughWallet ? 'checked' : '' }}>
+                                <input type="radio" name="method" value="midtrans" class="mt-1 text-primary focus:ring-primary" checked required>
                                 <div class="flex-1 text-xs">
                                     <div class="flex items-center justify-between">
                                         <b class="text-secondary text-sm">Midtrans</b>
@@ -243,24 +243,17 @@
         </aside>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentForm = document.getElementById('payment-form');
+    if (paymentForm) {
+        paymentForm.addEventListener('submit', function() {
+            const btn = this.querySelector('button[type=submit]');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="inline-flex items-center gap-1.5"><span class="animate-spin text-sm">↻</span> Memproses Pembayaran...</span>';
+        });
+    }
+});
+</script>
 @endsection
-
-@if(auth()->user()->hasRole('company') && $payment->status !== 'paid' && $payment->midtrans_snap_token && config('services.midtrans.client_key'))
-    @push('scripts')
-        <script src="{{ config('services.midtrans.is_production') ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js' }}" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                if (window.snap) {
-                    window.snap.pay(@json($payment->midtrans_snap_token), {
-                        onSuccess: () => window.location.reload(),
-                        onPending: () => window.location.reload(),
-                        onError: () => window.location.reload(),
-                        onClose: () => window.location.reload(),
-                    });
-                }
-            });
-        </script>
-    @endpush
-@endif
-
-

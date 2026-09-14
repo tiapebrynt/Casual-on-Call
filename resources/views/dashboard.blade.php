@@ -37,6 +37,11 @@
                         <x-icon name="search" class="size-4" />
                         <span>Cari Lowongan</span>
                     </a>
+                @elseif($user->hasRole('admin'))
+                    <a href="{{ route('admin.withdrawals') }}" class="btn-primary compact">
+                        <x-icon name="payments" class="size-4" />
+                        <span>Proses Pencairan</span>
+                    </a>
                 @endif
 
                 <!-- EXPORT LAPORAN BUTTON / DROPDOWN -->

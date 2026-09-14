@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Application, Attendance, Conversation, Message, Payment, Rating, Review, User, Wallet, WalletTransaction};
+use App\Models\{Application, Attendance, Conversation, Message, Payment, Rating, Review, User, Wallet, WalletTopUp, WalletTransaction, WithdrawalRequest};
 use App\Notifications\WorkflowNotification;
 use App\Services\{MidtransService, PaymentService};
 use Illuminate\Http\RedirectResponse;
@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class WorkflowController extends Controller
 {
@@ -38,97 +39,285 @@ class WorkflowController extends Controller
         return back()->with('success', 'Check-out berhasil dicatat! Shift kerja telah diselesaikan.');
     }
 
-    public function topupWallet(Request $request): RedirectResponse
+    /**
+     * Initiate Midtrans Snap Top-Up.
+     */
+    public function topupWallet(Request $request, MidtransService $midtrans): RedirectResponse
     {
         $data = $request->validate([
             'amount' => ['required', 'numeric', 'min:50000', 'max:100000000'],
-            'gateway_method' => ['required', 'string', 'in:bca_va,mandiri_va,bri_va,bni_va,qris'],
+            'gateway_method' => ['required', 'string', 'in:bca_va,mandiri_va,bri_va,bni_va,qris,gopay'],
         ]);
 
         $user = $request->user();
         abort_unless($user->hasAnyRole(['company', 'admin', 'worker']), 403);
 
-        $methodLabel = match ($data['gateway_method']) {
-            'bca_va' => 'BCA Virtual Account',
-            'mandiri_va' => 'Mandiri Virtual Account',
-            'bri_va' => 'BRI Virtual Account',
-            'bni_va' => 'BNI Virtual Account',
-            'qris' => 'QRIS Instant',
-            default => 'Payment Gateway'
-        };
+        $wallet = Wallet::firstOrCreate(['user_id' => $user->id], ['balance' => 0, 'pending_balance' => 0]);
+        $orderId = 'TOPUP-' . now()->format('YmdHis') . '-' . strtoupper($data['gateway_method']) . '-' . random_int(1000, 9999);
 
-        $amount = (float) $data['amount'];
-        $ref = 'TOPUP-'.strtoupper($data['gateway_method']).'-'.now()->format('YmdHis').'-'.rand(100, 999);
+        $topUp = WalletTopUp::create([
+            'user_id' => $user->id,
+            'wallet_id' => $wallet->id,
+            'amount' => $data['amount'],
+            'gateway_method' => $data['gateway_method'],
+            'midtrans_order_id' => $orderId,
+        ]);
 
-        DB::transaction(function () use ($user, $amount, $methodLabel, $ref): void {
-            $wallet = Wallet::firstOrCreate(
-                ['user_id' => $user->id],
-                ['balance' => 0, 'pending_balance' => 0]
-            );
-            $wallet = Wallet::lockForUpdate()->find($wallet->id);
-            $wallet->increment('balance', $amount);
-            $wallet->refresh();
-
-            WalletTransaction::create([
-                'wallet_id' => $wallet->id,
-                'type' => 'credit',
-                'amount' => $amount,
-                'balance_after' => $wallet->balance,
-                'reference' => $ref,
-                'description' => "Isi saldo dompet via {$methodLabel}",
-            ]);
-
-            $user->notify(new WorkflowNotification(
-                'Top Up Saldo Berhasil',
-                "Top up saldo sebesar Rp" . number_format($amount, 0, ',', '.') . " via {$methodLabel} berhasil diproses.",
-                route('wallet.index')
-            ));
-        });
-
-        return back()->with('success', 'Top up saldo sebesar Rp' . number_format($amount, 0, ',', '.') . " via {$methodLabel} berhasil! Saldo langsung bertambah.");
+        $checkoutUrl = $midtrans->createWalletTopUpCheckoutUrl($topUp);
+        return redirect()->away($checkoutUrl);
     }
 
+    /**
+     * Local Sandbox Payment Simulator for Top-Up.
+     */
+    public function topupSimulator(Request $request, WalletTopUp $topUp): View
+    {
+        abort_unless($request->user()->id === $topUp->user_id || $request->user()->hasRole('admin'), 403);
+        return view('wallet.simulator', compact('topUp'));
+    }
+
+    /**
+     * Midtrans Snap Finish / Callback for Top-Up.
+     */
+    public function topupFinish(Request $request, MidtransService $midtrans): RedirectResponse
+    {
+        $orderId = $request->get('order_id');
+        if (!$orderId) {
+            return redirect()->route('wallet.index')->with('success', 'Proses pembayaran selesai. Saldo Anda akan segera terupdate.');
+        }
+
+        $topUp = WalletTopUp::where('midtrans_order_id', $orderId)->first();
+        if (!$topUp) {
+            return redirect()->route('wallet.index')->with('info', 'Transaksi tidak ditemukan.');
+        }
+
+        // Check if coming from simulator or real Midtrans
+        $status = $request->get('transaction_status', 'settlement');
+        $statusCode = $request->get('status_code', '200');
+
+        if (in_array($status, ['settlement', 'capture', '200', 'success'], true) || $statusCode == '200') {
+            DB::transaction(function () use ($topUp, $request, $orderId): void {
+                $topUp = WalletTopUp::lockForUpdate()->findOrFail($topUp->id);
+                if ($topUp->status === 'paid') return;
+
+                $wallet = Wallet::lockForUpdate()->findOrFail($topUp->wallet_id);
+                $wallet->increment('balance', $topUp->amount);
+                $wallet->refresh();
+
+                $reference = $request->get('transaction_id') ?: ('MDT-' . $orderId);
+                WalletTransaction::firstOrCreate(['reference' => $reference], [
+                    'wallet_id' => $wallet->id,
+                    'type' => 'credit',
+                    'amount' => $topUp->amount,
+                    'balance_after' => $wallet->balance,
+                    'description' => 'Top up CoC Wallet via Midtrans (' . strtoupper($topUp->gateway_method) . ')',
+                ]);
+
+                $topUp->update([
+                    'status' => 'paid',
+                    'paid_at' => now(),
+                    'midtrans_transaction_id' => $reference,
+                ]);
+
+                $user = User::find($topUp->user_id);
+                if ($user) {
+                    $user->notify(new WorkflowNotification(
+                        'Top Up Saldo Berhasil',
+                        'Pengisian saldo dompet sebesar Rp' . number_format($topUp->amount, 0, ',', '.') . ' via Midtrans telah berhasil.',
+                        route('wallet.index')
+                    ));
+                }
+            });
+
+            return redirect()->route('wallet.index')->with('success', 'Top up sebesar Rp' . number_format($topUp->amount, 0, ',', '.') . ' berhasil! Saldo telah ditambahkan ke dompet.');
+        }
+
+        return redirect()->route('wallet.index')->with('info', 'Transaksi top up berstatus: ' . strtoupper($status));
+    }
+
+    /**
+     * Local Sandbox Payment Simulator for Invoice Payment.
+     */
+    public function paymentSimulator(Request $request, Payment $payment): View
+    {
+        $payment->loadMissing(['application.job.company.user', 'application.worker.user']);
+        $user = $request->user();
+        abort_unless($user->hasRole('admin') || $payment->application->job->company->user_id === $user->id, 403);
+
+        return view('payments.simulator', compact('payment'));
+    }
+
+    /**
+     * Midtrans Snap Finish / Callback for Invoice Payment.
+     */
+    public function paymentFinish(Request $request, Payment $payment, PaymentService $payments): RedirectResponse
+    {
+        $payment->loadMissing(['application.job.company', 'application.worker.user']);
+
+        if ($payment->status !== 'paid') {
+            $reference = $request->get('transaction_id') ?: ('MDT-' . ($payment->midtrans_order_id ?: $payment->invoice_number));
+            $payments->markPaid($payment, 'Midtrans Snap', $reference);
+        }
+
+        return redirect()->route('payments.show', $payment)->with('success', 'Pembayaran via Midtrans berhasil diselesaikan dan upah telah diteruskan ke dompet worker!');
+    }
+
+    /**
+     * Withdraw / Pencairan Dana — langsung diproses otomatis tanpa persetujuan admin.
+     */
     public function withdraw(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'amount' => ['required', 'numeric', 'min:50000'],
-            'bank_name' => ['nullable', 'string', 'max:50'],
-            'account_number' => ['nullable', 'string', 'max:50'],
-            'account_holder' => ['nullable', 'string', 'max:100'],
+            'amount'         => ['required', 'numeric', 'min:50000'],
+            'bank_name'      => ['required', 'string', 'max:50'],
+            'account_number' => ['required', 'string', 'max:50'],
+            'account_holder' => ['required', 'string', 'max:100'],
         ]);
 
-        $bank = $data['bank_name'] ?? 'Rekening Bank';
-        $acc = !empty($data['account_number']) ? "({$data['account_number']})" : '';
+        $user = $request->user();
 
-        DB::transaction(function () use ($request, $data, $bank, $acc): void {
-            $wallet = Wallet::where('user_id', $request->user()->id)->lockForUpdate()->firstOrFail();
-            $amount = (float) $data['amount'];
-            if ((float) $wallet->balance < $amount) {
-                throw ValidationException::withMessages(['amount' => 'Saldo dompet tidak mencukupi untuk penarikan sebesar Rp' . number_format($amount, 0, ',', '.')]);
+        DB::transaction(function () use ($user, $data): void {
+            $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->first();
+            if (! $wallet) {
+                throw ValidationException::withMessages(['amount' => 'Wallet tidak ditemukan.']);
             }
-            $wallet->decrement('balance', $amount);
+
+            // Hitung saldo tersedia (kurangi pending withdrawal lain)
+            $pendingAmount    = WithdrawalRequest::where('wallet_id', $wallet->id)->where('status', 'pending')->sum('amount');
+            $availableBalance = (float) $wallet->balance - (float) $pendingAmount;
+
+            if ($availableBalance < (float) $data['amount']) {
+                throw ValidationException::withMessages([
+                    'amount' => 'Saldo siap tarik tidak mencukupi (Tersedia: Rp' . number_format($availableBalance, 0, ',', '.') . ').',
+                ]);
+            }
+
+            // Potong saldo langsung
+            $wallet->decrement('balance', $data['amount']);
             $wallet->refresh();
 
-            $ref = 'WD-'.now()->format('YmdHis').'-'.$wallet->id;
+            $refCode = 'WD-AUTO-' . $user->id . '-' . now()->format('YmdHis');
+
+            // Catat mutasi wallet
             WalletTransaction::create([
-                'wallet_id' => $wallet->id,
-                'type' => 'debit',
-                'amount' => $amount,
+                'wallet_id'     => $wallet->id,
+                'type'          => 'debit',
+                'amount'        => $data['amount'],
                 'balance_after' => $wallet->balance,
-                'reference' => $ref,
-                'description' => "Pencairan dana ke {$bank} {$acc}"
+                'reference'     => $refCode,
+                'description'   => "Penarikan dana ke {$data['bank_name']} ({$data['account_number']})",
             ]);
 
-            $request->user()->notify(new WorkflowNotification(
-                'Pencairan Saldo Diproses',
-                "Penarikan dana Rp" . number_format($amount, 0, ',', '.') . " ke {$bank} telah berhasil dikirim.",
+            // Simpan record withdrawal sebagai approved langsung
+            WithdrawalRequest::create([
+                'user_id'        => $user->id,
+                'wallet_id'      => $wallet->id,
+                'amount'         => $data['amount'],
+                'bank_name'      => $data['bank_name'],
+                'account_number' => $data['account_number'],
+                'account_holder' => $data['account_holder'],
+                'status'         => 'approved',
+                'admin_note'     => 'Diproses otomatis — dana sedang dikirim ke rekening tujuan.',
+                'processed_at'   => now(),
+            ]);
+
+            // Notifikasi ke user
+            $user->notify(new WorkflowNotification(
+                'Pencairan Dana Berhasil',
+                'Penarikan saldo sebesar Rp' . number_format($data['amount'], 0, ',', '.') . " ke rekening {$data['bank_name']} ({$data['account_number']}) sedang diproses & akan tiba dalam 1–5 menit.",
                 route('wallet.index')
             ));
         });
 
-        return back()->with('success', 'Permintaan penarikan saldo sebesar Rp' . number_format($data['amount'], 0, ',', '.') . ' berhasil diproses ke rekening tujuan.');
+        return back()->with('success', 'Penarikan dana sebesar Rp' . number_format($data['amount'], 0, ',', '.') . ' berhasil diproses dan sedang dikirim ke rekening Anda.');
     }
 
+    /**
+     * Admin approves withdrawal request (Supports Automated Midtrans Payout / Iris or Manual Transfer).
+     */
+    public function approveWithdrawal(Request $request, WithdrawalRequest $withdrawal, MidtransService $midtrans): RedirectResponse
+    {
+        $mode = $request->input('mode', 'midtrans'); // 'midtrans' or 'manual'
+
+        DB::transaction(function () use ($request, $withdrawal, $midtrans, $mode): void {
+            $withdrawal = WithdrawalRequest::lockForUpdate()->findOrFail($withdrawal->id);
+            if ($withdrawal->status !== 'pending') {
+                throw ValidationException::withMessages(['withdrawal' => 'Permintaan penarikan ini sudah diproses sebelumnya.']);
+            }
+
+            $wallet = Wallet::lockForUpdate()->findOrFail($withdrawal->wallet_id);
+            if ((float) $wallet->balance < (float) $withdrawal->amount) {
+                throw ValidationException::withMessages(['withdrawal' => 'Saldo pengguna tidak lagi mencukupi untuk disetujui.']);
+            }
+
+            // Execute Midtrans Iris Payout if requested
+            $payoutResult = null;
+            if ($mode === 'midtrans') {
+                $payoutResult = $midtrans->createPayout($withdrawal);
+            }
+
+            $wallet->decrement('balance', $withdrawal->amount);
+            $wallet->refresh();
+
+            $refCode = $payoutResult['reference_no'] ?? ('WD-TF-' . $withdrawal->id . '-' . now()->format('His'));
+            $descMethod = $mode === 'midtrans' ? 'Midtrans Iris Payout' : 'Manual Transfer Bank';
+
+            WalletTransaction::create([
+                'wallet_id' => $wallet->id,
+                'type' => 'debit',
+                'amount' => $withdrawal->amount,
+                'balance_after' => $wallet->balance,
+                'reference' => $refCode,
+                'description' => "Penarikan dana via {$descMethod} ke {$withdrawal->bank_name} ({$withdrawal->account_number})",
+            ]);
+
+            $withdrawal->update([
+                'status' => 'approved',
+                'admin_note' => $mode === 'midtrans' ? ($payoutResult['message'] ?? 'Diproses via Midtrans Iris') : 'Disetujui via Transfer Bank Manual',
+                'processed_by' => $request->user()->id,
+                'processed_at' => now(),
+            ]);
+
+            // Notify user
+            $user = User::find($withdrawal->user_id);
+            if ($user) {
+                $user->notify(new WorkflowNotification(
+                    'Pencairan Dana Berhasil',
+                    'Permintaan penarikan saldo sebesar Rp' . number_format($withdrawal->amount, 0, ',', '.') . " ke rekening {$withdrawal->bank_name} telah disetujui & ditransfer.",
+                    route('wallet.index')
+                ));
+            }
+        });
+
+        return back()->with('success', 'Pencairan dana berhasil disetujui dan saldo user telah dipotong.');
+    }
+
+    /**
+     * Admin rejects withdrawal request.
+     */
+    public function rejectWithdrawal(Request $request, WithdrawalRequest $withdrawal): RedirectResponse
+    {
+        $data = $request->validate(['admin_note' => ['nullable', 'string', 'max:500']]);
+        abort_unless($withdrawal->status === 'pending', 422);
+
+        $withdrawal->update([
+            'status' => 'rejected',
+            'admin_note' => $data['admin_note'] ?: 'Permintaan penarikan ditolak oleh admin.',
+            'processed_by' => $request->user()->id,
+            'processed_at' => now(),
+        ]);
+
+        $user = User::find($withdrawal->user_id);
+        if ($user) {
+            $user->notify(new WorkflowNotification(
+                'Permintaan Pencairan Ditolak',
+                'Penarikan saldo sebesar Rp' . number_format($withdrawal->amount, 0, ',', '.') . ' ditolak: ' . ($data['admin_note'] ?: 'Saldo Anda tetap utuh.'),
+                route('wallet.index')
+            ));
+        }
+
+        return back()->with('success', 'Permintaan pencairan telah ditolak; saldo pengguna tetap utuh.');
+    }
 
     public function readAllNotifications(Request $request): RedirectResponse
     {
@@ -205,7 +394,6 @@ class WorkflowController extends Controller
 
         $targetUser = User::find($revieweeId);
         if ($targetUser) {
-            $senderRole = $isWorker ? 'Worker' : 'Perusahaan';
             $targetUser->notify(new WorkflowNotification(
                 'Ulasan baru diterima',
                 "Kamu menerima ulasan {$data['score']} bintang dari {$user->name} untuk {$application->job->title}.",
@@ -227,8 +415,8 @@ class WorkflowController extends Controller
         if ($payment->status === 'paid') throw ValidationException::withMessages(['payment' => 'Invoice ini sudah dibayar.']);
 
         if ($data['method'] === 'midtrans') {
-            $midtrans->createSnapToken($payment);
-            return redirect()->route('payments.show', $payment)->with('success', 'Pilih metode pembayaran di halaman Midtrans yang terbuka. Saldo worker akan masuk setelah Midtrans mengonfirmasi pembayaran.');
+            $checkoutUrl = $midtrans->createSnapCheckoutUrl($payment);
+            return redirect()->away($checkoutUrl);
         }
 
         DB::transaction(function () use ($payment, $request, $payments): void {
@@ -239,13 +427,12 @@ class WorkflowController extends Controller
             }
             $companyWallet->decrement('balance', $payment->total);
             $companyWallet->refresh();
-            $reference = 'PAY-W-'.now()->format('YmdHis').'-'.$payment->id;
-            WalletTransaction::create(['wallet_id' => $companyWallet->id, 'payment_id' => $payment->id, 'type' => 'debit', 'amount' => $payment->total, 'balance_after' => $companyWallet->balance, 'reference' => $reference, 'description' => 'Pembayaran gaji '.$payment->application->job->title]);
+            $reference = 'PAY-W-' . now()->format('YmdHis') . '-' . $payment->id;
+            WalletTransaction::create(['wallet_id' => $companyWallet->id, 'payment_id' => $payment->id, 'type' => 'debit', 'amount' => $payment->total, 'balance_after' => $companyWallet->balance, 'reference' => $reference, 'description' => 'Pembayaran gaji ' . $payment->application->job->title]);
             $payments->markPaid($payment, 'CoC Wallet', $reference);
         });
         return back()->with('success', 'Pembayaran wallet berhasil dan saldo worker telah diperbarui.');
     }
-
 
     private function authorizeAttendance(Request $request, Attendance $attendance): void
     {

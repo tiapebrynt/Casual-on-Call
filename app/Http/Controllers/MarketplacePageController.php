@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Application,Company,Conversation,Job,Payment,Rating,Review,Wallet,WalletTransaction};
+use App\Models\{Application,Company,Conversation,Job,Payment,Rating,Review,Wallet,WalletTransaction,WithdrawalRequest};
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -25,9 +25,16 @@ class MarketplacePageController extends Controller
 
     public function wallet(Request $request): View
     {
-        $wallet = $request->user()->wallet()->with(['transactions' => fn ($query) => $query->latest()->limit(10)])->firstOrFail();
+        $wallet = Wallet::firstOrCreate(['user_id' => $request->user()->id], ['balance' => 0, 'pending_balance' => 0]);
         $transactions = WalletTransaction::where('wallet_id', $wallet->id)->latest()->paginate(10);
-        return view('wallet.index', compact('wallet', 'transactions'));
+        $withdrawals = WithdrawalRequest::where('user_id', $request->user()->id)->latest()->limit(10)->get();
+        return view('wallet.index', compact('wallet', 'transactions', 'withdrawals'));
+    }
+
+    public function withdrawals(): View
+    {
+        $withdrawals = WithdrawalRequest::with(['user', 'wallet'])->latest()->paginate(20);
+        return view('admin.withdrawals', compact('withdrawals'));
     }
 
     public function attendance(Request $request): View

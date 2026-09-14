@@ -56,8 +56,15 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/reviews', [MarketplacePageController::class, 'reviews'])->name('reviews.index');
     Route::get('/payments/{payment}', [MarketplacePageController::class, 'payment'])->name('payments.show');
     Route::post('/payments/{payment}/pay', [WorkflowController::class, 'pay'])->name('payments.pay');
+    Route::get('/payments/{payment}/simulator', [WorkflowController::class, 'paymentSimulator'])->name('payments.simulator');
+    Route::get('/payments/{payment}/finish', [WorkflowController::class, 'paymentFinish'])->name('payments.finish');
     Route::post('/wallet/withdraw', [WorkflowController::class, 'withdraw'])->name('wallet.withdraw');
+    Route::get('/admin/withdrawals', [MarketplacePageController::class, 'withdrawals'])->middleware('role:admin')->name('admin.withdrawals');
+    Route::post('/admin/withdrawals/{withdrawal}/approve', [WorkflowController::class, 'approveWithdrawal'])->middleware('role:admin')->name('admin.withdrawals.approve');
+    Route::post('/admin/withdrawals/{withdrawal}/reject', [WorkflowController::class, 'rejectWithdrawal'])->middleware('role:admin')->name('admin.withdrawals.reject');
     Route::post('/wallet/topup', [WorkflowController::class, 'topupWallet'])->name('wallet.topup');
+    Route::get('/wallet/topup/finish', [WorkflowController::class, 'topupFinish'])->name('wallet.topup.finish');
+    Route::get('/wallet/topup/simulator/{topUp}', [WorkflowController::class, 'topupSimulator'])->name('wallet.topup.simulator');
 
 
     Route::post('/notifications/read-all', [WorkflowController::class, 'readAllNotifications'])->name('notifications.read-all');

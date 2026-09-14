@@ -38,7 +38,11 @@ return [
     'midtrans' => [
         'server_key' => env('MIDTRANS_SERVER_KEY'),
         'client_key' => env('MIDTRANS_CLIENT_KEY'),
-        'is_production' => env('MIDTRANS_IS_PRODUCTION', false),
+        'iris_api_key' => env('MIDTRANS_IRIS_API_KEY', env('MIDTRANS_SERVER_KEY')),
+        'merchant_id' => env('MIDTRANS_MERCHANT_ID'),
+        'is_production' => (bool) env('MIDTRANS_IS_PRODUCTION', false),
+        'ca_bundle' => env('MIDTRANS_CA_BUNDLE', storage_path('certificates/cacert.pem')),
+        'enable_mock' => (bool) env('MIDTRANS_ENABLE_MOCK', true),
     ],
 
 ];
