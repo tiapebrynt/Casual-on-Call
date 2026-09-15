@@ -91,4 +91,15 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/profile/cv', [WorkerProfileController::class, 'download'])->name('profile.cv.download');
         Route::delete('/profile/cv', [WorkerProfileController::class, 'destroyCv'])->name('profile.cv.destroy');
     });
+
+    // Profile — worker only, tapi redirect gracefully jika bukan worker
+    Route::get('/profile', function (\Illuminate\Http\Request $request) {
+        if (! $request->user()->hasRole('worker')) {
+            return redirect()->route('settings.index')->with('info', 'Halaman profil hanya tersedia untuk worker. Kamu diarahkan ke pengaturan akun.');
+        }
+        return app(\App\Http\Controllers\WorkerProfileController::class)->edit($request);
+    })->name('profile.edit');
+    Route::put('/profile', [WorkerProfileController::class, 'update'])->middleware('role:worker')->name('profile.update');
+    Route::get('/profile/cv', [WorkerProfileController::class, 'download'])->middleware('role:worker')->name('profile.cv.download');
+    Route::delete('/profile/cv', [WorkerProfileController::class, 'destroyCv'])->middleware('role:worker')->name('profile.cv.destroy');
 });
